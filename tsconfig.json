@@ -5,10 +5,13 @@
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "jsx": "react",
     "target": "ES5",
     "outDir": "./build",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "noImplicitAny": true,
+    "allowJs": true
   },
   "exclude": [
     "node_modules",

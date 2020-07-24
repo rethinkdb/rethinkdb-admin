@@ -1,0 +1,15 @@
+{
+  "plugins": ["react-hot-loader/babel"],
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ],
+    "@babel/react",
+    "@babel/preset-typescript"
+  ]
+}
