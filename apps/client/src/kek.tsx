@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 function Kek() {
-  console.log('source');
-  return <div>Hellow world</div>;
+  return <div>Hellow11111 asasdasdsasa world</div>;
 }
 
 export { Kek };

@@ -1,14 +1,15 @@
-import webpack from "webpack";
+import { INestApplication } from '@nestjs/common';
+import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import { getClientConfig } from '../../../webpack.config';
 
-const config = getClientConfig();
-
-function initDev(app: any) {
-  console.log(config.output.publicPath);
-  const instance = webpackDevMiddleware(webpack(config));
-  app.use(instance);
+function initDev(app: INestApplication) {
+  const config = getClientConfig();
+  const compiler = webpack(config);
+  app.use(webpackDevMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler));
 }
 
 export { initDev };
