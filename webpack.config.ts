@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import StartServerPlugin from 'start-server-webpack-plugin';
+import { RunScriptWebpackPlugin } from "run-script-webpack-plugin";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
@@ -21,7 +21,7 @@ const mode = isProduction ? 'production' : 'development';
 const getHttpConfig = (): webpack.Configuration => ({
   context: httpDirectory,
   entry: {
-    server: ['webpack/hot/poll?100', './src/main.ts'],
+    server: [isDevelopment && 'webpack/hot/poll?100', './src/main.ts'].filter(Boolean),
   },
   // @ts-ignore
   externals: [nodeExternals({ allowlist: ['webpack/hot/poll?100'] })],
@@ -38,30 +38,31 @@ const getHttpConfig = (): webpack.Configuration => ({
   output: {
     path: path.resolve(__dirname, 'build'),
   },
+  // @ts-ignore
   plugins: [
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
     new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
-    // @ts-ignore
-    // isDevelopment && new StartServerPlugin({
-    //   keyboard: true,
-    //   nodeArgs: ['--unhandled-rejections=strict'],
-    // }),
-  ],
+    isDevelopment && new RunScriptWebpackPlugin({
+      name: 'server.js',
+      keyboard: true,
+      nodeArgs: ['--unhandled-rejections=strict'],
+    }),
+  ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.json', '.ts'],
   },
   target: 'node',
-  watch: true,
 });
 
 const getClientConfig = (): webpack.Configuration => ({
   context: clientDirectory,
+// @ts-ignore
   devServer: {
-    open: true,
-    hot: true,
+    open: isDevelopment,
+    hot: isDevelopment,
   },
   devtool: 'inline-source-map',
-  entry: ['react-refresh/runtime', './src'],
+  entry: [isDevelopment && 'react-refresh/runtime', './src'].filter(Boolean),
   mode,
   module: {
     rules: [
@@ -86,15 +87,18 @@ const getClientConfig = (): webpack.Configuration => ({
       template: 'static/index.html',
     }),
     // new CopyWebpackPlugin({ patterns: [{ from: 'static' }] }),
-  ],
+  ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
-  },
-  watch: true,
+  }
 });
 
-function setupConfig(options: any) {
-  return [getHttpConfig()];
+function setupConfig() {
+  const configs = [getHttpConfig()];
+  if (isProduction) {
+    configs.push(getClientConfig());
+  }
+  return configs;
 }
 
 export { getClientConfig };
