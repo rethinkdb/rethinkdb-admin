@@ -9,6 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/List';
+import ExploreIcon from '@material-ui/icons/Explore';
 import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
@@ -55,6 +56,11 @@ const menuList = [
     icon: ListIcon,
     title: 'Logs',
     url: '/logs'
+  },
+  {
+    icon: ExploreIcon,
+    title: 'Data Explorer',
+    url: '/dataexplorer'
   },
 ];
 
