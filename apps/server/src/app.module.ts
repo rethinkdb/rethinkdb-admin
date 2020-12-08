@@ -5,8 +5,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
-console.log((process.cwd(), 'build'));
+import { EventsModule } from './events/events.module';
+import { EventsGateway } from './events/events.gateway';
 
 @Module({
   imports: [
@@ -14,8 +14,9 @@ console.log((process.cwd(), 'build'));
       rootPath: join(process.cwd(), 'build'),
       exclude: ['/api*'],
     }),
+    EventsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, EventsGateway],
 })
 export class AppModule {}

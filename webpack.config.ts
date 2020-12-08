@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import { RunScriptWebpackPlugin } from "run-script-webpack-plugin";
+import { RunScriptWebpackPlugin } from 'run-script-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
@@ -21,7 +21,9 @@ const mode = isProduction ? 'production' : 'development';
 const getHttpConfig = (): webpack.Configuration => ({
   context: httpDirectory,
   entry: {
-    server: [isDevelopment && 'webpack/hot/poll?100', './src/main.ts'].filter(Boolean),
+    server: [isDevelopment && 'webpack/hot/poll?100', './src/main.ts'].filter(
+      Boolean,
+    ),
   },
   // @ts-ignore
   externals: [nodeExternals({ allowlist: ['webpack/hot/poll?100'] })],
@@ -42,11 +44,12 @@ const getHttpConfig = (): webpack.Configuration => ({
   plugins: [
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
     new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
-    isDevelopment && new RunScriptWebpackPlugin({
-      name: 'server.js',
-      keyboard: true,
-      nodeArgs: ['--unhandled-rejections=strict'],
-    }),
+    isDevelopment &&
+      new RunScriptWebpackPlugin({
+        name: 'server.js',
+        keyboard: true,
+        nodeArgs: ['--unhandled-rejections=strict'],
+      }),
   ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.json', '.ts'],
@@ -56,7 +59,7 @@ const getHttpConfig = (): webpack.Configuration => ({
 
 const getClientConfig = (): webpack.Configuration => ({
   context: clientDirectory,
-// @ts-ignore
+  // @ts-ignore
   devServer: {
     open: isDevelopment,
     hot: isDevelopment,
@@ -79,18 +82,25 @@ const getClientConfig = (): webpack.Configuration => ({
   },
   plugins: [
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
-    isDevelopment && new ReactRefreshWebpackPlugin({ overlay: { sockIntegration: 'whm' } }),
+    isDevelopment &&
+      new ReactRefreshWebpackPlugin({ overlay: { sockIntegration: 'whm' } }),
     new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
     // new CleanWebpackPlugin({ cleanStaleWebpackAssets: true }),
     new HtmlWebpackPlugin({
-      title: 'Caching',
+      title: 'RethinkDB Administration Console',
       template: 'static/index.html',
     }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    })
     // new CopyWebpackPlugin({ patterns: [{ from: 'static' }] }),
   ].filter(Boolean),
   resolve: {
+    fallback: {
+      buffer: require.resolve('buffer'),
+    },
     extensions: ['.js', '.json', '.ts', '.tsx'],
-  }
+  },
 });
 
 function setupConfig() {
