@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { r } from 'rethinkdb-kek/lib/query-builder/r';
 import { request } from '../socket';
 import { system_db } from '../requests';
-import { useStyles } from "./use-styles";
+import { useStyles } from './use-styles';
 
 function useIssues(): null | unknown {
   const [state, setState] = useState(null);

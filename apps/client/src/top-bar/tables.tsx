@@ -8,8 +8,7 @@ import { r } from 'rethinkdb-kek/lib/query-builder/r';
 import { RDatum } from 'rethinkdb-kek/lib/query-builder/new-query';
 import { request } from '../socket';
 import { system_db } from '../requests';
-import { useStyles } from "./use-styles";
-
+import { useStyles } from './use-styles';
 
 function useTablesNumber(): null | { tablesReady: number; tables: number } {
   const [state, setState] = useState(null);

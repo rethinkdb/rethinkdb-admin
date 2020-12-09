@@ -54,7 +54,7 @@ async function getGuaranteedData() {
             })
             .without('shards'),
         ),
-    ).term
+    ).term,
   );
 }
 
@@ -75,13 +75,11 @@ type GuaranteedDataResult = {
 function useGuaranteedQuery(): null | GuaranteedDataResult {
   const [state, setState] = useState(null);
   useEffect(() => {
-    getGuaranteedData().then(data => {
-      console.log('kek', data)
+    getGuaranteedData().then((data) => {
       setState(data);
     });
   }, []);
   return state;
 }
-
 
 export { useGuaranteedQuery };

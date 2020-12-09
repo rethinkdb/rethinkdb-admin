@@ -15,7 +15,7 @@ import { context } from '@reatom/react';
 
 import { Routes } from './routes';
 import './socket';
-import { TopBar } from "./top-bar/top-bar";
+import { TopBar } from './top-bar/top-bar';
 
 const drawerWidth = 280;
 const { Provider: StateProvider } = context;

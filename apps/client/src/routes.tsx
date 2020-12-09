@@ -1,9 +1,7 @@
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { DataExplorer } from './data-explorer';
 
 function Routes() {
-  const kek = useRouteMatch();
-  console.log(kek);
   return (
     <Switch>
       <Route path="/" exact>

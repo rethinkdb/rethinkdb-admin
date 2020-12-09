@@ -40,27 +40,27 @@ const menuList = [
   {
     title: 'Dashboard',
     icon: DashboardIcon,
-    url: '/'
+    url: '/',
   },
   {
     icon: DataUsageIcon,
     title: 'Tables',
-    url: '/tables'
+    url: '/tables',
   },
   {
     icon: ComputerIcon,
     title: 'Servers',
-    url: '/servers'
+    url: '/servers',
   },
   {
     icon: ListIcon,
     title: 'Logs',
-    url: '/logs'
+    url: '/logs',
   },
   {
     icon: ExploreIcon,
     title: 'Data Explorer',
-    url: '/dataexplorer'
+    url: '/dataexplorer',
   },
 ];
 
@@ -76,7 +76,13 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
       <Divider />
       <List>
         {menuList.map(({ title, icon: Icon, url }) => (
-          <ListItem component={NavLink} button key={title} activeClassName="Mui-selected" to={url}>
+          <ListItem
+            component={NavLink}
+            button
+            key={title}
+            activeClassName="Mui-selected"
+            to={url}
+          >
             <ListItemIcon>
               <Icon />
             </ListItemIcon>

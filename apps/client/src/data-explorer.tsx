@@ -6,10 +6,11 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/mode/xml/xml';
 import 'codemirror/mode/markdown/markdown';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Paper, Typography } from '@material-ui/core';
 import { request } from './socket';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,11 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: theme.palette.text.secondary,
     },
+    grid: {
+      marginTop: theme.spacing(1),
+      marginLeft: theme.spacing(1),
+    },
   }),
 );
 
 function evalInContext(js: string, context: unknown) {
-  //# Return the results of the in-line anonymous function we .call with the passed context
   return function () {
     return eval(js);
   }.call(context);
@@ -45,11 +49,23 @@ function evalInContext(js: string, context: unknown) {
 function DataExplorer() {
   const classes = useStyles();
   const [value, setValue] = useState<string>('');
+  const [lastRunTime, setLastRunTime] = useState<Date>(null);
   const [data, setData] = useState<string>();
   async function onRequestClick() {
-    request(evalInContext(`const r = this.r;${value}`, { r }).term).then(
-      setData,
-    );
+    setLastRunTime(new Date());
+    try {
+      const data = evalInContext(`const r = this.r;${value}`, { r });
+      if (!data) {
+        setData('You have to input anything');
+        return;
+      }
+      request(data.term).then(
+        (data) => setData(JSON.stringify(data, null, 2)),
+        setData,
+      );
+    } catch (error) {
+      setData(`TypeError: ${error.message}`);
+    }
   }
   return (
     <Paper elevation={2}>
@@ -72,9 +88,18 @@ function DataExplorer() {
           setValue(value);
         }}
       />
-      <Button onClick={onRequestClick}>Request</Button>
+      <Grid className={classes.grid} container spacing={1}>
+        <Grid item xs={1}>
+          <Button variant="contained" color="primary" onClick={onRequestClick}>
+            Request
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography>Last run timestamp: {lastRunTime && +lastRunTime}</Typography>
+        </Grid>
+      </Grid>
       <Typography className={classes.root} component="pre">
-        {JSON.stringify(data, null, 2)}
+        {data}
       </Typography>
     </Paper>
   );
