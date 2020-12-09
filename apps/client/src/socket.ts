@@ -3,9 +3,9 @@ import { TermJson } from 'rethinkdb-kek/lib/internal-types';
 
 const socket = io('/', { path: '/api/socket.io' });
 
-function request(term: TermJson): Promise<any> {
+function request(term: TermJson): Promise<unknown> {
   return new Promise((resolve, reject) => {
-    socket.emit('query', term, ([success, data]) => {
+    socket.emit('query', term, ([success, data]: [boolean, unknown]) => {
       if (success) {
         resolve(data);
         return;
@@ -14,9 +14,16 @@ function request(term: TermJson): Promise<any> {
     });
   });
 }
-function requestMe(): Promise<any> {
+
+export type MeResponse = {
+  id: string;
+  name: string;
+  proxy: boolean;
+}
+
+function requestMe(): Promise<MeResponse> {
   return new Promise((resolve) => {
-    socket.emit('me', (data) => {
+    socket.emit('me', (data: MeResponse) => {
       resolve(data);
     });
   });

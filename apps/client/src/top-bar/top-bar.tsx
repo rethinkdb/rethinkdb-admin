@@ -1,4 +1,3 @@
-import { useGuaranteedQuery } from '../requests';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -15,7 +14,6 @@ const useStyles = makeStyles({
 
 function TopBar() {
   const classes = useStyles();
-  const queryResult = useGuaranteedQuery();
   return (
     <div className={classes.root}>
       <Grid container spacing={3} justify="center">
@@ -32,13 +30,6 @@ function TopBar() {
           <TablesNumber />
         </Grid>
       </Grid>
-      <div>
-        {queryResult ? (
-          <pre>{JSON.stringify(queryResult, null, 2)}</pre>
-        ) : (
-          'kek'
-        )}
-      </div>
     </div>
   );
 }

@@ -9,14 +9,12 @@ import { request } from '../socket';
 import { system_db } from '../requests';
 import { useStyles } from './use-styles';
 
+const issuesTerm = r.db(system_db).table('current_issues').count().term;
+
 function useIssues(): null | unknown {
   const [state, setState] = useState(null);
   useEffect(() => {
-    request(r.db(system_db).table('current_issues').count().term).then(
-      (data) => {
-        setState(data);
-      },
-    );
+    request(issuesTerm).then(setState);
   }, []);
   return state;
 }
@@ -28,11 +26,7 @@ function Issues() {
     <Card className={classes.root}>
       <CardContent>
         <Typography className={classes.text} variant="h5" component="h2">
-          {issues ? (
-            <>Issues: {JSON.stringify(issues, null, 2)}</>
-          ) : (
-            'tablesData'
-          )}
+          Issues: {typeof issues === 'number' && issues}
         </Typography>
       </CardContent>
       <CardActions>

@@ -1,5 +1,7 @@
+import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { DataExplorer } from './data-explorer';
+import { Logs } from './features/logs/log-list';
 
 function Routes() {
   return (
@@ -14,7 +16,7 @@ function Routes() {
         Servers
       </Route>
       <Route path="/logs" exact>
-        Logs
+        <Logs />
       </Route>
       <Route path="/dataexplorer" exact>
         <DataExplorer />

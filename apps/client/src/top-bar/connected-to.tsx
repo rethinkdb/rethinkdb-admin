@@ -4,11 +4,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { requestMe } from '../socket';
+import { MeResponse, requestMe } from "../socket";
 import { useStyles } from './use-styles';
 
-function useConnectedTo(): null | unknown {
-  const [state, setState] = useState(null);
+function useConnectedTo(): null | MeResponse {
+  const [state, setState] = useState<MeResponse>(null);
   useEffect(() => {
     requestMe().then((data) => {
       setState(data);
@@ -23,12 +23,8 @@ function ConnectedTo() {
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography className={classes.text} variant="h5" component="h2">
-          {connectedToData ? (
-            <>Connected to {JSON.stringify(connectedToData.name, null, 2)}</>
-          ) : (
-            'tablesData'
-          )}
+        <Typography className={classes.text} variant="h6" component="h2">
+          {connectedToData && `Connected to ${connectedToData.name}`}
         </Typography>
       </CardContent>
       <CardActions>

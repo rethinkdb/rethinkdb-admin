@@ -14,14 +14,7 @@ function ServersConnected() {
     <Card className={classes.root}>
       <CardContent>
         <Typography className={classes.text} variant="h5" component="h2">
-          {queryResult ? (
-            <>
-              ServersConnected:{' '}
-              {JSON.stringify(queryResult.num_servers, null, 2)}
-            </>
-          ) : (
-            'tablesData'
-          )}
+          ServersConnected:{queryResult && queryResult.num_servers}
         </Typography>
       </CardContent>
       <CardActions>
