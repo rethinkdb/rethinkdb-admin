@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles, ThemeProvider } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import { LocalDrawer } from './drawer';
 import { StrictMode } from 'react';
@@ -16,6 +16,7 @@ import { context } from '@reatom/react';
 import { Routes } from './routes';
 import './socket';
 import { TopBar } from './top-bar/top-bar';
+import { useTheme } from './features/theme';
 
 const drawerWidth = 280;
 const { Provider: StateProvider } = context;
@@ -57,39 +58,42 @@ function App() {
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
+  const theme = useTheme();
 
   return (
     <StrictMode>
       <Router>
         <StateProvider value={store}>
-          <Root>
-            <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  edge="start"
-                  onClick={handleDrawerToggle}
-                  className={classes.menuButton}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" noWrap>
-                  RethinkDB Administration Console
-                </Typography>
-              </Toolbar>
-            </AppBar>
-            <LocalDrawer
-              handleDrawerToggle={handleDrawerToggle}
-              mobileOpen={mobileOpen}
-            />
-            <ContentWrapper className={classes.content}>
-              <div className={classes.toolbar} />
-              <TopBar />
-              <Routes />
-            </ContentWrapper>
-          </Root>
+          <ThemeProvider theme={theme}>
+            <Root>
+              <CssBaseline />
+              <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    className={classes.menuButton}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="h6" noWrap>
+                    RethinkDB Administration Console
+                  </Typography>
+                </Toolbar>
+              </AppBar>
+              <LocalDrawer
+                handleDrawerToggle={handleDrawerToggle}
+                mobileOpen={mobileOpen}
+              />
+              <ContentWrapper className={classes.content}>
+                <div className={classes.toolbar} />
+                <TopBar />
+                <Routes />
+              </ContentWrapper>
+            </Root>
+          </ThemeProvider>
         </StateProvider>
       </Router>
     </StrictMode>
