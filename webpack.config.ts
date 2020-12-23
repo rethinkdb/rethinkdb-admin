@@ -1,19 +1,19 @@
-import * as path from 'path';
+import { resolve } from 'path';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { RunScriptWebpackPlugin } from 'run-script-webpack-plugin';
 import * as webpack from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-import { RunScriptWebpackPlugin } from 'run-script-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
-
-const env = { ...process.env };
 
 const rootDir = process.cwd();
 
-const appsDir = path.resolve(rootDir, 'apps');
-const clientDirectory = path.resolve(appsDir, 'client');
-const httpDirectory = path.resolve(appsDir, 'server');
+const appsDir = resolve(rootDir, 'apps');
+const clientDirectory = resolve(appsDir, 'client');
+const httpDirectory = resolve(appsDir, 'server');
+const buildDirectory = resolve(rootDir, 'build');
 
-const isProduction = env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = !isProduction;
 
 const mode = isProduction ? 'production' : 'development';
@@ -25,7 +25,6 @@ const getHttpConfig = (): webpack.Configuration => ({
       Boolean,
     ),
   },
-  // @ts-ignore
   externals: [nodeExternals({ allowlist: ['webpack/hot/poll?100'] })],
   mode,
   module: {
@@ -38,12 +37,12 @@ const getHttpConfig = (): webpack.Configuration => ({
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: buildDirectory,
   },
-  // @ts-ignore
   plugins: [
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
-    new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
+    isDevelopment &&
+      new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
     isDevelopment &&
       new RunScriptWebpackPlugin({
         name: 'server.js',
@@ -81,23 +80,25 @@ const getClientConfig = (): webpack.Configuration => ({
     ],
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: buildDirectory,
     filename: 'app.[fullhash].js',
   },
   plugins: [
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
     isDevelopment &&
       new ReactRefreshWebpackPlugin({ overlay: { sockIntegration: 'whm' } }),
-    new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
+    isDevelopment &&
+      new webpack.WatchIgnorePlugin({ paths: [/\.js$/, /\.d\.ts$/] }),
     // new CleanWebpackPlugin({ cleanStaleWebpackAssets: true }),
     new HtmlWebpackPlugin({
+      inject: false,
       title: 'RethinkDB Administration Console',
-      template: 'static/index.html',
+      template: 'templates/index.ejs',
     }),
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
-    })
-    // new CopyWebpackPlugin({ patterns: [{ from: 'static' }] }),
+    }),
+    new CopyWebpackPlugin({ patterns: [{ from: 'static' }] }),
   ].filter(Boolean),
   resolve: {
     fallback: {
