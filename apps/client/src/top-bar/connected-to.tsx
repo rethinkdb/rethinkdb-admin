@@ -17,7 +17,7 @@ function useConnectedTo(): null | MeResponse {
   return state;
 }
 
-function ConnectedTo() {
+const ConnectedTo = React.memo(() => {
   const classes = useStyles();
   const connectedToData = useConnectedTo();
   return (
@@ -32,6 +32,6 @@ function ConnectedTo() {
       </CardActions>
     </Card>
   );
-}
+});
 
 export { ConnectedTo };

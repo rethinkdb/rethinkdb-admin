@@ -2,12 +2,13 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { DataExplorer } from './data-explorer';
 import { Logs } from './features/logs/log-list';
+import { DashboardPage } from "./features/dashboard/dashboard-page";
 
 function Routes() {
   return (
     <Switch>
       <Route path="/" exact>
-        DashboardPage
+        <DashboardPage />
       </Route>
       <Route path="/tables" exact>
         Tables

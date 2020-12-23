@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -33,7 +33,7 @@ function useTablesNumber(): null | { tablesReady: number; tables: number } {
   return state;
 }
 
-function TablesNumber() {
+const TablesNumber = React.memo(() => {
   const classes = useStyles();
   const tablesData = useTablesNumber();
   return (
@@ -49,6 +49,6 @@ function TablesNumber() {
       </CardActions>
     </Card>
   );
-}
+});
 
 export { TablesNumber };
