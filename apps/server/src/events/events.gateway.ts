@@ -4,16 +4,22 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import { connect, RethinkDBConnection, RethinkDBConnectionOptions, ServerInfo, TermJson } from 'rethinkdb-ts';
+import {
+  connect,
+  RethinkDBConnection,
+  RethinkDBConnectionOptions,
+  ServerInfo,
+  TermJson,
+} from 'rethinkdb-ts';
 import { URL } from 'url';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { fromStream } from '../from-stream';
 import { toQuery } from 'rethinkdb-ts/lib/query-builder/query';
-import { Socket } from 'socket.io';
+import { ServerOptions, Socket } from 'socket.io';
 import { nanoid } from 'nanoid';
 import { Cursor } from 'rethinkdb-ts/lib/response/cursor';
-import { RethinkDBServerConnectionOptions } from "rethinkdb-ts/lib/connection/types";
+import { RethinkDBServerConnectionOptions } from 'rethinkdb-ts/lib/connection/types';
 
 let connection: RethinkDBConnection;
 
@@ -23,7 +29,7 @@ const RETHINKDB_URL =
 async function connectToDB() {
   const rethinkdbUrl = new URL(RETHINKDB_URL);
   const connectionOptions: RethinkDBServerConnectionOptions = {};
-  const options: RethinkDBConnectionOptions = { db: 'test'};
+  const options: RethinkDBConnectionOptions = { db: 'test' };
   if (rethinkdbUrl.hostname) {
     connectionOptions.host = rethinkdbUrl.hostname;
   }
@@ -45,11 +51,13 @@ connectToDB();
 
 type LocalSocket = Socket & { changeQueries: Record<string, Cursor> };
 
-@WebSocketGateway({ path: '/api/socket.io' })
+@WebSocketGateway<Partial<ServerOptions>>({
+  serveClient: false,
+  path: '/socket.io/',
+})
 export class EventsGateway
-  implements
-    OnGatewayDisconnect<LocalSocket>,
-    OnGatewayConnection<LocalSocket> {
+  implements OnGatewayDisconnect<LocalSocket>, OnGatewayConnection<LocalSocket>
+{
   handleConnection(client: LocalSocket, ...args): any {
     client.changeQueries = {};
   }

@@ -101,9 +101,6 @@ const getClientConfig = (): webpack.Configuration => ({
     new CopyWebpackPlugin({ patterns: [{ from: 'static' }] }),
   ].filter(Boolean),
   resolve: {
-    fallback: {
-      buffer: require.resolve('buffer'),
-    },
     extensions: ['.js', '.json', '.ts', '.tsx'],
   },
 });
