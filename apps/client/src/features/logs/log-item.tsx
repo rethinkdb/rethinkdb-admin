@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -57,4 +57,4 @@ function LogItem({ logItem }: ILogItem) {
   );
 }
 
-export { LogItem }
+export { LogItem };

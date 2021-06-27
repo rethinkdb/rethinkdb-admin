@@ -1,6 +1,6 @@
-import { r } from 'rethinkdb-kek/lib/query-builder/r';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { system_db } from './requests';
-import { RQuery } from "rethinkdb-kek";
+import { RDatum, RQuery, RTable } from 'rethinkdb-ts';
 
 const admin = {
   cluster_config: r.db(system_db).table('cluster_config'),
@@ -39,7 +39,6 @@ const admin = {
     .table('table_status', { identifierFormat: 'uuid' }),
 };
 
-
 const helpers = {
   // Macro to create a match/switch construct in reql by
   // nesting branches
@@ -64,22 +63,21 @@ const helpers = {
 
 function getAllLogsQuery(limit: number): RQuery {
   const server_conf = admin.server_config;
-    return r
-      .db(system_db)
-      .table('logs', { identifierFormat: 'uuid' })
-      .orderBy({ index: r.desc('id') })
-      .limit(limit)
-      .map((log) =>
-        log.merge({
-          server: server_conf.get(log('server'))('name'),
-          server_id: log('server'),
-        }),
-      );
+  return r
+    .db(system_db)
+    .table('logs', { identifierFormat: 'uuid' })
+    .orderBy({ index: r.desc('id') })
+    .limit(limit)
+    .map((log) =>
+      log.merge({
+        server: server_conf.get(log('server'))('name'),
+        server_id: log('server'),
+      }),
+    );
 }
 
-
 const queries = {
-  server_logs: (limit, server_id) => {
+  server_logs: (limit: number, server_id: string) => {
     const server_conf = admin.server_config;
     return r
       .db(system_db)
@@ -95,7 +93,7 @@ const queries = {
       );
   },
 
-  issues_with_ids(current_issues) {
+  issues_with_ids(current_issues?: RDatum) {
     // we use .get on issues_id, so it must be the real table
     if (current_issues == null) {
       ({ current_issues } = admin);
@@ -167,7 +165,10 @@ const queries = {
       .coerceTo('array');
   },
 
-  tables_with_primaries_not_ready(table_config_id, table_status) {
+  tables_with_primaries_not_ready(
+    table_config_id?: RDatum,
+    table_status?: RDatum,
+  ) {
     if (table_config_id == null) {
       ({ table_config_id } = admin);
     }
@@ -216,7 +217,7 @@ const queries = {
     );
   },
 
-  tables_with_replicas_not_ready(table_config_id, table_status) {
+  tables_with_replicas_not_ready(table_config_id, table_status?: RDatum) {
     if (table_config_id == null) {
       ({ table_config_id } = admin);
     }
@@ -261,7 +262,7 @@ const queries = {
       .filter((table) => table('shards')(0)('replicas').isEmpty().not())
       .coerceTo('array');
   },
-  num_primaries(table_config_id) {
+  num_primaries(table_config_id?: RDatum) {
     if (table_config_id == null) {
       ({ table_config_id } = admin);
     }
@@ -271,7 +272,7 @@ const queries = {
       .sum();
   },
 
-  num_connected_primaries(table_status) {
+  num_connected_primaries(table_status?: RDatum) {
     if (table_status == null) {
       ({ table_status } = admin);
     }
@@ -284,19 +285,17 @@ const queries = {
       .sum();
   },
 
-  num_replicas(table_config_id) {
+  num_replicas(table_config_id?: RTable) {
     if (table_config_id == null) {
       ({ table_config_id } = admin);
     }
     return table_config_id('shards')
       .default([])
-      .map((shards) =>
-        shards.map((shard) => shard('replicas').count()).sum(),
-      )
+      .map((shards) => shards.map((shard) => shard('replicas').count()).sum())
       .sum();
   },
 
-  num_connected_replicas(table_status) {
+  num_connected_replicas(table_status?: RTable) {
     if (table_status == null) {
       ({ table_status } = admin);
     }
@@ -316,7 +315,7 @@ const queries = {
       .sum();
   },
 
-  disconnected_servers(server_status) {
+  disconnected_servers(server_status?: RTable) {
     if (server_status == null) {
       ({ server_status } = admin);
     }
@@ -329,18 +328,18 @@ const queries = {
       .coerceTo('array');
   },
 
-  num_disconnected_tables(table_status) {
+  num_disconnected_tables(table_status?: RTable) {
     if (table_status == null) {
       ({ table_status } = admin);
     }
-    return table_status.count(function (table) {
+    return table_status.count(function (table?: RDatum) {
       const shard_is_down = (shard) =>
         shard('primary_replicas').isEmpty().not();
       return table('shards').default([]).map(shard_is_down).contains(true);
     });
   },
 
-  num_tables_w_missing_replicas(table_status) {
+  num_tables_w_missing_replicas(table_status?: RDatum) {
     if (table_status == null) {
       ({ table_status } = admin);
     }
@@ -349,26 +348,22 @@ const queries = {
     );
   },
 
-  num_connected_servers(server_status) {
+  num_connected_servers(server_status?: RTable) {
     if (server_status == null) {
       ({ server_status } = admin);
     }
-    return server_status.count((server) =>
-      server('status').eq('connected'),
-    );
+    return server_status.count((server) => server('status').eq('connected'));
   },
 
-  num_sindex_issues(current_issues) {
+  num_sindex_issues(current_issues?: RTable) {
     if (current_issues == null) {
       ({ current_issues } = admin);
     }
-    return current_issues.count((issue) =>
-      issue('type').eq('outdated_index'),
-    );
+    return current_issues.count((issue) => issue('type').eq('outdated_index'));
   },
 
-  num_sindexes_constructing(jobs) {
-    if (jobs == null) {
+  num_sindexes_constructing(jobs?: RTable) {
+    if (!jobs) {
       ({ jobs } = admin);
     }
     return jobs.count((job) => job('type').eq('index_construction'));

@@ -1,16 +1,15 @@
-import { r } from 'rethinkdb-kek/lib/query-builder/r';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { request } from './socket';
 import { useEffect, useState } from 'react';
 
 export const system_db = 'rethinkdb';
 
-async function getGuaranteedData() {
-  const id = '1a1543e8-f535-41d8-b942-320e5c589502';
+async function getGuaranteedData(tableId: string) {
   return request(
     r.do(
       r.db(system_db).table('server_config').coerceTo('array'),
-      r.db(system_db).table('table_status').get(id),
-      r.db(system_db).table('table_config').get(id),
+      r.db(system_db).table('table_status').get(tableId),
+      r.db(system_db).table('table_config').get(tableId),
       (server_config, table_status, table_config) =>
         r.branch(
           table_status.eq(null),
@@ -75,7 +74,7 @@ type GuaranteedDataResult = {
 function useGuaranteedQuery(): null | GuaranteedDataResult {
   const [state, setState] = useState(null);
   useEffect(() => {
-    getGuaranteedData().then((data) => {
+    getGuaranteedData('76685a4c-495f-4bf6-b21f-07407f4763da').then((data) => {
       setState(data);
     });
   }, []);

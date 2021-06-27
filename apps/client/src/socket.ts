@@ -1,16 +1,17 @@
 import io from 'socket.io-client';
 // TODO when socket.io v3 works
 // import { io } from 'socket.io-client';
-import { TermJson } from 'rethinkdb-kek/lib/internal-types';
+import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 
 const socket = io('/', { path: '/api/socket.io' });
 
 socket.on('connect', () => {
   console.log(`connect ${socket.id}`);
 });
-function request(term: TermJson): Promise<unknown> {
+function request<T = unknown>(query: RQuery): Promise<T> {
+  const { term } = query;
   return new Promise((resolve, reject) => {
-    socket.emit('query', term, ([success, data]: [boolean, unknown]) => {
+    socket.emit('query', term, ([success, data]: [boolean, T]) => {
       if (success) {
         resolve(data);
         return;
@@ -34,4 +35,30 @@ function requestMe(): Promise<MeResponse> {
   });
 }
 
-export { socket, request, requestMe };
+function requestChanges<T = unknown>(
+  query: RQuery,
+  cb: (data: T) => void,
+): Promise<() => void> {
+  const { term } = query;
+  return new Promise((resolve, reject) => {
+    socket.emit(
+      'changes',
+      JSON.stringify(term),
+      ([success, queryId]: [boolean, string]) => {
+        if (!success) {
+          reject(queryId);
+        }
+        const onDataCb = (data: T) => {
+          cb(data);
+        };
+        socket.on(queryId, onDataCb);
+        resolve(() => {
+          socket.off(queryId, onDataCb);
+          socket.emit('unsub', queryId);
+        });
+      },
+    );
+  });
+}
+
+export { socket, request, requestChanges, requestMe };

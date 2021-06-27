@@ -25,30 +25,36 @@ export const useStyles = makeStyles((theme: Theme) =>
 export function useLogEntries(limit = 20): null | Log[] {
   const [state, setState] = useState(null);
   useEffect(() => {
-    request(getAllLogsQuery(limit).term).then(setState);
+    request(getAllLogsQuery(limit)).then(setState);
   }, [limit]);
   return state;
 }
 
-const LogList: FunctionComponent<{ quantity: number }> = React.memo(({ quantity}) => {
-  const logs = useLogEntries(quantity);
+const LogList: FunctionComponent<{ quantity: number }> = React.memo(
+  ({ quantity }) => {
+    const logs = useLogEntries(quantity);
 
-  if (!Array.isArray(logs)) {
-    return <div>loading</div>;
-  }
-  return (
-    <List>
-      {logs.map((logItem, index) => (
-        <>
-          <LogItem key={logItem.id[1]} logItem={logItem} />
-          {logs.length > index + 1 && (
-            <Divider key={`${logItem.id[1]}-divider`} variant="inset" component="li" />
-          )}
-        </>
-      ))}
-    </List>
-  );
-});
+    if (!Array.isArray(logs)) {
+      return <div>loading</div>;
+    }
+    return (
+      <List>
+        {logs.map((logItem, index) => (
+          <>
+            <LogItem key={logItem.id[1]} logItem={logItem} />
+            {logs.length > index + 1 && (
+              <Divider
+                key={`${logItem.id[1]}-divider`}
+                variant="inset"
+                component="li"
+              />
+            )}
+          </>
+        ))}
+      </List>
+    );
+  },
+);
 
 function Logs() {
   const classes = useStyles();

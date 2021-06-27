@@ -13,6 +13,7 @@ import ExploreIcon from '@material-ui/icons/Explore';
 import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom';
+import { Link } from '@material-ui/core';
 
 const drawerWidth = 280;
 
@@ -27,6 +28,15 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+    },
+    links: {
+      margin: theme.spacing(2),
+      '& > * + *': {
+        marginLeft: theme.spacing(2),
+      },
+    },
+    kek: {
+      flexGrow: 1,
     },
   }),
 );
@@ -90,6 +100,52 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
           </ListItem>
         ))}
       </List>
+      <div className={classes.kek} />
+      <Divider />
+      <div className={classes.links}>
+        <Link
+          href="http://rethinkdb.com/docs/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Documentation
+        </Link>
+        <Link
+          href="http://rethinkdb.com/api/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          API
+        </Link>
+        <Link
+          href="http://groups.google.com/group/rethinkdb"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Google Groups
+        </Link>
+        <Link
+          href="irc://chat.freenode.net/#rethinkdb"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          #rethinkdb on freenode
+        </Link>
+        <Link
+          href="https://github.com/rethinkdb/rethinkdb/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Github
+        </Link>
+        <Link
+          href="http://rethinkdb.com/community/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Community
+        </Link>
+      </div>
     </>
   );
   return (
