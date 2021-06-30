@@ -58,7 +58,7 @@ function requestChanges<T = unknown>(
       JSON.stringify(term),
       ([success, queryId]: [boolean, string]) => {
         if (!success) {
-          reject(queryId);
+          reject(new Error(queryId));
         }
         const onDataCb = (data: T) => {
           cb(data);

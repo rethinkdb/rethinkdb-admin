@@ -155,7 +155,7 @@ function DataExplorer() {
     setQuery(null);
   }
 
-  const finalResult = isChangesQ ? JSON.stringify(changesResult, null, 2) : result;
+  const finalResult = isChangesQ ? typeof changesResult === "string" ? changesResult : JSON.stringify(changesResult, null, 2) : result;
   return (
     <Paper elevation={2}>
       <Codemirror

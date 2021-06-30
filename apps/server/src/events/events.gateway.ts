@@ -109,7 +109,7 @@ export class EventsGateway
       });
       return [true, queryId];
     } catch (error) {
-      console.error(JSON.stringify(payload), error);
+      console.error(error);
       return [false, error.message];
     }
   }
