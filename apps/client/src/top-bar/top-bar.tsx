@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { TablesNumber } from './tables';
-import { ServersConnected } from './servers-connected';
-import { Issues } from './issues';
+
 import { ConnectedTo } from './connected-to';
+import { Issues } from './issues';
+import { ServersConnected } from './servers-connected';
+import { TablesNumber } from './tables';
 
 const useStyles = makeStyles({
   root: {

@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { useStyles } from './use-styles';
 import { useIssues } from './data-hooks';
 
-function Issues() {
+const Issues= React.memo(() => {
   const classes = useStyles();
   const issues = useIssues();
   return (
@@ -19,6 +19,6 @@ function Issues() {
       </CardContent>
     </Card>
   );
-}
+});
 
 export { Issues };

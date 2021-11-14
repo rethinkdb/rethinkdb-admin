@@ -1,19 +1,21 @@
 import React, { FunctionComponent } from 'react';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
+import { NavLink } from 'react-router-dom';
+import {
+  Link,
+  Divider,
+  Drawer,
+  Hidden,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ComputerIcon from '@material-ui/icons/Computer';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListIcon from '@material-ui/icons/List';
-import ExploreIcon from '@material-ui/icons/Explore';
 import DataUsageIcon from '@material-ui/icons/DataUsage';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { NavLink } from 'react-router-dom';
-import { Link } from '@material-ui/core';
+import ExploreIcon from '@material-ui/icons/Explore';
+import ListIcon from '@material-ui/icons/List';
 
 const drawerWidth = 280;
 

@@ -53,7 +53,7 @@ async function getGuaranteedData(tableId: string) {
             })
             .without('shards'),
         ),
-    ).term,
+    ),
   );
 }
 

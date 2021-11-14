@@ -1,6 +1,7 @@
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { system_db } from './requests';
 import { RDatum, RQuery, RTable } from 'rethinkdb-ts';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
+
+import { system_db } from './requests';
 
 const admin = {
   cluster_config: r.db(system_db).table('cluster_config'),

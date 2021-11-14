@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,17 +11,16 @@ import {
   createStyles,
   ThemeProvider,
 } from '@material-ui/core/styles';
-import styled from 'styled-components';
-import { LocalDrawer } from './drawer';
-import { StrictMode } from 'react';
-import { store } from './store';
-import { HashRouter as Router } from 'react-router-dom';
 import { context } from '@reatom/react';
+import { HashRouter as Router } from 'react-router-dom';
+import styled from 'styled-components';
 
-import { Routes } from './routes';
-import './socket';
-import { TopBar } from './top-bar/top-bar';
+import { LocalDrawer } from './drawer';
 import { useTheme } from './features/theme';
+import { Routes } from './routes';
+import { store } from './store';
+import { TopBar } from './top-bar/top-bar';
+import './socket';
 
 const drawerWidth = 280;
 const { Provider: StateProvider } = context;
@@ -56,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function App() {
+export function App() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
 
