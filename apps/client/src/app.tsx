@@ -17,7 +17,7 @@ import styled from 'styled-components';
 
 import { LocalDrawer } from './drawer';
 import { useTheme } from './features/theme';
-import { Routes } from './routes';
+import { AppRoutes } from './appRoutes';
 import { store } from './store';
 import { TopBar } from './top-bar/top-bar';
 import './socket';
@@ -94,7 +94,7 @@ export function App() {
               <ContentWrapper className={classes.content}>
                 <div className={classes.toolbar} />
                 <TopBar />
-                <Routes />
+                <AppRoutes />
               </ContentWrapper>
             </Root>
           </ThemeProvider>
@@ -103,5 +103,3 @@ export function App() {
     </StrictMode>
   );
 }
-
-export default App;
