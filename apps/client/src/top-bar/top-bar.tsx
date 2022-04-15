@@ -1,23 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 import { ConnectedTo } from './connected-to';
 import { Issues } from './issues';
 import { ServersConnected } from './servers-connected';
 import { TablesNumber } from './tables';
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
-});
-
 function TopBar() {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Grid container spacing={3} justify="center">
+    <Box sx={{ flexGrow: 1, justify: 'center' }}>
+      <Grid container spacing={3}>
         <Grid item xs={2}>
           <ConnectedTo />
         </Grid>
@@ -31,7 +24,7 @@ function TopBar() {
           <TablesNumber />
         </Grid>
       </Grid>
-    </div>
+    </Box>
   );
 }
 

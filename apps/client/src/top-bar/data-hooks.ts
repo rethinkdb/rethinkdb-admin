@@ -73,11 +73,13 @@ function useChangesRequest<T = unknown>(query?: RQuery) {
     }
     requestChanges<T>(query, (data) => {
       setResponses((l: T[]) => [...l, data]);
-    }).then((unsub) => {
-      refref.current = unsub;
-    }).catch((error) => {
-      setResponses(() => error.message);
-    });
+    })
+      .then((unsub) => {
+        refref.current = unsub;
+      })
+      .catch((error) => {
+        setResponses(() => error.message);
+      });
     return () => {
       if (refref.current) {
         refref.current();

@@ -1,17 +1,24 @@
 import React from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { useStyles } from './use-styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+
 import { useIssues } from './data-hooks';
 
-const Issues= React.memo(() => {
-  const classes = useStyles();
+const Issues = React.memo(() => {
   const issues = useIssues();
   return (
-    <Card className={classes.root}>
+    <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography className={classes.text} variant="h5" component="h2">
+        <Typography
+          sx={{
+            padding: 2,
+            textAlign: 'center',
+            color: 'text.secondary',
+          }}
+          variant="h5"
+          component="h2"
+        >
           {typeof issues === 'number' && issues === 0
             ? 'No issues'
             : `Issues: ${issues}`}

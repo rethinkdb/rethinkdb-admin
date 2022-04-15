@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { createStyles, makeStyles } from '@mui/styles';
 import { Codemirror } from 'react-codemirror-ts';
+import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
   AppBar,
@@ -11,9 +13,9 @@ import {
   Tabs,
   Typography,
   useTheme,
-} from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+} from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
+
 import { request } from './socket';
 import { useChangesRequest } from './top-bar/data-hooks';
 
@@ -28,9 +30,8 @@ import 'codemirror/theme/neo.css';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
-import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       padding: theme.spacing(2),
@@ -147,7 +148,6 @@ function DataExplorer() {
       } catch (error) {
         setResult(`TypeError: ${error.message}`);
       }
-
     }
   }, [query]);
 
@@ -155,7 +155,11 @@ function DataExplorer() {
     setQuery(null);
   }
 
-  const finalResult = isChangesQ ? typeof changesResult === "string" ? changesResult : JSON.stringify(changesResult, null, 2) : result;
+  const finalResult = isChangesQ
+    ? typeof changesResult === 'string'
+      ? changesResult
+      : JSON.stringify(changesResult, null, 2)
+    : result;
   return (
     <Paper elevation={2}>
       <Codemirror

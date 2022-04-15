@@ -1,19 +1,19 @@
 import React from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme } from '@mui/material/styles';
 
-const lightTheme = createMuiTheme({
+const lightTheme = createTheme({
   palette: {
-    type: 'light',
+    mode: 'light',
   },
 });
-const darkTheme = createMuiTheme({
+const darkTheme = createTheme({
   palette: {
-    type: 'dark',
+    mode: 'dark',
   },
 });
 
-function useTheme(): Theme {
+function useTheme() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = React.useMemo(

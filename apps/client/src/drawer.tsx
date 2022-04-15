@@ -9,17 +9,19 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import ComputerIcon from '@material-ui/icons/Computer';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import DataUsageIcon from '@material-ui/icons/DataUsage';
-import ExploreIcon from '@material-ui/icons/Explore';
-import ListIcon from '@material-ui/icons/List';
+} from '@mui/material';
+import { createStyles } from '@mui/styles';
+import makeStyles from '@mui/styles/makeStyles';
+
+import ComputerIcon from '@mui/icons-material/Computer';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import DataUsageIcon from '@mui/icons-material/DataUsage';
+import ExploreIcon from '@mui/icons-material/Explore';
+import ListIcon from '@mui/icons-material/List';
 
 const drawerWidth = 280;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     drawer: {
       [theme.breakpoints.up('sm')]: {
@@ -152,26 +154,20 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
   );
   return (
     <nav className={classes.drawer} aria-label="mailbox folders">
-      <Hidden smUp implementation="css">
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          classes={{ paper: classes.drawerPaper }}
-          ModalProps={{ keepMounted: true }}
-        >
-          {drawerContent}
-        </Drawer>
-      </Hidden>
-      <Hidden xsDown implementation="css">
-        <Drawer
-          classes={{ paper: classes.drawerPaper }}
-          variant="permanent"
-          open
-        >
-          {drawerContent}
-        </Drawer>
-      </Hidden>
+      <Drawer
+        variant="permanent"
+        open
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+      >
+        {drawerContent}
+      </Drawer>
     </nav>
   );
 };

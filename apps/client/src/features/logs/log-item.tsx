@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Link from '@material-ui/core/Link';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Typography from '@material-ui/core/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Avatar from '@mui/material/Avatar';
+import Link from '@mui/material/Link';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Typography from '@mui/material/Typography';
 
 const useStyles = makeStyles({ inline: { display: 'inline' } });
 

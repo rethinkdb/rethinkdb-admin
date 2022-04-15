@@ -1,14 +1,16 @@
 import React from 'react';
-import { Button, Paper } from '@material-ui/core';
-import { LogList, useStyles } from './log-list';
-import Typography from '@material-ui/core/Typography';
+import { Button, Paper } from '@mui/material';
+import { LogList } from './log-list';
+import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
 
 function RecentLogList() {
-  const classes = useStyles();
-
   return (
-    <Paper className={classes.root}>
+    <Paper sx={{
+      margin: 1,
+      width: '100%',
+      backgroundColor: 'background.paper',
+    }}>
       <Typography>Recent log entries</Typography>
       <Button
         component={NavLink}

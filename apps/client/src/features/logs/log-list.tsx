@@ -4,23 +4,11 @@ import React, {
   FunctionComponent,
   useCallback,
 } from 'react';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import { Button, Divider, Grid, List, Paper } from '@mui/material';
+
 import { request } from '../../socket';
 import { getAllLogsQuery } from '../../app-driver';
-import { Button, Grid, Paper } from '@material-ui/core';
 import { Log, LogItem } from './log-item';
-
-export const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      margin: theme.spacing(1),
-      width: '100%',
-      backgroundColor: theme.palette.background.paper,
-    },
-  }),
-);
 
 export function useLogEntries(limit = 20): null | Log[] {
   const [state, setState] = useState(null);
@@ -57,7 +45,6 @@ const LogList: FunctionComponent<{ quantity: number }> = React.memo(
 );
 
 function Logs() {
-  const classes = useStyles();
   const [count, setCount] = useState<number>(20);
   const logs = useLogEntries(count);
 
@@ -70,10 +57,14 @@ function Logs() {
     return <div>loading</div>;
   }
   return (
-    <Paper className={classes.root}>
+    <Paper sx={{
+      margin: 1,
+      width: '100%',
+      backgroundColor: 'background.paper',
+    }}>
       {logs.length} of requested {count}
       <LogList quantity={count} />
-      <Grid justify="center" item>
+      <Grid  justify="center" item>
         {count <= logs.length && (
           <Button onClick={onButtonUpCount}>Older log entries</Button>
         )}

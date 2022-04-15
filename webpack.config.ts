@@ -102,6 +102,9 @@ const getClientConfig = (): webpack.Configuration => ({
   ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
+    alias: {
+      '@mui/styled-engine': '@mui/styled-engine-sc',
+    },
   },
 });
 

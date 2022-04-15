@@ -1,19 +1,14 @@
 import React, { StrictMode } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import {
-  makeStyles,
-  Theme,
-  createStyles,
-  ThemeProvider,
-} from '@material-ui/core/styles';
-import { context } from '@reatom/react';
+import AppBar from '@mui/material/AppBar';
+import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { ThemeProvider } from '@mui/styles';
+import { createStyles, makeStyles } from '@mui/styles';
+import { reatomContext } from '@reatom/react';
 import { HashRouter as Router } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { LocalDrawer } from './drawer';
 import { useTheme } from './features/theme';
@@ -21,26 +16,13 @@ import { AppRoutes } from './appRoutes';
 import { store } from './store';
 import { TopBar } from './top-bar/top-bar';
 import './socket';
+import { Box } from '@mui/material';
 
 const drawerWidth = 280;
-const { Provider: StateProvider } = context;
+const { Provider: StateProvider } = reatomContext;
 
-const Root = styled.div`
-  display: flex;
-`;
-
-const ContentWrapper = styled.main`
-  flex-grow: 1;
-`;
-
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
-    appBar: {
-      [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-      },
-    },
     menuButton: {
       marginRight: theme.spacing(2),
       [theme.breakpoints.up('sm')]: {
@@ -55,13 +37,53 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export function App() {
+export function AppContent() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
 
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+            sx={{ display: { lg: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            RethinkDB Administration Console
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <LocalDrawer
+        handleDrawerToggle={handleDrawerToggle}
+        mobileOpen={mobileOpen}
+      />
+      <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+      >
+        <div className={classes.toolbar} />
+        <TopBar />
+        <AppRoutes />
+      </Box>
+    </Box>
+  );
+}
+
+export function App() {
   const theme = useTheme();
 
   return (
@@ -69,34 +91,7 @@ export function App() {
       <Router>
         <StateProvider value={store}>
           <ThemeProvider theme={theme}>
-            <Root>
-              <CssBaseline />
-              <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                  <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    className={classes.menuButton}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" noWrap>
-                    RethinkDB Administration Console
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-              <LocalDrawer
-                handleDrawerToggle={handleDrawerToggle}
-                mobileOpen={mobileOpen}
-              />
-              <ContentWrapper className={classes.content}>
-                <div className={classes.toolbar} />
-                <TopBar />
-                <AppRoutes />
-              </ContentWrapper>
-            </Root>
+            <AppContent />
           </ThemeProvider>
         </StateProvider>
       </Router>
