@@ -9,13 +9,9 @@ function ServersConnected() {
   const classes = useStyles();
   const serversNumber = useServersNumber();
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.text} variant="h5" component="h2">
-          Servers: {serversNumber} connected
-        </Typography>
-      </CardContent>
-    </Card>
+    <Typography className={classes.text} variant="h5" component="h2">
+      Servers: {serversNumber} connected
+    </Typography>
   );
 }
 

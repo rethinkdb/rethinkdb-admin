@@ -1,9 +1,9 @@
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { system_db } from '../requests';
 import { useEffect, useRef, useState } from 'react';
-import { MeResponse, request, requestChanges, requestMe } from '../socket';
 import { RDatum } from 'rethinkdb-ts';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
+import { system_db } from '../requests';
+import { MeResponse, request, requestChanges, requestMe } from '../socket';
 
 const issuesQuery = r.db(system_db).table('current_issues').count();
 const serversCountQuery = r.db(system_db).table('server_config').count();
@@ -14,7 +14,7 @@ const getTablesAndReadyTablesQuery = r.do(
     .table('table_status')('status')
     .filter((status: RDatum) => status('all_replicas_ready'))
     .count(),
-  (tables, tablesReady) => ({
+  (tables: RDatum, tablesReady: RDatum) => ({
     tables,
     tablesReady,
   }),
@@ -60,28 +60,28 @@ function useTablesNumber(): null | { tablesReady: number; tables: number } {
 
 function useChangesRequest<T = unknown>(query?: RQuery) {
   const [responses, setResponses] = useState<T[]>([]);
-  const refref = useRef<() => void>();
+  const unsubRef = useRef<() => void>();
   useEffect(() => {
     setResponses(() => []);
     if (!query) {
       return () => {
-        if (refref.current) {
-          refref.current();
-          refref.current = null;
+        if (unsubRef.current) {
+          unsubRef.current();
+          unsubRef.current = null;
         }
       };
     }
     requestChanges<T>(query, (data) => {
       setResponses((l: T[]) => [...l, data]);
     }).then((unsub) => {
-      refref.current = unsub;
+      unsubRef.current = unsub;
     }).catch((error) => {
       setResponses(() => error.message);
     });
     return () => {
-      if (refref.current) {
-        refref.current();
-        refref.current = null;
+      if (unsubRef.current) {
+        unsubRef.current();
+        unsubRef.current = null;
       }
     };
   }, [query]);

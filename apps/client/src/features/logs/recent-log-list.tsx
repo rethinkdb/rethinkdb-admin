@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Paper } from '@material-ui/core';
-import { LogList, useStyles } from './log-list';
-import Typography from '@material-ui/core/Typography';
+import { Button, Paper, Typography } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
+
+import { LogList } from './log-list';
+import { useStyles } from './styles';
 
 function RecentLogList() {
   const classes = useStyles();

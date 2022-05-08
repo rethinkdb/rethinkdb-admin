@@ -29,6 +29,7 @@
     "@nestjs/platform-socket.io": "^8.0.0-alpha.7",
     "@nestjs/serve-static": "^2.1.4",
     "@nestjs/websockets": "^7.6.18",
+    "date-fns": "^2.28.0",
     "nanoid": "^3.1.23",
     "react-swipeable-views": "^0.14.0",
     "reflect-metadata": "^0.1.13",

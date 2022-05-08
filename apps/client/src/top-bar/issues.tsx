@@ -9,15 +9,11 @@ function Issues() {
   const classes = useStyles();
   const issues = useIssues();
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.text} variant="h5" component="h2">
-          {typeof issues === 'number' && issues === 0
-            ? 'No issues'
-            : `Issues: ${issues}`}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Typography className={classes.text} variant="h5" component="h2">
+      {typeof issues === 'number' && issues === 0
+        ? 'No issues'
+        : `Issues: ${issues}`}
+    </Typography>
   );
 }
 

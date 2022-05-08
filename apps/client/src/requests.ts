@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { request } from './socket';
-import { useEffect, useState } from 'react';
 
 export const system_db = 'rethinkdb';
 
