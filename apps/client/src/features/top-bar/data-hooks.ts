@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
-import { system_db } from '../requests';
-import { MeResponse, request, requestChanges, requestMe } from '../socket';
+import { system_db } from '../rethinkdb';
+import { MeResponse, request, requestChanges, requestMe } from '../rethinkdb/socket';
 
 const issuesQuery = r.db(system_db).table('current_issues').count();
 const serversCountQuery = r.db(system_db).table('server_config').count();
@@ -73,11 +73,13 @@ function useChangesRequest<T = unknown>(query?: RQuery) {
     }
     requestChanges<T>(query, (data) => {
       setResponses((l: T[]) => [...l, data]);
-    }).then((unsub) => {
-      unsubRef.current = unsub;
-    }).catch((error) => {
-      setResponses(() => error.message);
-    });
+    })
+      .then((unsub) => {
+        unsubRef.current = unsub;
+      })
+      .catch((error) => {
+        setResponses(() => error.message);
+      });
     return () => {
       if (unsubRef.current) {
         unsubRef.current();

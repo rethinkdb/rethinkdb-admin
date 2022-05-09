@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { RecentLogList } from '../logs/recent-log-list';
 
 function DashboardPage() {

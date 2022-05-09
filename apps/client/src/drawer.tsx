@@ -51,6 +51,7 @@ const menuList = [
     title: 'Dashboard',
     icon: DashboardIcon,
     url: '/',
+    exact: true,
   },
   {
     icon: DataUsageIcon,
@@ -85,13 +86,14 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {menuList.map(({ title, icon: Icon, url }) => (
+        {menuList.map(({ exact, title, icon: Icon, url }) => (
           <ListItem
             component={NavLink}
             button
             key={title}
             activeClassName="Mui-selected"
             to={url}
+            exact={!!exact}
           >
             <ListItemIcon>
               <Icon />

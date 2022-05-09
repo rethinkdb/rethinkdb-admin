@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Codemirror } from 'react-codemirror-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
@@ -14,8 +14,9 @@ import {
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import SwipeableViews from 'react-swipeable-views';
-import { request } from './socket';
-import { useChangesRequest } from './top-bar/data-hooks';
+
+import { request } from '../rethinkdb/socket';
+import { useChangesRequest } from '../top-bar/data-hooks';
 
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/edit/matchbrackets';
@@ -105,7 +106,7 @@ function isChangesQuery(query: RQuery): boolean {
   return Array.isArray(query.term) && query.term[0] === 152;
 }
 
-function DataExplorer() {
+export function DataExplorerPage() {
   const classes = useStyles();
   const [value, setValue] = useState<string>('');
   const [lastRunTime, setLastRunTime] = useState<Date>(null);
@@ -147,7 +148,6 @@ function DataExplorer() {
       } catch (error) {
         setResult(`TypeError: ${error.message}`);
       }
-
     }
   }, [query]);
 
@@ -155,7 +155,11 @@ function DataExplorer() {
     setQuery(null);
   }
 
-  const finalResult = isChangesQ ? typeof changesResult === "string" ? changesResult : JSON.stringify(changesResult, null, 2) : result;
+  const finalResult = isChangesQ
+    ? typeof changesResult === 'string'
+      ? changesResult
+      : JSON.stringify(changesResult, null, 2)
+    : result;
   return (
     <Paper elevation={2}>
       <Codemirror
@@ -240,5 +244,3 @@ function DataExplorer() {
     </Paper>
   );
 }
-
-export { DataExplorer };

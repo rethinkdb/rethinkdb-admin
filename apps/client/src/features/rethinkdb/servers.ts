@@ -1,13 +1,18 @@
+import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { system_db } from '../../requests';
-import {RDatum} from "rethinkdb-ts";
 
-export const serverConfigQuery = r.db(system_db).table('server_config').coerceTo('array');
+import { system_db } from './index';
+
+export const serverConfigQuery = r
+  .db(system_db)
+  .table('server_config')
+  .coerceTo('array');
 const server_status = r.db(system_db).table('server_status').coerceTo('array');
 const table_status = r.db(system_db).table('table_status').coerceTo('array');
 
-export const getServerListQuery = serverConfigQuery
-  .map(server_status, function (sconfig: RDatum, sstatus: RDatum) {
+export const getServerListQuery = serverConfigQuery.map(
+  server_status,
+  function (sconfig: RDatum, sstatus: RDatum) {
     return {
       id: sconfig('id'),
       name: sconfig('name'),
@@ -31,12 +36,10 @@ export const getServerListQuery = serverConfigQuery
             .count(function (shard) {
               return shard('replicas')('server')
                 .contains(sconfig('name'))
-                .and(
-                  shard('primary_replicas').contains(sconfig('name')).not(),
-                );
+                .and(shard('primary_replicas').contains(sconfig('name')).not());
             });
         })
         .sum(),
     };
-  })
-;
+  },
+);

@@ -1,5 +1,5 @@
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { system_db } from './requests';
+import { system_db } from './index';
 import { RDatum, RQuery, RTable } from 'rethinkdb-ts';
 
 const admin = {

@@ -10,8 +10,7 @@ const TablesNumber = React.memo(() => {
   const tablesData = useTablesNumber();
   return (
     <Typography className={classes.text} variant="h5" component="h2">
-      {tablesData &&
-        `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
+      {tablesData && `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
     </Typography>
   );
 });

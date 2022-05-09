@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { RSingleSelection, RValue } from 'rethinkdb-ts';
+import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { formatDuration, intervalToDuration } from 'date-fns';
 
 import { Card, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // import CardActions from '@material-ui/core/CardActions';
 // import Button from '@material-ui/core/Button';
 
-import { system_db } from '../../requests';
-import { request } from '../../socket';
+import { system_db } from '../rethinkdb';
+import { request } from '../rethinkdb/socket';
+import { ComparableTime } from '../time/relative';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +36,7 @@ const tableStatus = r.db(system_db).table('table_status');
 function serverRespQuery(server_name: RValue) {
   return {
     tables: tableConfig
-      .filter((i) =>
+      .filter((i: RDatum) =>
         i('shards')('replicas')
           .concatMap((x) => x)
           .contains(server_name),
@@ -108,8 +108,6 @@ function fetchServer(id: string) {
 export function useServer(id: string): ExpandedServer {
   const [state, setState] = useState(null);
 
-  const query = fetchServer(id);
-  console.log(query.toString());
   useEffect(() => {
     request(fetchServer(id)).then(setState);
   }, [id]);
@@ -144,16 +142,6 @@ export type ExpandedServer = {
   };
 };
 
-// take the first three nonzero units
-const units = [
-  'years',
-  'months',
-  'weeks',
-  'days',
-  'hours',
-  'minutes',
-  'seconds',
-];
 export const ServerPage = () => {
   const params = useParams<{ id: string }>();
   const query = useServer(params.id);
@@ -162,15 +150,6 @@ export const ServerPage = () => {
   if (!query) {
     return <div>loading</div>;
   }
-
-  const duration = intervalToDuration({
-    start: new Date(query.profile.time_started),
-    end: new Date(),
-  });
-
-  const nonzero = Object.entries(duration)
-    .filter(([_, value]) => value || 0 > 0)
-    .map(([unit, _]) => unit);
 
   return (
     <div className={classes.root}>
@@ -190,10 +169,7 @@ export const ServerPage = () => {
             {query.profile.tags} tags
           </Typography>
           <Typography variant="body2" component="p">
-            {formatDuration(duration, {
-              format: units.filter((i) => new Set(nonzero).has(i)).slice(0, 3),
-              delimiter: ', ',
-            })}
+            <ComparableTime date={new Date(query.profile.time_started)} />{' '}
             uptime
             <br />
             {Number(query.profile.cache_size / 1024 / 1024 / 1024).toFixed(2)}Gb

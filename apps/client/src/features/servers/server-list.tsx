@@ -1,13 +1,12 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import { Divider, List } from '@material-ui/core';
+import { Divider, Link, List } from '@material-ui/core';
+import { NavLink } from 'react-router-dom';
 
-import { request } from '../../socket';
-import { useChangesRequest } from '../../top-bar/data-hooks';
+import { request } from '../rethinkdb/socket';
+import { useChangesRequest } from '../top-bar/data-hooks';
 
 import { Server, ServerItem } from './server-item';
-import { serverConfigQuery, getServerListQuery } from '../queries/servers';
-import Link from "@material-ui/core/Link";
-import {NavLink} from "react-router-dom";
+import { serverConfigQuery, getServerListQuery } from '../rethinkdb/servers';
 
 export function useServerEntries(): null | Server[] {
   const [state, setState] = useState(null);
@@ -27,7 +26,7 @@ export const ServerList: FunctionComponent<{ servers: Server[] }> = React.memo(
     return (
       <List>
         {servers.map((serverItem, index) => (
-          <>
+          <React.Fragment key={serverItem.id}>
             <Link component={NavLink} to={`/servers/${serverItem.id}`}>
               <ServerItem key={serverItem.id[1]} serverItem={serverItem} />
             </Link>
@@ -39,7 +38,7 @@ export const ServerList: FunctionComponent<{ servers: Server[] }> = React.memo(
                 component="li"
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </List>
     );

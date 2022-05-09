@@ -2,10 +2,10 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { Divider, List } from '@material-ui/core';
 
-import { getAllLogsQuery } from '../../app-driver';
-import { request } from '../../socket';
-import { useChangesRequest } from '../../top-bar/data-hooks';
-import { system_db } from '../../requests';
+import { getAllLogsQuery } from '../rethinkdb/app-driver';
+import { request } from '../rethinkdb/socket';
+import { useChangesRequest } from '../top-bar/data-hooks';
+import { system_db } from '../rethinkdb';
 
 import { Log, LogItem } from './log-item';
 
@@ -35,8 +35,8 @@ export const LogList: FunctionComponent<{ quantity: number }> = React.memo(
     return (
       <List>
         {logs.map((logItem, index) => (
-          <>
-            <LogItem key={logItem.id[1]} logItem={logItem} />
+          <React.Fragment key={logItem.id[1]}>
+            <LogItem logItem={logItem} />
             {logs.length > index + 1 && (
               <Divider
                 key={`${logItem.id[1]}-divider`}
@@ -44,7 +44,7 @@ export const LogList: FunctionComponent<{ quantity: number }> = React.memo(
                 component="li"
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </List>
     );

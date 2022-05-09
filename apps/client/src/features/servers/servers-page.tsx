@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper } from '@material-ui/core';
 
-import {ServerList, useServerEntries} from './server-list';
+import { ServerList, useServerEntries } from './server-list';
 import { useStyles } from './styles';
 
 function ServersPage() {
@@ -13,7 +13,7 @@ function ServersPage() {
   }
   return (
     <Paper className={classes.root}>
-      <ServerList servers={servers}/>
+      <ServerList servers={servers} />
     </Paper>
   );
 }
