@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Button, Paper, Typography } from '@material-ui/core';
 import { NavLink } from 'react-router-dom';
 
 import { LogList } from './log-list';
 import { useStyles } from './styles';
 
-function RecentLogList() {
+const RecentLogList: FunctionComponent<{ server?: string }> = ({ query }) => {
   const classes = useStyles();
 
   return (
@@ -19,9 +19,9 @@ function RecentLogList() {
       >
         View All
       </Button>
-      <LogList quantity={6} />
+      <LogList quantity={6} server={server} />
     </Paper>
   );
-}
+};
 
 export { RecentLogList };

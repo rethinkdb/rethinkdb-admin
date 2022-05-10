@@ -15,6 +15,7 @@ import { useStyles as useRootStyles } from './styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
+import {LogList} from "../logs/log-list";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -151,6 +152,10 @@ const replicaRolename = function ({
   configured_primary: configured,
   currently_primary: currently,
   nonvoting,
+}: {
+  configured_primary: boolean;
+  currently_primary: boolean;
+  nonvoting: boolean;
 }) {
   if (configured && currently) {
     return 'Primary replica';
@@ -229,37 +234,37 @@ export const ServerPage = () => {
       <Typography className={rootClasses.title} variant="h6" noWrap>
         Server overview for {query.main.name}
       </Typography>
-      <div className={classes.root}>
-        <Card>
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {query.profile.version.split(' ')[1]} version
-            </Typography>
-            <Typography variant="h5" component="h2">
-              {query.profile.hostname} hostname
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              {query.profile.tags} tags
-            </Typography>
-            <Typography variant="body2" component="p">
-              <ComparableTime date={new Date(query.profile.time_started)} />{' '}
-              uptime
-              <br />
-              {Number(query.profile.cache_size / 1024 / 1024 / 1024).toFixed(2)}
-              Gb cache size
-            </Typography>
-          </CardContent>
-          {/*<CardActions>*/}
-          {/*  <Button size="small">Learn More</Button>*/}
-          {/*</CardActions>*/}
-        </Card>
-        <TableShards tables={query.tables} />
-        <pre>The server is {JSON.stringify(query, null, 2)}</pre>
-      </div>
-    </>
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            {query.profile.version.split(' ')[1]} version
+          </Typography>
+          <Typography variant="h5" component="h2">
+            {query.profile.hostname} hostname
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            {query.profile.tags} tags
+          </Typography>
+          <Typography variant="body2" component="p">
+            <ComparableTime date={new Date(query.profile.time_started)} />{' '}
+            uptime
+            <br />
+            {Number(query.profile.cache_size / 1024 / 1024 / 1024).toFixed(2)}
+            Gb cache size
+          </Typography>
+        </CardContent>
+        {/*<CardActions>*/}
+        {/*  <Button size="small">Learn More</Button>*/}
+        {/*</CardActions>*/}
+      </Card>
+      <TableShards tables={query.tables} />
+      <Card className={classes.root} >
+        <LogList quantity={6} server={query.main.id} />
+      </Card>
+      <pre>The server is {JSON.stringify(query, null, 2)}</pre>    </>
   );
 };

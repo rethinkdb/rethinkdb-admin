@@ -61,21 +61,6 @@ const helpers = {
   },
 };
 
-function getAllLogsQuery(limit: number): RQuery {
-  const server_conf = admin.server_config;
-  return r
-    .db(system_db)
-    .table('logs', { identifierFormat: 'uuid' })
-    .orderBy({ index: r.desc('id') })
-    .limit(limit)
-    .map((log) =>
-      log.merge({
-        server: server_conf.get(log('server'))('name'),
-        server_id: log('server'),
-      }),
-    );
-}
-
 const queries = {
   server_logs: (limit: number, server_id: string) => {
     const server_conf = admin.server_config;
@@ -370,4 +355,4 @@ const queries = {
   },
 };
 
-export { getAllLogsQuery, admin, helpers, queries };
+export { admin, helpers, queries };
