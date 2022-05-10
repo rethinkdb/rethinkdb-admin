@@ -5,19 +5,19 @@ import { admin } from '../rethinkdb/app-driver';
 
 const server_conf = admin.server_config;
 
-
-export const allServerChangesQuery = (server: string) =>  r
-  .db(system_db)
-  .table('logs', {identifierFormat: 'uuid'})
-  .orderBy({index: r.desc('id')})
-  .filter(r.row('server').eq(server))
-  .changes();
+export const allServerChangesQuery = (server: string) =>
+  r
+    .db(system_db)
+    .table('logs', { identifierFormat: 'uuid' })
+    .orderBy({ index: r.desc('id') })
+    .filter(r.row('server').eq(server))
+    .changes();
 
 export function serverLogs(limit: number, server: string) {
   return r
     .db(system_db)
-    .table('logs', {identifierFormat: 'uuid'})
-    .orderBy({index: r.desc('id')})
+    .table('logs', { identifierFormat: 'uuid' })
+    .orderBy({ index: r.desc('id') })
     .filter(r.row('server').eq(server))
     .limit(limit)
     .map((log) =>

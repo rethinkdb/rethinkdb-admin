@@ -38,7 +38,7 @@ function LogItem({ logItem }: ILogItem) {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Log" src="/static/images/avatar/1.jpg" />
+        <Avatar alt="Log" />
       </ListItemAvatar>
       <ListItemText
         primary={logItem.message}

@@ -16,7 +16,9 @@ import {
 
 export function useLogEntries(limit = 20, server?: string): null | Log[] {
   const [state, setState] = useState(null);
-  const changesQuery = server ? allServerChangesQuery(server) : allLogChangesQuery;
+  const changesQuery = server
+    ? allServerChangesQuery(server)
+    : allLogChangesQuery;
   const lastLog = useChangesRequest(changesQuery);
 
   useEffect(() => {

@@ -1,5 +1,6 @@
-import {RTable} from "rethinkdb-ts";
+import { RTable } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
+
 import { system_db } from '../rethinkdb';
 
 const systable = (name: string) => r.db(system_db).table(name);

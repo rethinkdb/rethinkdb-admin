@@ -7,15 +7,16 @@ import { Card, CardContent, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // import CardActions from '@material-ui/core/CardActions';
 // import Button from '@material-ui/core/Button';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import List from '@material-ui/core/List';
 
 import { system_db } from '../rethinkdb';
 import { request } from '../rethinkdb/socket';
 import { ComparableTime } from '../time/relative';
+import { LogList } from '../logs/log-list';
+
 import { useStyles as useRootStyles } from './styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import {LogList} from "../logs/log-list";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -262,9 +263,10 @@ export const ServerPage = () => {
         {/*</CardActions>*/}
       </Card>
       <TableShards tables={query.tables} />
-      <Card className={classes.root} >
+      <Card className={classes.root}>
         <LogList quantity={6} server={query.main.id} />
       </Card>
-      <pre>The server is {JSON.stringify(query, null, 2)}</pre>    </>
+      <pre>The server is {JSON.stringify(query, null, 2)}</pre>
+    </>
   );
 };

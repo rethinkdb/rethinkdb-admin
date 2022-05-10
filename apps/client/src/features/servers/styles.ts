@@ -9,6 +9,6 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       marginTop: theme.spacing(1),
-    }
+    },
   }),
 );

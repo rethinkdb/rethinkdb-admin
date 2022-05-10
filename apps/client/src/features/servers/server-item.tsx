@@ -9,7 +9,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
 } from '@material-ui/core';
-import { ComparableTime, compareToNow } from '../time/relative';
+import { ComparableTime } from '../time/relative';
 
 const useStyles = makeStyles({ inline: { display: 'inline' } });
 
@@ -67,7 +67,7 @@ const ServerItem: FunctionComponent<IServerItem> = ({
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Server" src="/static/images/avatar/1.jpg" />
+        <Avatar alt="Server" />
       </ListItemAvatar>
       <ListItemText primary={primaryRow} secondary={secondaryRow} />
       <ListItemSecondaryAction>{rightRow}</ListItemSecondaryAction>

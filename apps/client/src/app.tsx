@@ -104,7 +104,6 @@ export const AppContent = () => {
             <ThemeButton
               state={themeState}
               onClick={() => {
-                console.log(themeState);
                 store.dispatch(changeThemeState());
               }}
             />

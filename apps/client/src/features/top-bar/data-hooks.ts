@@ -3,7 +3,12 @@ import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { system_db } from '../rethinkdb';
-import { MeResponse, request, requestChanges, requestMe } from '../rethinkdb/socket';
+import {
+  MeResponse,
+  request,
+  requestChanges,
+  requestMe,
+} from '../rethinkdb/socket';
 
 const issuesQuery = r.db(system_db).table('current_issues').count();
 const serversCountQuery = r.db(system_db).table('server_config').count();

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { LogList } from './log-list';
 import { useStyles } from './styles';
 
-const RecentLogList: FunctionComponent<{ server?: string }> = ({ query }) => {
+const RecentLogList: FunctionComponent<{ server?: string }> = ({ server }) => {
   const classes = useStyles();
 
   return (

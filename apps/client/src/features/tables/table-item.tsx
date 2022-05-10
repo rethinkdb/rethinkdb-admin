@@ -82,7 +82,7 @@ export const TableListItem: FunctionComponent<ITableItem> = React.memo(
   },
 );
 
-function humanizeTableStatus(status: TableStatus) {
+export function humanizeTableStatus(status: TableStatus) {
   if (!status) return '';
   if (status.all_replicas_ready || status.ready_for_writes) return 'Ready';
   if (status.ready_for_reads) return 'Reads only';
@@ -94,7 +94,7 @@ export type HumanizedReadiness = {
   label: 'failure' | 'success' | 'partial-success';
   value: string;
 };
-function humanizeTableReadiness(
+export function humanizeTableReadiness(
   status: TableStatus,
   replicas: number,
   replicasReady: number,

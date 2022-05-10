@@ -13,7 +13,9 @@ function ServersPage() {
   }
   return (
     <>
-      <Typography className={classes.title} variant="h6" noWrap>Servers connected to the cluster</Typography>
+      <Typography className={classes.title} variant="h6" noWrap>
+        Servers connected to the cluster
+      </Typography>
       <Paper className={classes.root}>
         <ServerList servers={servers} />
       </Paper>
