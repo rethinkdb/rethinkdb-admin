@@ -63,7 +63,7 @@ const getClientConfig = (): webpack.Configuration => ({
     open: isDevelopment,
     hot: isDevelopment,
   },
-  devtool: 'eval-source-map',
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
   entry: [isDevelopment && 'react-refresh/runtime', './src'].filter(Boolean),
   mode,
   module: {
@@ -102,6 +102,7 @@ const getClientConfig = (): webpack.Configuration => ({
   ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
+    fallback: { crypto: false },
   },
 });
 
