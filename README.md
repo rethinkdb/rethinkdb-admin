@@ -4,6 +4,8 @@ RethinkDB Next Generation Admin UI app
 ## Usage (TBD)
 rethinkdb-admin would be able to be installed via docker or by direct usage through the repo
 
+It is useful to watch the code of an old rethinkdb admin [here](https://github.com/atassis/rethinkdb-old-admin), the coffescript is prebuilt into the sources for more convenient observation 
+
 ## Contributing (TBD)
 To start the development, you need to:
 

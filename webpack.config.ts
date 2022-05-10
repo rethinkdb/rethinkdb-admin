@@ -63,7 +63,7 @@ const getClientConfig = (): webpack.Configuration => ({
     open: isDevelopment,
     hot: isDevelopment,
   },
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
   entry: [isDevelopment && 'react-refresh/runtime', './src'].filter(Boolean),
   mode,
   module: {

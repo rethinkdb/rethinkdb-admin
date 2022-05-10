@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent, StrictMode } from 'react';
+
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,16 +13,18 @@ import {
   ThemeProvider,
 } from '@material-ui/core/styles';
 import styled from 'styled-components';
-import { LocalDrawer } from './drawer';
-import { StrictMode } from 'react';
-import { store } from './store';
 import { HashRouter as Router } from 'react-router-dom';
-import { context } from '@reatom/react';
+import { context, useAtom } from '@reatom/react';
 
-import { Routes } from './routes';
-import './socket';
-import { TopBar } from './top-bar/top-bar';
+import { LocalDrawer } from './drawer';
 import { useTheme } from './features/theme';
+import { Routes } from './features/routes';
+import { store } from './store';
+import { TopBar } from './features/top-bar/top-bar';
+
+import './features/rethinkdb/socket';
+import { ThemeButton } from './features/theme/theme-button';
+import { changeThemeState, themeAtom } from './features/theme/state';
 
 const drawerWidth = 280;
 const { Provider: StateProvider } = context;
@@ -42,6 +45,9 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: drawerWidth,
       },
     },
+    title: {
+      flexGrow: 1,
+    },
     menuButton: {
       marginRight: theme.spacing(2),
       [theme.breakpoints.up('sm')]: {
@@ -56,53 +62,66 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function App() {
+const App: FunctionComponent = () => {
+  return (
+    <StrictMode>
+      <Router>
+        <StateProvider value={store}>
+          <AppContent />
+        </StateProvider>
+      </Router>
+    </StrictMode>
+  );
+};
+
+export const AppContent = () => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState<boolean>(false);
 
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
+  const themeState = useAtom(themeAtom);
   const theme = useTheme();
-
   return (
-    <StrictMode>
-      <Router>
-        <StateProvider value={store}>
-          <ThemeProvider theme={theme}>
-            <Root>
-              <CssBaseline />
-              <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                  <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    className={classes.menuButton}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" noWrap>
-                    RethinkDB Administration Console
-                  </Typography>
-                </Toolbar>
-              </AppBar>
-              <LocalDrawer
-                handleDrawerToggle={handleDrawerToggle}
-                mobileOpen={mobileOpen}
-              />
-              <ContentWrapper className={classes.content}>
-                <div className={classes.toolbar} />
-                <TopBar />
-                <Routes />
-              </ContentWrapper>
-            </Root>
-          </ThemeProvider>
-        </StateProvider>
-      </Router>
-    </StrictMode>
+    <ThemeProvider theme={theme}>
+      <Root>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography className={classes.title} variant="h6" noWrap>
+              RethinkDB Administration Console
+            </Typography>
+            <ThemeButton
+              state={themeState}
+              onClick={() => {
+                console.log(themeState);
+                store.dispatch(changeThemeState());
+              }}
+            />
+          </Toolbar>
+        </AppBar>
+        <LocalDrawer
+          handleDrawerToggle={handleDrawerToggle}
+          mobileOpen={mobileOpen}
+        />
+        <ContentWrapper className={classes.content}>
+          <div className={classes.toolbar} />
+          <TopBar />
+          <Routes />
+        </ContentWrapper>
+      </Root>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

@@ -9,14 +9,9 @@ const TablesNumber = React.memo(() => {
   const classes = useStyles();
   const tablesData = useTablesNumber();
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.text} variant="h5" component="h2">
-          {tablesData &&
-            `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Typography className={classes.text} variant="h5" component="h2">
+      {tablesData && `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
+    </Typography>
   );
 });
 

@@ -2,8 +2,7 @@
 // hash: "186fb20ea9911710e910acfab0f4f221d59d7c04"
 const reql_docs = {
   'api/javascript/add/': {
-    body:
-      'value.add(value[, value, ...]) &rarr; valuetime.add(number[, number, ...]) &rarr; time',
+    body: 'value.add(value[, value, ...]) &rarr; valuetime.add(number[, number, ...]) &rarr; time',
     description:
       '<p>Sum two or more numbers, or concatenate two or more strings or arrays.</p>',
     example:
@@ -19,8 +18,7 @@ const reql_docs = {
     url: 'add',
   },
   'api/javascript/and/': {
-    body:
-      'bool.and([bool, bool, ...]) &rarr; boolr.and([bool, bool, ...]) &rarr; bool',
+    body: 'bool.and([bool, bool, ...]) &rarr; boolr.and([bool, bool, ...]) &rarr; bool',
     description: '<p>Compute the logical "and" of one or more values.</p>',
     example:
       '<p><strong>Example:</strong> Return whether both <code>a</code> and <code>b</code> evaluate to true.</p>\n<pre><code>var a = true, b = false;\nr.expr(a).and(b).run(conn, callback);\n// result passed to callback\nfalse\n</code></pre>',
@@ -58,8 +56,7 @@ const reql_docs = {
     url: 'avg',
   },
   'api/javascript/between/': {
-    body:
-      'table.between(lowerKey, upperKey[, options]) &rarr; table_slicetable_slice.between(lowerKey, upperKey[, options]) &rarr; table_slice',
+    body: 'table.between(lowerKey, upperKey[, options]) &rarr; table_slicetable_slice.between(lowerKey, upperKey[, options]) &rarr; table_slice',
     description:
       "<p>Get all documents between two keys. Accepts three optional arguments: <code>index</code>, <code>leftBound</code>, and <code>rightBound</code>. If <code>index</code> is set to the name of a secondary index, <code>between</code> will return all documents where that index's value is in the specified range (it uses the primary key by default). <code>leftBound</code> or <code>rightBound</code> may be set to <code>open</code> or <code>closed</code> to indicate whether or not to include that endpoint of the range (by default, <code>leftBound</code> is closed and <code>rightBound</code> is open).</p>",
     example:
@@ -106,8 +103,7 @@ const reql_docs = {
     url: 'bit_or',
   },
   'api/javascript/bit_sal/': {
-    body:
-      'number.bitSal(number, number) &rarr; numbernumber.bitSal(number[, number, ...]) &rarr; number',
+    body: 'number.bitSal(number, number) &rarr; numbernumber.bitSal(number[, number, ...]) &rarr; number',
     description:
       '<p>Compute the left arithmetic shift of one or more values..</p>',
     example:
@@ -136,8 +132,7 @@ const reql_docs = {
     url: 'bit_xor',
   },
   'api/javascript/bracket/': {
-    body:
-      'sequence(attr) &rarr; sequencesingleSelection(attr) &rarr; valueobject(attr) &rarr; valuearray(index) &rarr; value',
+    body: 'sequence(attr) &rarr; sequencesingleSelection(attr) &rarr; valueobject(attr) &rarr; valuearray(index) &rarr; value',
     description:
       '<p>Get a single field from an object. If called on a sequence, gets that field from every object in the sequence, skipping objects that lack it.</p>',
     example:
@@ -151,8 +146,7 @@ const reql_docs = {
     url: 'bracket',
   },
   'api/javascript/branch/': {
-    body:
-      'r.branch(test, true_action[, test2, test2_action, ...], false_action) &rarr; anytest.branch(true_action[, test2, test2_action, ...], false_action) &rarr; any',
+    body: 'r.branch(test, true_action[, test2, test2_action, ...], false_action) &rarr; anytest.branch(true_action[, test2, test2_action, ...], false_action) &rarr; any',
     description:
       '<p>Perform a branching conditional equivalent to <code>if-then-else</code>.</p>\n<p>The <code>branch</code> command takes 2n+1 arguments: pairs of conditional expressions and commands to be executed if the conditionals return any value but <code>false</code> or <code>null</code> (i.e., "truthy" values), with a final "else" command to be evaluated if all of the conditionals are <code>false</code> or <code>null</code>.</p>',
     example:
@@ -182,8 +176,7 @@ const reql_docs = {
     url: 'change_at',
   },
   'api/javascript/changes/': {
-    body:
-      'stream.changes([options]) &rarr; streamsingleSelection.changes([options]) &rarr; stream',
+    body: 'stream.changes([options]) &rarr; streamsingleSelection.changes([options]) &rarr; stream',
     description:
       '<p>Turn a query into a changefeed, an infinite stream of objects representing changes to the query\'s results as they occur. A changefeed may return changes to a table or an individual document (a "point" changefeed). Commands such as <code>filter</code> or <code>map</code> may be used before the <code>changes</code> command to transform or filter the output, and many commands that operate on sequences can be chained after <code>changes</code>.</p>',
     example:
@@ -196,8 +189,7 @@ const reql_docs = {
     url: 'changes',
   },
   'api/javascript/circle/': {
-    body:
-      "r.circle([longitude, latitude], radius[, {numVertices: 32, geoSystem: 'WGS84', unit: 'm', fill: true}]) &rarr; geometryr.circle(point, radius[, {numVertices: 32, geoSystem: 'WGS84', unit: 'm', fill: true}]) &rarr; geometry",
+    body: "r.circle([longitude, latitude], radius[, {numVertices: 32, geoSystem: 'WGS84', unit: 'm', fill: true}]) &rarr; geometryr.circle(point, radius[, {numVertices: 32, geoSystem: 'WGS84', unit: 'm', fill: true}]) &rarr; geometry",
     description:
       '<p>Construct a circular line or polygon. A circle in RethinkDB is a polygon or line <em>approximating</em> a circle of a given radius around a given center, consisting of a specified number of vertices (default 32).</p>',
     example:
@@ -217,8 +209,7 @@ const reql_docs = {
     url: 'close-cursor',
   },
   'api/javascript/close/': {
-    body:
-      'conn.close([{noreplyWait: true}, ]callback)conn.close([{noreplyWait: true}]) &rarr; promise',
+    body: 'conn.close([{noreplyWait: true}, ]callback)conn.close([{noreplyWait: true}]) &rarr; promise',
     description:
       '<p>Close an open connection. If no callback is provided, a promise will be returned.</p>',
     example:
@@ -228,8 +219,7 @@ const reql_docs = {
     url: 'close',
   },
   'api/javascript/coerce_to/': {
-    body:
-      "sequence.coerceTo('array') &rarr; arrayvalue.coerceTo('string') &rarr; stringstring.coerceTo('number') &rarr; numberarray.coerceTo('object') &rarr; objectsequence.coerceTo('object') &rarr; objectobject.coerceTo('array') &rarr; arraybinary.coerceTo('string') &rarr; stringstring.coerceTo('binary') &rarr; binary",
+    body: "sequence.coerceTo('array') &rarr; arrayvalue.coerceTo('string') &rarr; stringstring.coerceTo('number') &rarr; numberarray.coerceTo('object') &rarr; objectsequence.coerceTo('object') &rarr; objectobject.coerceTo('array') &rarr; arraybinary.coerceTo('string') &rarr; stringstring.coerceTo('binary') &rarr; binary",
     description: '<p>Convert a value of one type into another.</p>',
     example:
       "<p><strong>Example:</strong> Coerce a stream to an array to store its output in a field. (A stream cannot be stored in a field directly.)</p>\n<pre><code>r.table('posts').map(function (post) {\n    return post.merge({ comments: r.table('comments').getAll(post('id'), {index: 'postId'}).coerceTo('array')});\n}).run(conn, callback)\n</code></pre>",
@@ -245,8 +235,7 @@ const reql_docs = {
     url: 'coerce_to',
   },
   'api/javascript/concat_map/': {
-    body:
-      'stream.concatMap(function) &rarr; streamarray.concatMap(function) &rarr; array',
+    body: 'stream.concatMap(function) &rarr; streamarray.concatMap(function) &rarr; array',
     description:
       '<p>Concatenate one or more elements into a single sequence using a mapping function.</p>',
     example:
@@ -259,8 +248,7 @@ const reql_docs = {
     url: 'concat_map',
   },
   'api/javascript/config/': {
-    body:
-      'table.config() &rarr; selection&lt;object&gt;database.config() &rarr; selection&lt;object&gt;',
+    body: 'table.config() &rarr; selection&lt;object&gt;database.config() &rarr; selection&lt;object&gt;',
     description:
       '<p>Query (read and/or update) the configurations for individual tables or databases.</p>',
     example:
@@ -273,8 +261,7 @@ const reql_docs = {
     url: 'config',
   },
   'api/javascript/connect/': {
-    body:
-      'r.connect([options, ]callback)r.connect([host, ]callback)r.connect([options]) &rarr; promiser.connect([host]) &rarr; promise',
+    body: 'r.connect([options, ]callback)r.connect([host, ]callback)r.connect([options]) &rarr; promiser.connect([host]) &rarr; promise',
     description:
       '<p>Create a new connection to the database server. Accepts the following\noptions:</p>\n<ul>\n<li><code>host</code>: the host to connect to (default <code>localhost</code>).</li>\n<li><code>port</code>: the port to connect on (default <code>28015</code>).</li>\n<li><code>db</code>: the default database (default <code>test</code>).</li>\n<li><code>user</code>: the user account to connect as (default <code>admin</code>).</li>\n<li><code>password</code>: the password for the user account to connect as (default <code>\'\'</code>, empty).</li>\n<li><code>timeout</code>: timeout period in seconds for the connection to be opened (default <code>20</code>).</li>\n<li><code>ssl</code>: a hash of options to support SSL connections (default <code>null</code>). Currently, there is only one option available, and if the <code>ssl</code> option is specified, this key is required:<ul>\n<li><code>ca</code>: a list of <a href="http://nodejs.org">Node.js</a> <code>Buffer</code> objects containing SSL CA certificates.</li>\n</ul>\n</li>\n</ul>\n<p>If the connection cannot be established, a <code>ReqlDriverError</code> will be passed to the callback instead of a connection.</p>',
     example:
@@ -294,8 +281,7 @@ const reql_docs = {
     url: 'contains',
   },
   'api/javascript/count/': {
-    body:
-      'sequence.count([value | predicate_function]) &rarr; numberbinary.count() &rarr; numberstring.count() &rarr; numberobject.count() &rarr; number',
+    body: 'sequence.count([value | predicate_function]) &rarr; numberbinary.count() &rarr; numberstring.count() &rarr; numberobject.count() &rarr; number',
     description:
       '<p>Counts the number of elements in a sequence or key/value pairs in an object, or returns the size of a string or binary object.</p>',
     example:
@@ -387,8 +373,7 @@ const reql_docs = {
     url: 'db_list',
   },
   'api/javascript/default/': {
-    body:
-      'value.default(default_value | function) &rarr; anysequence.default(default_value | function) &rarr; any',
+    body: 'value.default(default_value | function) &rarr; anysequence.default(default_value | function) &rarr; any',
     description:
       "<p>Provide a default value in case of non-existence errors. The <code>default</code> command evaluates its first argument (the value it's chained to). If that argument returns <code>null</code> or a non-existence error is thrown in evaluation, then <code>default</code> returns its second argument. The second argument is usually a default value, but it can be a function that returns a value.</p>",
     example:
@@ -401,8 +386,7 @@ const reql_docs = {
     url: 'default',
   },
   'api/javascript/delete/': {
-    body:
-      'table.delete([{durability: "hard", returnChanges: false}])&rarr; objectselection.delete([{durability: "hard", returnChanges: false}])&rarr; objectsingleSelection.delete([{durability: "hard", returnChanges: false}])&rarr; object',
+    body: 'table.delete([{durability: "hard", returnChanges: false}])&rarr; objectselection.delete([{durability: "hard", returnChanges: false}])&rarr; objectsingleSelection.delete([{durability: "hard", returnChanges: false}])&rarr; object',
     description: '<p>Delete one or more documents from a table.</p>',
     example:
       '<p><strong>Example:</strong> Delete a single document from the table <code>comments</code>.</p>\n<pre><code>r.table("comments").get("7eab9e63-73f1-4f33-8ce4-95cbea626f59").delete().run(conn, callback)\n</code></pre>',
@@ -434,8 +418,7 @@ const reql_docs = {
     url: 'difference',
   },
   'api/javascript/distance/': {
-    body:
-      "geometry.distance(geometry[, {geoSystem: 'WGS84', unit: 'm'}]) &rarr; numberr.distance(geometry, geometry[, {geoSystem: 'WGS84', unit: 'm'}]) &rarr; number",
+    body: "geometry.distance(geometry[, {geoSystem: 'WGS84', unit: 'm'}]) &rarr; numberr.distance(geometry, geometry[, {geoSystem: 'WGS84', unit: 'm'}]) &rarr; number",
     description:
       '<p>Compute the distance between a point and another geometry object. At least one of the geometry objects specified must be a point.</p>',
     example:
@@ -445,8 +428,7 @@ const reql_docs = {
     url: 'distance',
   },
   'api/javascript/distinct/': {
-    body:
-      'sequence.distinct() &rarr; arraytable.distinct([{index: <indexname>}]) &rarr; stream',
+    body: 'sequence.distinct() &rarr; arraytable.distinct([{index: <indexname>}]) &rarr; stream',
     description: '<p>Removes duplicates from elements in a sequence.</p>',
     example:
       "<p><strong>Example:</strong> Which unique villains have been vanquished by Marvel heroes?</p>\n<pre><code>r.table('marvel').concatMap(function(hero) {\n    return hero('villainList')\n}).distinct().run(conn, callback)\n</code></pre>",
@@ -467,8 +449,7 @@ const reql_docs = {
     url: 'div',
   },
   'api/javascript/do/': {
-    body:
-      'any.do(function) &rarr; anyr.do([args]*, function) &rarr; anyany.do(expr) &rarr; anyr.do([args]*, expr) &rarr; any',
+    body: 'any.do(function) &rarr; anyr.do([args]*, function) &rarr; anyany.do(expr) &rarr; anyr.do([args]*, expr) &rarr; any',
     description:
       '<p>Call an anonymous function using return values from other ReQL commands or queries as arguments.</p>',
     example:
@@ -487,8 +468,7 @@ const reql_docs = {
     url: 'downcase',
   },
   'api/javascript/during/': {
-    body:
-      'time.during(startTime, endTime[, {leftBound: "closed", rightBound: "open"}]) &rarr; bool',
+    body: 'time.during(startTime, endTime[, {leftBound: "closed", rightBound: "open"}]) &rarr; bool',
     description: '<p>Return whether a time is between two other times.</p>',
     example:
       '<p><strong>Example:</strong> Retrieve all the posts that were posted between December 1st, 2013\n(inclusive) and December 10th, 2013 (exclusive).</p>\n<pre><code>r.table("posts").filter(\n    r.row(\'date\').during(r.time(2013, 12, 1, "Z"), r.time(2013, 12, 10, "Z"))\n).run(conn, callback)\n</code></pre>',
@@ -497,8 +477,7 @@ const reql_docs = {
     url: 'during',
   },
   'api/javascript/each/': {
-    body:
-      'cursor.each(callback[, onFinishedCallback])array.each(callback[, onFinishedCallback])feed.each(callback)',
+    body: 'cursor.each(callback[, onFinishedCallback])array.each(callback[, onFinishedCallback])feed.each(callback)',
     description:
       '<p>Lazily iterate over the result set one element at a time. The second callback is optional\nand is called when the iteration stops (when there are no more rows or when the callback\nreturns <code>false</code>).</p>',
     example:
@@ -518,8 +497,7 @@ const reql_docs = {
     url: 'each_async',
   },
   'api/javascript/ee-cursor/': {
-    body:
-      'cursor.addListener(event, listener)cursor.on(event, listener)cursor.once(event, listener)cursor.removeListener(event, listener)cursor.removeAllListeners([event])cursor.setMaxListeners(n)cursor.listeners(event)cursor.emit(event, [arg1], [arg2], [...])',
+    body: 'cursor.addListener(event, listener)cursor.on(event, listener)cursor.once(event, listener)cursor.removeListener(event, listener)cursor.removeAllListeners([event])cursor.setMaxListeners(n)cursor.listeners(event)cursor.emit(event, [arg1], [arg2], [...])',
     description:
       "<p>Cursors and feeds implement the same interface as Node's [EventEmitter][ee].</p>",
     example:
@@ -548,8 +526,7 @@ const reql_docs = {
     url: 'eq',
   },
   'api/javascript/eq_join/': {
-    body:
-      "sequence.eqJoin(leftField, rightTable[, {index: 'id', ordered: false}]) &rarr; sequencesequence.eqJoin(predicate_function, rightTable[, {index: 'id', ordered: false}]) &rarr; sequence",
+    body: "sequence.eqJoin(leftField, rightTable[, {index: 'id', ordered: false}]) &rarr; sequencesequence.eqJoin(predicate_function, rightTable[, {index: 'id', ordered: false}]) &rarr; sequence",
     description:
       "<p>Join tables using a field or function on the left-hand sequence matching primary keys or secondary indexes on the right-hand table. <code>eqJoin</code> is more efficient than other ReQL join types, and operates much faster. Documents in the result set consist of pairs of left-hand and right-hand documents, matched when the field on the left-hand side exists and is non-null and an entry with that field's value exists in the specified index on the right-hand side.</p>",
     example: '',
@@ -571,8 +548,7 @@ const reql_docs = {
     url: 'error',
   },
   'api/javascript/event_emitter/': {
-    body:
-      'connection.addListener(event, listener)connection.on(event, listener)connection.once(event, listener)connection.removeListener(event, listener)connection.removeAllListeners([event])connection.setMaxListeners(n)connection.listeners(event)connection.emit(event, [arg1], [arg2], [...])',
+    body: 'connection.addListener(event, listener)connection.on(event, listener)connection.once(event, listener)connection.removeListener(event, listener)connection.removeAllListeners([event])connection.setMaxListeners(n)connection.listeners(event)connection.emit(event, [arg1], [arg2], [...])',
     description:
       "<p>Connections implement the same interface as Node's [EventEmitter][ee]. This allows you to listen for changes in connection state.</p>",
     example:
@@ -600,8 +576,7 @@ const reql_docs = {
     url: 'fill',
   },
   'api/javascript/filter/': {
-    body:
-      'selection.filter(predicate_function[, {default: false}]) &rarr; selectionstream.filter(predicate_function[, {default: false}]) &rarr; streamarray.filter(predicate_function[, {default: false}]) &rarr; array',
+    body: 'selection.filter(predicate_function[, {default: false}]) &rarr; selectionstream.filter(predicate_function[, {default: false}]) &rarr; streamarray.filter(predicate_function[, {default: false}]) &rarr; array',
     description:
       '<p>Return all the elements in a sequence for which the given predicate is true. The return value of <code>filter</code> will be the same as the input (sequence, stream, or array). Documents can be filtered in a variety of ways&mdash;ranges, nested values, boolean conditions, and the results of anonymous functions.</p>',
     example:
@@ -625,8 +600,7 @@ const reql_docs = {
     url: 'floor',
   },
   'api/javascript/fold/': {
-    body:
-      'sequence.fold(base, function) &rarr; valuesequence.fold(base, function, {emit: function[, finalEmit: function]}) &rarr; sequence',
+    body: 'sequence.fold(base, function) &rarr; valuesequence.fold(base, function, {emit: function[, finalEmit: function]}) &rarr; sequence',
     description:
       '<p>Apply a function to a sequence in order, maintaining state via an accumulator. The <code>fold</code> command returns either a single value or a new sequence.</p>',
     example:
@@ -688,8 +662,7 @@ const reql_docs = {
     url: 'get_all',
   },
   'api/javascript/get_field/': {
-    body:
-      'sequence.getField(attr) &rarr; sequencesingleSelection.getField(attr) &rarr; valueobject.getField(attr) &rarr; value',
+    body: 'sequence.getField(attr) &rarr; sequencesingleSelection.getField(attr) &rarr; valueobject.getField(attr) &rarr; value',
     description:
       '<p>Get a single field from an object. If called on a sequence, gets that field from every\nobject in the sequence, skipping objects that lack it.</p>',
     example:
@@ -703,8 +676,7 @@ const reql_docs = {
     url: 'get_field',
   },
   'api/javascript/get_intersecting/': {
-    body:
-      "table.getIntersecting(geometry, {index: 'indexname'}) &rarr; selection<stream>",
+    body: "table.getIntersecting(geometry, {index: 'indexname'}) &rarr; selection<stream>",
     description:
       '<p>Get all documents where the given geometry object intersects the geometry object of the requested geospatial index.</p>',
     example:
@@ -714,8 +686,7 @@ const reql_docs = {
     url: 'get_intersecting',
   },
   'api/javascript/get_nearest/': {
-    body:
-      "table.getNearest(point, {index: 'indexname'[, maxResults: 100, maxDist: 100000, unit: 'm', geoSystem: 'WGS84']}) &rarr; array",
+    body: "table.getNearest(point, {index: 'indexname'[, maxResults: 100, maxDist: 100000, unit: 'm', geoSystem: 'WGS84']}) &rarr; array",
     description:
       '<p>Get all documents where the specified geospatial index is within a certain distance of the specified point (default 100 kilometers).</p>',
     example:
@@ -725,8 +696,7 @@ const reql_docs = {
     url: 'get_nearest',
   },
   'api/javascript/grant/': {
-    body:
-      'r.grant("username", {permission: bool[, ...]}) &rarr; objectdb.grant("username", {permission: bool[, ...]}) &rarr; objecttable.grant("username", {permission: bool[, ...]}) &rarr; object',
+    body: 'r.grant("username", {permission: bool[, ...]}) &rarr; objectdb.grant("username", {permission: bool[, ...]}) &rarr; objecttable.grant("username", {permission: bool[, ...]}) &rarr; object',
     description:
       '<p>Grant or deny access permissions for a user account, globally or on a per-database or per-table basis.</p>',
     example:
@@ -740,8 +710,7 @@ const reql_docs = {
     url: 'grant',
   },
   'api/javascript/group/': {
-    body:
-      'sequence.group(field | function..., [{index: <indexname>, multi: false}]) &rarr; grouped_stream',
+    body: 'sequence.group(field | function..., [{index: <indexname>, multi: false}]) &rarr; grouped_stream',
     description:
       '<p>Takes a stream and partitions it into multiple groups based on the\nfields or functions provided.</p>',
     example:
@@ -761,8 +730,7 @@ const reql_docs = {
     url: 'gt',
   },
   'api/javascript/has_fields/': {
-    body:
-      'sequence.hasFields([selector1, selector2...]) &rarr; streamarray.hasFields([selector1, selector2...]) &rarr; arrayobject.hasFields([selector1, selector2...]) &rarr; boolean',
+    body: 'sequence.hasFields([selector1, selector2...]) &rarr; streamarray.hasFields([selector1, selector2...]) &rarr; arrayobject.hasFields([selector1, selector2...]) &rarr; boolean',
     description:
       "<p>Test if an object has one or more fields. An object has a field if it has that key and the key has a non-null value. For instance, the object <code>{'a': 1,'b': 2,'c': null}</code> has the fields <code>a</code> and <code>b</code>.</p>",
     example:
@@ -787,8 +755,7 @@ const reql_docs = {
     url: 'hours',
   },
   'api/javascript/http/': {
-    body:
-      'r.http(url[, options]) &rarr; valuer.http(url[, options]) &rarr; stream',
+    body: 'r.http(url[, options]) &rarr; valuer.http(url[, options]) &rarr; stream',
     description:
       '<p>Retrieve data from the specified URL over HTTP.  The return type depends on the <code>resultFormat</code> option, which checks the <code>Content-Type</code> of the response by default.</p>',
     example:
@@ -811,8 +778,7 @@ const reql_docs = {
     url: 'in_timezone',
   },
   'api/javascript/includes/': {
-    body:
-      'sequence.includes(geometry) &rarr; sequencegeometry.includes(geometry) &rarr; bool',
+    body: 'sequence.includes(geometry) &rarr; sequencegeometry.includes(geometry) &rarr; bool',
     description:
       '<p>Tests whether a geometry object is completely contained within another. When applied to a sequence of geometry objects, <code>includes</code> acts as a <a href="/api/javascript/filter">filter</a>, returning a sequence of objects from the sequence that include the argument.</p>',
     example:
@@ -825,8 +791,7 @@ const reql_docs = {
     url: 'includes',
   },
   'api/javascript/index_create/': {
-    body:
-      'table.indexCreate(indexName[, indexFunction][, {multi: false, geo: false}]) &rarr; object',
+    body: 'table.indexCreate(indexName[, indexFunction][, {multi: false, geo: false}]) &rarr; object',
     description:
       '<p>Create a new secondary index on a table. Secondary indexes improve the speed of many read queries at the slight cost of increased storage space and decreased write performance. For more information about secondary indexes, read the article "<a href="/docs/secondary-indexes/">Using secondary indexes in RethinkDB</a>."</p>',
     example:
@@ -855,8 +820,7 @@ const reql_docs = {
     url: 'index_list',
   },
   'api/javascript/index_rename/': {
-    body:
-      'table.indexRename(oldIndexName, newIndexName[, {overwrite: false}]) &rarr; object',
+    body: 'table.indexRename(oldIndexName, newIndexName[, {overwrite: false}]) &rarr; object',
     description:
       '<p>Rename an existing secondary index on a table. If the optional argument <code>overwrite</code> is specified as <code>true</code>, a previously existing index with the new name will be deleted and the index will be renamed. If <code>overwrite</code> is <code>false</code> (the default) an error will be raised if the new index name already exists.</p>',
     example:
@@ -895,8 +859,7 @@ const reql_docs = {
     url: 'info',
   },
   'api/javascript/inner_join/': {
-    body:
-      'sequence.innerJoin(otherSequence, predicate_function) &rarr; streamarray.innerJoin(otherSequence, predicate_function) &rarr; array',
+    body: 'sequence.innerJoin(otherSequence, predicate_function) &rarr; streamarray.innerJoin(otherSequence, predicate_function) &rarr; array',
     description: '<p>Returns an inner join of two sequences.</p>',
     example:
       "<p><strong>Example:</strong> Return a list of all matchups between Marvel and DC heroes in which the DC hero could beat the Marvel hero in a fight.</p>\n<pre><code>r.table('marvel').innerJoin(r.table('dc'), function(marvelRow, dcRow) {\n    return marvelRow('strength').lt(dcRow('strength'))\n}).zip().run(conn, callback)\n</code></pre>",
@@ -908,8 +871,7 @@ const reql_docs = {
     url: 'inner_join',
   },
   'api/javascript/insert/': {
-    body:
-      'table.insert(object | [object1, object2, ...][, {durability: "hard", returnChanges: false, conflict: "error"}]) &rarr; object',
+    body: 'table.insert(object | [object1, object2, ...][, {durability: "hard", returnChanges: false, conflict: "error"}]) &rarr; object',
     description:
       '<p>Insert documents into a table. Accepts a single document or an array of\ndocuments.</p>',
     example:
@@ -933,8 +895,7 @@ const reql_docs = {
     url: 'insert_at',
   },
   'api/javascript/intersects/': {
-    body:
-      'sequence.intersects(geometry) &rarr; sequencegeometry.intersects(geometry) &rarr; boolr.intersects(sequence, geometry) &rarr; sequencer.intersects(geometry, geometry) &rarr; bool',
+    body: 'sequence.intersects(geometry) &rarr; sequencegeometry.intersects(geometry) &rarr; boolr.intersects(sequence, geometry) &rarr; sequencer.intersects(geometry, geometry) &rarr; bool',
     description:
       '<p>Tests whether two geometry objects intersect with one another. When applied to a sequence of geometry objects, <code>intersects</code> acts as a <a href="/api/javascript/filter">filter</a>, returning a sequence of objects from the sequence that intersect with the argument.</p>',
     example:
@@ -1019,8 +980,7 @@ const reql_docs = {
     url: 'limit',
   },
   'api/javascript/line/': {
-    body:
-      'r.line([lon1, lat1], [lon2, lat2], ...) &rarr; liner.line(point1, point2, ...) &rarr; line',
+    body: 'r.line([lon1, lat1], [lon2, lat2], ...) &rarr; liner.line(point1, point2, ...) &rarr; line',
     description:
       '<p>Construct a geometry object of type Line. The line can be specified in one of two ways:</p>\n<ul>\n<li>Two or more two-item arrays, specifying latitude and longitude numbers of the line\'s vertices;</li>\n<li>Two or more <a href="/api/javascript/point">Point</a> objects specifying the line\'s vertices.</li>\n</ul>',
     example:
@@ -1050,8 +1010,7 @@ const reql_docs = {
     url: 'lt',
   },
   'api/javascript/map/': {
-    body:
-      'sequence1.map([sequence2, ...], function) &rarr; streamarray1.map([array2, ...], function) &rarr; arrayr.map(sequence1[, sequence2, ...], function) &rarr; streamr.map(array1[, array2, ...], function) &rarr; array',
+    body: 'sequence1.map([sequence2, ...], function) &rarr; streamarray1.map([array2, ...], function) &rarr; arrayr.map(sequence1[, sequence2, ...], function) &rarr; streamr.map(array1[, array2, ...], function) &rarr; array',
     description:
       '<p>Transform each element of one or more sequences by applying a mapping function to them. If <code>map</code> is run with two or more sequences, it will iterate for as many items as there are in the shortest sequence.</p>',
     example:
@@ -1074,8 +1033,7 @@ const reql_docs = {
     url: 'match',
   },
   'api/javascript/max/': {
-    body:
-      'sequence.max(field | function) &rarr; elementsequence.max({index: <indexname>}) &rarr; element',
+    body: 'sequence.max(field | function) &rarr; elementsequence.max({index: <indexname>}) &rarr; element',
     description: '<p>Finds the maximum element of a sequence.</p>',
     example:
       '<p><strong>Example:</strong> Return the maximum value in the list <code>[3, 5, 7]</code>.</p>\n<pre><code>r.expr([3, 5, 7]).max().run(conn, callback);\n</code></pre>',
@@ -1084,8 +1042,7 @@ const reql_docs = {
     url: 'max',
   },
   'api/javascript/merge/': {
-    body:
-      'singleSelection.merge([object | function, object | function, ...]) &rarr; objectobject.merge([object | function, object | function, ...]) &rarr; objectsequence.merge([object | function, object | function, ...]) &rarr; streamarray.merge([object | function, object | function, ...]) &rarr; array',
+    body: 'singleSelection.merge([object | function, object | function, ...]) &rarr; objectobject.merge([object | function, object | function, ...]) &rarr; objectsequence.merge([object | function, object | function, ...]) &rarr; streamarray.merge([object | function, object | function, ...]) &rarr; array',
     description:
       '<p>Merge two or more objects together to construct a new object with properties from all. When there is a conflict between field names, preference is given to fields in the rightmost object in the argument list. <code>merge</code> also accepts a subquery function that returns an object, which will be used similarly to a <a href="/api/javascript/map/">map</a> function.</p>',
     example:
@@ -1100,8 +1057,7 @@ const reql_docs = {
     url: 'merge',
   },
   'api/javascript/min/': {
-    body:
-      'sequence.min(field | function) &rarr; elementsequence.min({index: <indexname>}) &rarr; element',
+    body: 'sequence.min(field | function) &rarr; elementsequence.min({index: <indexname>}) &rarr; element',
     description: '<p>Finds the minimum element of a sequence.</p>',
     example:
       '<p><strong>Example:</strong> Return the minimum value in the list <code>[3, 5, 7]</code>.</p>\n<pre><code>r.expr([3, 5, 7]).min().run(conn, callback);\n</code></pre>',
@@ -1139,8 +1095,7 @@ const reql_docs = {
     url: 'month',
   },
   'api/javascript/mul/': {
-    body:
-      'number.mul(number[, number, ...]) &rarr; numberarray.mul(number[, number, ...]) &rarr; array',
+    body: 'number.mul(number[, number, ...]) &rarr; numberarray.mul(number[, number, ...]) &rarr; array',
     description: '<p>Multiply two numbers, or make a periodic array.</p>',
     example:
       "<p><strong>Example:</strong> It's as easy as 2 * 2 = 4.</p>\n<pre><code>r.expr(2).mul(2).run(conn, callback)\n</code></pre>",
@@ -1161,8 +1116,7 @@ const reql_docs = {
     url: 'ne',
   },
   'api/javascript/next/': {
-    body:
-      'cursor.next(callback)array.next(callback)cursor.next() &rarr; promisearray.next() &rarr; promise',
+    body: 'cursor.next(callback)array.next(callback)cursor.next() &rarr; promisearray.next() &rarr; promise',
     description: '<p>Get the next element in the cursor.</p>',
     example:
       '<p><strong>Example:</strong> Retrieve the next element.</p>\n<pre><code>cursor.next(function(err, row) {\n    if (err) throw err;\n    processRow(row);\n});\n</code></pre>',
@@ -1200,8 +1154,7 @@ const reql_docs = {
     url: 'now',
   },
   'api/javascript/nth/': {
-    body:
-      'sequence.nth(index) &rarr; objectselection.nth(index) &rarr; selection&lt;object&gt;',
+    body: 'sequence.nth(index) &rarr; objectselection.nth(index) &rarr; selection&lt;object&gt;',
     description:
       '<p>Get the <em>nth</em> element of a sequence, counting from zero. If the argument is negative, count from the last element.</p>',
     example:
@@ -1231,8 +1184,7 @@ const reql_docs = {
     url: 'offsets_of',
   },
   'api/javascript/or/': {
-    body:
-      'bool.or([bool, bool, ...]) &rarr; boolr.or([bool, bool, ...]) &rarr; bool',
+    body: 'bool.or([bool, bool, ...]) &rarr; boolr.or([bool, bool, ...]) &rarr; bool',
     description: '<p>Compute the logical "or" of one or more values.</p>',
     example:
       '<p><strong>Example:</strong> Return whether either <code>a</code> or <code>b</code> evaluate to true.</p>\n<pre><code>var a = true, b = false;\nr.expr(a).or(b).run(conn, callback);\n// result passed to callback\ntrue\n</code></pre>',
@@ -1241,8 +1193,7 @@ const reql_docs = {
     url: 'or',
   },
   'api/javascript/order_by/': {
-    body:
-      'table.orderBy([key | function...], {index: index_name}) &rarr; table_sliceselection.orderBy(key | function[, ...]) &rarr; selection<array>sequence.orderBy(key | function[, ...]) &rarr; array',
+    body: 'table.orderBy([key | function...], {index: index_name}) &rarr; table_sliceselection.orderBy(key | function[, ...]) &rarr; selection<array>sequence.orderBy(key | function[, ...]) &rarr; array',
     description:
       '<p>Sort the sequence by document values of the given key(s). To specify\nthe ordering, wrap the attribute with either <code>r.asc</code> or <code>r.desc</code>\n(defaults to ascending).</p>',
     example:
@@ -1256,8 +1207,7 @@ const reql_docs = {
     url: 'order_by',
   },
   'api/javascript/outer_join/': {
-    body:
-      'sequence.outerJoin(otherSequence, predicate_function) &rarr; streamarray.outerJoin(otherSequence, predicate_function) &rarr; array',
+    body: 'sequence.outerJoin(otherSequence, predicate_function) &rarr; streamarray.outerJoin(otherSequence, predicate_function) &rarr; array',
     description:
       '<p>Returns a left outer join of two sequences. The returned sequence represents a union of the left-hand sequence and the right-hand sequence: all documents in the left-hand sequence will be returned, each matched with a document in the right-hand sequence if one satisfies the predicate condition. In most cases, you will want to follow the join with <a href="/api/javascript/zip">zip</a> to combine the left and right results.</p>',
     example:
@@ -1270,8 +1220,7 @@ const reql_docs = {
     url: 'outer_join',
   },
   'api/javascript/pluck/': {
-    body:
-      'sequence.pluck([selector1, selector2...]) &rarr; streamarray.pluck([selector1, selector2...]) &rarr; arrayobject.pluck([selector1, selector2...]) &rarr; objectsingleSelection.pluck([selector1, selector2...]) &rarr; object',
+    body: 'sequence.pluck([selector1, selector2...]) &rarr; streamarray.pluck([selector1, selector2...]) &rarr; arrayobject.pluck([selector1, selector2...]) &rarr; objectsingleSelection.pluck([selector1, selector2...]) &rarr; object',
     description:
       '<p>Plucks out one or more attributes from either an object or a sequence of objects\n(projection).</p>',
     example:
@@ -1296,8 +1245,7 @@ const reql_docs = {
     url: 'point',
   },
   'api/javascript/polygon/': {
-    body:
-      'r.polygon([lon1, lat1], [lon2, lat2], [lon3, lat3], ...) &rarr; polygonr.polygon(point1, point2, point3, ...) &rarr; polygon',
+    body: 'r.polygon([lon1, lat1], [lon2, lat2], [lon3, lat3], ...) &rarr; polygonr.polygon(point1, point2, point3, ...) &rarr; polygon',
     description:
       '<p>Construct a geometry object of type Polygon. The Polygon can be specified in one of two ways:</p>\n<ul>\n<li>Three or more two-item arrays, specifying latitude and longitude numbers of the polygon\'s vertices;</li>\n<li>Three or more <a href="/api/javascript/point">Point</a> objects specifying the polygon\'s vertices.</li>\n</ul>',
     example:
@@ -1335,8 +1283,7 @@ const reql_docs = {
     url: 'r',
   },
   'api/javascript/random/': {
-    body:
-      'r.random() &rarr; numberr.random(number[, number], {float: true}) &rarr; numberr.random(integer[, integer]) &rarr; integer',
+    body: 'r.random() &rarr; numberr.random(number[, number], {float: true}) &rarr; numberr.random(integer[, integer]) &rarr; integer',
     description:
       '<p>Generate a random number between given (or implied) bounds. <code>random</code> takes zero, one or two arguments.</p>',
     example:
@@ -1346,8 +1293,7 @@ const reql_docs = {
     url: 'random',
   },
   'api/javascript/range/': {
-    body:
-      'r.range() &rarr; streamr.range([startValue, ]endValue) &rarr; stream',
+    body: 'r.range() &rarr; streamr.range([startValue, ]endValue) &rarr; stream',
     description:
       '<p>Generate a stream of sequential integers in a specified range.</p>',
     example:
@@ -1370,8 +1316,7 @@ const reql_docs = {
     url: 'rebalance',
   },
   'api/javascript/reconfigure/': {
-    body:
-      'table.reconfigure({shards: <s>, replicas: <r>[, primaryReplicaTag: <t>, dryRun: false, nonvotingReplicaTags: null}]) &rarr; objectdatabase.reconfigure({shards: <s>, replicas: <r>[, primaryReplicaTag: <t>, dryRun: false, nonvotingReplicaTags: null}]) &rarr; objecttable.reconfigure(emergencyRepair: <option>, dryRun: false) &rarr; object',
+    body: 'table.reconfigure({shards: <s>, replicas: <r>[, primaryReplicaTag: <t>, dryRun: false, nonvotingReplicaTags: null}]) &rarr; objectdatabase.reconfigure({shards: <s>, replicas: <r>[, primaryReplicaTag: <t>, dryRun: false, nonvotingReplicaTags: null}]) &rarr; objecttable.reconfigure(emergencyRepair: <option>, dryRun: false) &rarr; object',
     description: "<p>Reconfigure a table's sharding and replication.</p>",
     example:
       "<p><strong>Example:</strong> Reconfigure a table.</p>\n<pre><code>&gt; r.table('superheroes').reconfigure({shards: 2, replicas: 1}).run(conn, callback);\n</code></pre>",
@@ -1383,8 +1328,7 @@ const reql_docs = {
     url: 'reconfigure',
   },
   'api/javascript/reconnect/': {
-    body:
-      'conn.reconnect([{noreplyWait: true}, ]callback)conn.reconnect([{noreplyWait: true}]) &rarr; promise',
+    body: 'conn.reconnect([{noreplyWait: true}, ]callback)conn.reconnect([{noreplyWait: true}]) &rarr; promise',
     description:
       '<p>Close and reopen a connection. If no callback is provided, a promise will be returned.</p>',
     example:
@@ -1404,8 +1348,7 @@ const reql_docs = {
     url: 'reduce',
   },
   'api/javascript/replace/': {
-    body:
-      'table.replace(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectselection.replace(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectsingleSelection.replace(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; object',
+    body: 'table.replace(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectselection.replace(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectsingleSelection.replace(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; object',
     description:
       '<p>Replace documents in a table. Accepts a JSON document or a ReQL expression,\nand replaces the original document with the new one. The new document must\nhave the same primary key as the original document.</p>',
     example:
@@ -1437,8 +1380,7 @@ const reql_docs = {
     url: 'row',
   },
   'api/javascript/run/': {
-    body:
-      'query.run(conn[, options], callback)query.run(conn[, options]) &rarr; promise',
+    body: 'query.run(conn[, options], callback)query.run(conn[, options]) &rarr; promise',
     description:
       '<p>Run a query on a connection. The callback will get either an error, a single JSON\nresult, or a cursor, depending on the query.</p>',
     example:
@@ -1448,8 +1390,7 @@ const reql_docs = {
     url: 'run',
   },
   'api/javascript/sample/': {
-    body:
-      'sequence.sample(number) &rarr; selectionstream.sample(number) &rarr; arrayarray.sample(number) &rarr; array',
+    body: 'sequence.sample(number) &rarr; selectionstream.sample(number) &rarr; arrayarray.sample(number) &rarr; array',
     description:
       '<p>Select a given number of elements from a sequence with uniform random distribution. Selection is done without replacement.</p>',
     example:
@@ -1536,8 +1477,7 @@ const reql_docs = {
     url: 'skip',
   },
   'api/javascript/slice/': {
-    body:
-      "selection.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; selectionstream.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; streamarray.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; arraybinary.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; binarystring.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; string",
+    body: "selection.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; selectionstream.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; streamarray.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; arraybinary.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; binarystring.slice(startIndex[, endIndex, {leftBound:'closed', rightBound:'open'}]) &rarr; string",
     description:
       '<p>Return the elements of a sequence within the specified range.</p>',
     example:
@@ -1580,8 +1520,7 @@ const reql_docs = {
     url: 'status',
   },
   'api/javascript/sub/': {
-    body:
-      'number.sub(number[, number, ...]) &rarr; numbertime.sub(number[, number, ...]) &rarr; timetime.sub(time) &rarr; number',
+    body: 'number.sub(number[, number, ...]) &rarr; numbertime.sub(number[, number, ...]) &rarr; timetime.sub(time) &rarr; number',
     description: '<p>Subtract two numbers.</p>',
     example:
       "<p><strong>Example:</strong> It's as easy as 2 - 2 = 0.</p>\n<pre><code>r.expr(2).sub(2).run(conn, callback)\n</code></pre>",
@@ -1614,8 +1553,7 @@ const reql_docs = {
     url: 'sync',
   },
   'api/javascript/table/': {
-    body:
-      "db.table(name[, {readMode: 'single', identifierFormat: 'name'}]) &rarr; table",
+    body: "db.table(name[, {readMode: 'single', identifierFormat: 'name'}]) &rarr; table",
     description:
       '<p>Return all documents in a table. Other commands may be chained after <code>table</code> to return a subset of documents (such as <a href="/api/javascript/get/">get</a> and <a href="/api/javascript/filter/">filter</a>) or perform further processing.</p>',
     example:
@@ -1625,8 +1563,7 @@ const reql_docs = {
     url: 'table',
   },
   'api/javascript/table_create/': {
-    body:
-      'db.tableCreate(tableName[, options]) &rarr; objectr.tableCreate(tableName[, options]) &rarr; object',
+    body: 'db.tableCreate(tableName[, options]) &rarr; objectr.tableCreate(tableName[, options]) &rarr; object',
     description:
       '<p>Create a table. A RethinkDB table is a collection of JSON documents.</p>',
     example:
@@ -1656,8 +1593,7 @@ const reql_docs = {
     url: 'table_list',
   },
   'api/javascript/time/': {
-    body:
-      'r.time(year, month, day[, hour, minute, second], timezone)&rarr; time',
+    body: 'r.time(year, month, day[, hour, minute, second], timezone)&rarr; time',
     description: '<p>Create a time object for a specific time.</p>',
     example:
       '<p><strong>Example:</strong> Update the birthdate of the user "John" to November 3rd, 1986 UTC.</p>\n<pre><code>r.table("user").get("John").update({birthdate: r.time(1986, 11, 3, \'Z\')}).run(conn, callback)\n</code></pre>',
@@ -1685,8 +1621,7 @@ const reql_docs = {
     url: 'timezone',
   },
   'api/javascript/to_array/': {
-    body:
-      'cursor.toArray(callback)array.toArray(callback)cursor.toArray() &rarr; promisearray.toArray() &rarr; promise',
+    body: 'cursor.toArray(callback)array.toArray(callback)cursor.toArray() &rarr; promisearray.toArray() &rarr; promise',
     description:
       '<p>Retrieve all results and pass them as an array to the given callback.</p>',
     example:
@@ -1743,8 +1678,7 @@ const reql_docs = {
     url: 'type_of',
   },
   'api/javascript/ungroup/': {
-    body:
-      'grouped_stream.ungroup() &rarr; arraygrouped_data.ungroup() &rarr; array',
+    body: 'grouped_stream.ungroup() &rarr; arraygrouped_data.ungroup() &rarr; array',
     description:
       '<p>Takes a grouped stream or grouped data and turns it into an array of\nobjects representing the groups.  Any commands chained after <code>ungroup</code>\nwill operate on this array, rather than operating on each group\nindividually.  This is useful if you want to e.g. order the groups by\nthe value of their reduction.</p>',
     example:
@@ -1754,8 +1688,7 @@ const reql_docs = {
     url: 'ungroup',
   },
   'api/javascript/union/': {
-    body:
-      'stream.union(sequence[, sequence, ...][, {interleave: true}]) &rarr; streamarray.union(sequence[, sequence, ...][, {interleave: true}]) &rarr; array',
+    body: 'stream.union(sequence[, sequence, ...][, {interleave: true}]) &rarr; streamarray.union(sequence[, sequence, ...][, {interleave: true}]) &rarr; array',
     description: '<p>Merge two or more sequences.</p>',
     example:
       "<p><strong>Example:</strong> Construct a stream of all heroes.</p>\n<pre><code>r.table('marvel').union(r.table('dc')).run(conn, callback);\n</code></pre>",
@@ -1773,8 +1706,7 @@ const reql_docs = {
     url: 'upcase',
   },
   'api/javascript/update/': {
-    body:
-      'table.update(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectselection.update(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectsingleSelection.update(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; object',
+    body: 'table.update(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectselection.update(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; objectsingleSelection.update(object | function[, {durability: "hard", returnChanges: false, nonAtomic: false}])&rarr; object',
     description:
       '<p>Update JSON documents in a table. Accepts a JSON document, a ReQL expression, or a combination of the two.</p>',
     example:
@@ -1820,8 +1752,7 @@ const reql_docs = {
     url: 'values',
   },
   'api/javascript/wait/': {
-    body:
-      "table.wait([{waitFor: 'ready_for_writes', timeout: <sec>}]) &rarr; objectdatabase.wait([{waitFor: 'ready_for_writes', timeout: <sec>}]) &rarr; objectr.wait(table | database, [{waitFor: 'ready_for_writes', timeout: <sec>}]) &rarr; object",
+    body: "table.wait([{waitFor: 'ready_for_writes', timeout: <sec>}]) &rarr; objectdatabase.wait([{waitFor: 'ready_for_writes', timeout: <sec>}]) &rarr; objectr.wait(table | database, [{waitFor: 'ready_for_writes', timeout: <sec>}]) &rarr; object",
     description:
       '<p>Wait for a table or all the tables in a database to be ready. A table may be temporarily unavailable after creation, rebalancing or reconfiguring. The <code>wait</code> command blocks until the given table (or database) is fully up to date.</p>',
     example:
@@ -1835,8 +1766,7 @@ const reql_docs = {
     url: 'wait',
   },
   'api/javascript/with_fields/': {
-    body:
-      'sequence.withFields([selector1, selector2...]) &rarr; streamarray.withFields([selector1, selector2...]) &rarr; array',
+    body: 'sequence.withFields([selector1, selector2...]) &rarr; streamarray.withFields([selector1, selector2...]) &rarr; array',
     description:
       '<p>Plucks one or more attributes from a sequence of objects, filtering out any objects in the sequence that do not have the specified fields. Functionally, this is identical to <a href="/api/javascript/has_fields/">hasFields</a> followed by <a href="/api/javascript/pluck/">pluck</a> on a sequence.</p>',
     example:
@@ -1849,8 +1779,7 @@ const reql_docs = {
     url: 'with_fields',
   },
   'api/javascript/without/': {
-    body:
-      'sequence.without([selector1, selector2...]) &rarr; streamarray.without([selector1, selector2...]) &rarr; arraysingleSelection.without([selector1, selector2...]) &rarr; objectobject.without([selector1, selector2...]) &rarr; object',
+    body: 'sequence.without([selector1, selector2...]) &rarr; streamarray.without([selector1, selector2...]) &rarr; arraysingleSelection.without([selector1, selector2...]) &rarr; objectobject.without([selector1, selector2...]) &rarr; object',
     description:
       '<p>The opposite of pluck; takes an object or a sequence of objects, and returns them with\nthe specified paths removed.</p>',
     example:
