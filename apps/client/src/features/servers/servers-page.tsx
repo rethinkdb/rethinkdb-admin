@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, Typography } from '@material-ui/core';
 
 import { ServerList, useServerEntries } from './server-list';
 import { useStyles } from './styles';
@@ -12,9 +12,12 @@ function ServersPage() {
     return <div>loading</div>;
   }
   return (
-    <Paper className={classes.root}>
-      <ServerList servers={servers} />
-    </Paper>
+    <>
+      <Typography className={classes.title} variant="h6" noWrap>Servers connected to the cluster</Typography>
+      <Paper className={classes.root}>
+        <ServerList servers={servers} />
+      </Paper>
+    </>
   );
 }
 
