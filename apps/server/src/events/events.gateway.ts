@@ -58,7 +58,7 @@ type LocalSocket = Socket & { changeQueries: Record<string, Cursor> };
 export class EventsGateway
   implements OnGatewayDisconnect<LocalSocket>, OnGatewayConnection<LocalSocket>
 {
-  handleConnection(client: LocalSocket, ...args): any {
+  handleConnection(client: LocalSocket): any {
     client.changeQueries = {};
   }
 
