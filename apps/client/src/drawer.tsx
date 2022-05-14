@@ -1,45 +1,37 @@
 import React, { FunctionComponent } from 'react';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import ComputerIcon from '@material-ui/icons/Computer';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListIcon from '@material-ui/icons/List';
-import ExploreIcon from '@material-ui/icons/Explore';
-import DataUsageIcon from '@material-ui/icons/DataUsage';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+
+import {
+  Box,
+  Divider,
+  Drawer,
+  Hidden,
+  Link,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  styled,
+} from '@mui/material';
+
+import ComputerIcon from '@mui/icons-material/Computer';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ListIcon from '@mui/icons-material/List';
+import ExploreIcon from '@mui/icons-material/Explore';
+import DataUsageIcon from '@mui/icons-material/DataUsage';
 import { NavLink } from 'react-router-dom';
-import { Link } from '@material-ui/core';
 
 const drawerWidth = 280;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-    },
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    links: {
-      margin: theme.spacing(2),
-      '& > * + *': {
-        marginLeft: theme.spacing(2),
-      },
-    },
-    kek: {
-      flexGrow: 1,
-    },
-  }),
-);
+const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
+
+const Kek = styled('div')({ flexGrow: 1 });
+
+const Links = styled('div')(({ theme }) => ({
+  margin: theme.spacing(2),
+  '& > * + *': {
+    marginLeft: theme.spacing(2),
+  },
+}));
 
 interface LocalDrawerProps {
   mobileOpen: boolean;
@@ -79,11 +71,9 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
   mobileOpen,
   handleDrawerToggle,
 }) => {
-  const classes = useStyles();
-
   const drawerContent = (
     <>
-      <div className={classes.toolbar} />
+      <Offset />
       <Divider />
       <List>
         {menuList.map(({ exact, title, icon: Icon, url }) => (
@@ -102,9 +92,9 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
           </ListItem>
         ))}
       </List>
-      <div className={classes.kek} />
+      <Kek />
       <Divider />
-      <div className={classes.links}>
+      <Links>
         <Link
           href="http://rethinkdb.com/docs/"
           target="_blank"
@@ -147,17 +137,27 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
         >
           Community
         </Link>
-      </div>
+      </Links>
     </>
   );
   return (
-    <nav className={classes.drawer} aria-label="mailbox folders">
+    <Box
+      component="nav"
+      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      aria-label="mailbox folders"
+    >
       <Hidden smUp implementation="css">
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          classes={{ paper: classes.drawerPaper }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
           ModalProps={{ keepMounted: true }}
         >
           {drawerContent}
@@ -165,14 +165,20 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
       </Hidden>
       <Hidden xsDown implementation="css">
         <Drawer
-          classes={{ paper: classes.drawerPaper }}
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
+          }}
           variant="permanent"
           open
         >
           {drawerContent}
         </Drawer>
       </Hidden>
-    </nav>
+    </Box>
   );
 };
 

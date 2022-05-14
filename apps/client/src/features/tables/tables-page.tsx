@@ -1,10 +1,15 @@
 import React from 'react';
 
+import { styled } from '@mui/material';
+
 import { FullTableList, useTableEntries } from './db-table-list';
-import { useStyles } from './styles';
+
+const PageRoot = styled('div')({
+  marginTop: 1,
+  width: '100%',
+});
 
 function TablesPage() {
-  const classes = useStyles();
   const tables = useTableEntries();
 
   if (!Array.isArray(tables)) {
@@ -12,9 +17,9 @@ function TablesPage() {
   }
 
   return (
-    <div className={classes.root}>
+    <PageRoot>
       <FullTableList entries={tables} />
-    </div>
+    </PageRoot>
   );
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Codemirror } from 'react-codemirror-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
+import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
+
 import {
   AppBar,
   Box,
@@ -11,8 +13,8 @@ import {
   Tabs,
   Typography,
   useTheme,
-} from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+  styled
+} from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 
 import { request } from '../rethinkdb/socket';
@@ -29,38 +31,18 @@ import 'codemirror/theme/neo.css';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
-import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      padding: theme.spacing(2),
-      minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-    text: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-    grid: {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-    },
-  }),
-);
+const FinalResultTypography = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing(2),
+  minWidth: 275,
+}))
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+  marginLeft: theme.spacing(1),
+  marginRight: theme.spacing(1),
+}))
 
 function evalInContext(js: string, context: unknown) {
   return function () {
@@ -107,7 +89,6 @@ function isChangesQuery(query: RQuery): boolean {
 }
 
 export function DataExplorerPage() {
-  const classes = useStyles();
   const [value, setValue] = useState<string>('');
   const [lastRunTime, setLastRunTime] = useState<Date>(null);
   const [query, setQuery] = useState<RQuery>(null);
@@ -178,7 +159,7 @@ export function DataExplorerPage() {
           setValue(value);
         }}
       />
-      <Grid className={classes.grid} container spacing={1}>
+      <StyledGrid container spacing={1}>
         <Grid item xs={2} direction="row">
           <Button variant="contained" color="primary" onClick={onRequestClick}>
             Request
@@ -194,7 +175,7 @@ export function DataExplorerPage() {
             Last run timestamp: {lastRunTime && +lastRunTime}
           </Typography>
         </Grid>
-      </Grid>
+      </StyledGrid>
       <AppBar position="static" color="default">
         <Tabs
           value={num}
@@ -213,15 +194,15 @@ export function DataExplorerPage() {
       </AppBar>
       <SwipeableViews index={num} onChangeIndex={handleChangeIndex}>
         <TabPanel value={num} index={0}>
-          <Typography className={classes.root} component="pre">
+          <FinalResultTypography component="pre">
             {finalResult}
-          </Typography>
+          </FinalResultTypography>
         </TabPanel>
         <TabPanel value={num} index={1}>
           <Codemirror
             value={finalResult}
             options={{
-              theme: theme.palette.type === 'dark' ? 'material-darker' : 'neo',
+              theme: theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
               readOnly: true,
               lineNumbers: true,
               mode: 'javascript',

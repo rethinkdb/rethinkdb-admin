@@ -1,5 +1,6 @@
 import { createAtom } from '@reatom/core';
-import { store } from '../../store';
+
+import { store } from '../store';
 
 export type ThemeState = 'auto' | 'light' | 'dark';
 

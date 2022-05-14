@@ -5,13 +5,12 @@ import {
   Chip,
   Paper,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import { request } from '../rethinkdb/socket';
 import { useChangesRequest } from '../top-bar/data-hooks';
 
 import { dbConfigQuery, tableListQuery, tableStatusQuery } from './queries';
-import { useStyles } from './styles';
 import { TableList } from './table-list';
 import { EnrichedDatabaseEntry } from './types';
 
@@ -32,15 +31,19 @@ export function useTableEntries(): null | EnrichedDatabaseEntry[] {
 export const FullTableList: FunctionComponent<{
   entries: EnrichedDatabaseEntry[];
 }> = React.memo(({ entries }) => {
-  const classes = useStyles();
   if (!Array.isArray(entries)) {
     return <div>loading</div>;
   }
   return entries.map((entry) => {
     return (
-      <Paper key={entry.id} className={classes.dbEnrichedRoot}>
+      <Paper key={entry.id} sx={{
+        marginBottom: 2,
+        marginTop: 1,
+        padding: 1,
+        width: '100%',
+      }}>
         <Typography gutterBottom variant="h5" component="h2">
-          <Chip color="primary" label="DATABASE" className={classes.chip} />
+          <Chip color="primary" label="DATABASE" sx={{marginRight: 1 }} />
           {entry.name}
         </Typography>
         {entry.tables.length > 0 ? (

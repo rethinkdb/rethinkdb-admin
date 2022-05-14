@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import { Divider, Link, List } from '@material-ui/core';
+import { Divider, Link, List } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import { request } from '../rethinkdb/socket';

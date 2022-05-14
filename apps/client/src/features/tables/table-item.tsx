@@ -1,19 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
-import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/Done';
-import ClearIcon from '@material-ui/icons/Clear';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import IconButton from '@mui/material/IconButton';
+import CommentIcon from '@mui/icons-material/Comment';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
+import ClearIcon from '@mui/icons-material/Clear';
 
 import { TableEntry, TableStatus } from './types';
-
-const useStyles = makeStyles({ inline: { display: 'inline' } });
 
 export interface ITableItem {
   table: TableEntry;
@@ -21,8 +18,6 @@ export interface ITableItem {
 
 export const TableListItem: FunctionComponent<ITableItem> = React.memo(
   ({ table }) => {
-    const classes = useStyles();
-
     const humanizedReadiness = humanizeTableReadiness(
       table.status,
       table.replicas,
@@ -54,7 +49,7 @@ export const TableListItem: FunctionComponent<ITableItem> = React.memo(
               <Typography
                 component="span"
                 variant="body2"
-                className={classes.inline}
+                sx={{ display: 'inline' }}
                 color="textPrimary"
               >
                 {table.shards} shard(s), {table.replicas} replica(s)

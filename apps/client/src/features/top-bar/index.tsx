@@ -1,26 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import { TablesNumber } from './tables';
-import { ServersConnected } from './servers-connected';
-import { Issues } from './issues';
-import { ConnectedTo } from './connected-to';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import { Divider } from '@material-ui/core';
+import { Card, CardContent, Divider, Grid } from '@mui/material';
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
-});
+import { ConnectedTo } from './connected-to';
+import { Issues } from './issues';
+import { ServersConnected } from './servers-connected';
+import { TablesNumber } from './tables';
 
 function TopBar() {
-  const classes = useStyles();
   return (
-    <Card className={classes.root}>
+    <Card>
       <CardContent>
-        <Grid container spacing={3} justify="center">
+        <Grid container spacing={3} justifyContent="center">
           <Grid item xs={2}>
             <ConnectedTo />
           </Grid>

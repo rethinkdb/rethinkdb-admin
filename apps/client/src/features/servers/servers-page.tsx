@@ -1,11 +1,9 @@
 import React from 'react';
-import { Paper, Typography } from '@material-ui/core';
+import { Paper, Typography } from '@mui/material';
 
 import { ServerList, useServerEntries } from './server-list';
-import { useStyles } from './styles';
 
 function ServersPage() {
-  const classes = useStyles();
   const servers = useServerEntries();
 
   if (!Array.isArray(servers)) {
@@ -13,10 +11,14 @@ function ServersPage() {
   }
   return (
     <>
-      <Typography className={classes.title} variant="h6" noWrap>
+      <Typography sx={{ marginTop: 1 }} variant="h6" noWrap>
         Servers connected to the cluster
       </Typography>
-      <Paper className={classes.root}>
+      <Paper sx={{
+        marginTop: 1,
+        width: '100%',
+        backgroundColor: 'background.paper',
+      }}>
         <ServerList servers={servers} />
       </Paper>
     </>

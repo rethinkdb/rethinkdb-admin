@@ -1,11 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { Button, Grid, Paper } from '@material-ui/core';
+import { Button, Grid, Paper } from '@mui/material';
 
 import { LogList, useLogEntries } from './log-list';
-import { useStyles } from './styles';
 
 function LogsPage() {
-  const classes = useStyles();
   const [count, setCount] = useState<number>(20);
   const logs = useLogEntries(count);
 
@@ -18,7 +16,11 @@ function LogsPage() {
     return <div>loading</div>;
   }
   return (
-    <Paper className={classes.root}>
+    <Paper sx={{
+      marginTop: 1,
+      width: '100%',
+      backgroundColor: 'background.paper',
+    }}>
       {logs.length} of requested {count}
       <LogList quantity={count} />
       <Grid container justify="center" item>

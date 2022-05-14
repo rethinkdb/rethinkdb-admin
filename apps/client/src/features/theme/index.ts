@@ -1,18 +1,18 @@
 import React from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { createMuiTheme, Theme } from '@material-ui/core/styles';
+
+import { createTheme, Theme, useMediaQuery } from '@mui/material';
 import { useAtom } from '@reatom/react';
 
 import { themeAtom } from './state';
 
-const lightTheme = createMuiTheme({
+const lightTheme = createTheme({
   palette: {
-    type: 'light',
+    mode: 'light',
   },
 });
-const darkTheme = createMuiTheme({
+const darkTheme = createTheme({
   palette: {
-    type: 'dark',
+    mode: 'dark',
   },
 });
 

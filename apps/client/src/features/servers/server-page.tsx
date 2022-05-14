@@ -2,38 +2,14 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import StorageIcon from '@material-ui/icons/Storage';
-import { Card, CardContent, Divider, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-// import CardActions from '@material-ui/core/CardActions';
-// import Button from '@material-ui/core/Button';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
+
+import StorageIcon from '@mui/icons-material/Storage';
+import { Card, CardContent, Divider, List, ListItem, ListItemText, Typography } from '@mui/material';
 
 import { system_db } from '../rethinkdb';
 import { request } from '../rethinkdb/socket';
 import { ComparableTime } from '../time/relative';
 import { LogList } from '../logs/log-list';
-
-import { useStyles as useRootStyles } from './styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: theme.spacing(1),
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-}));
 
 const tableConfig = r.db(system_db).table('table_config');
 const tableStatus = r.db(system_db).table('table_status');
@@ -197,34 +173,29 @@ export const TableShardItem: FunctionComponent<IShardedTableItem> = React.memo(
 
 export const TableShards: FunctionComponent<{ tables: ShardedTable[] }> = ({
   tables,
-}) => {
-  const classes = useStyles();
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <List>
-          {tables.map((table, index) => (
-            <React.Fragment key={table.id}>
-              <TableShardItem table={table} />
-              {tables.length > index + 1 && (
-                <Divider variant="inset" component="li" />
-              )}
-            </React.Fragment>
-          ))}
-        </List>
-      </CardContent>
-      {/*<CardActions>*/}
-      {/*  <Button size="small">Learn More</Button>*/}
-      {/*</CardActions>*/}
-    </Card>
-  );
-};
+}) => (
+  <Card sx={{ marginTop: 1 }}>
+    <CardContent>
+      <List>
+        {tables.map((table, index) => (
+          <React.Fragment key={table.id}>
+            <TableShardItem table={table} />
+            {tables.length > index + 1 && (
+              <Divider variant="inset" component="li" />
+            )}
+          </React.Fragment>
+        ))}
+      </List>
+    </CardContent>
+    {/*<CardActions>*/}
+    {/*  <Button size="small">Learn More</Button>*/}
+    {/*</CardActions>*/}
+  </Card>
+);
 
 export const ServerPage = () => {
   const params = useParams<{ id: string }>();
   const query = useServer(params.id);
-  const classes = useStyles();
-  const rootClasses = useRootStyles();
 
   if (!query) {
     return <div>loading</div>;
@@ -232,22 +203,18 @@ export const ServerPage = () => {
 
   return (
     <>
-      <Typography className={rootClasses.title} variant="h6" noWrap>
+      <Typography variant="h6" noWrap marginTop={1}>
         Server overview for {query.main.name}
       </Typography>
-      <Card className={classes.root}>
+      <Card sx={{ marginTop: 1 }}>
         <CardContent>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
             {query.profile.version.split(' ')[1]} version
           </Typography>
           <Typography variant="h5" component="h2">
             {query.profile.hostname} hostname
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography sx={{ m: 1 }} color="textSecondary">
             {query.profile.tags} tags
           </Typography>
           <Typography variant="body2" component="p">
@@ -263,7 +230,7 @@ export const ServerPage = () => {
         {/*</CardActions>*/}
       </Card>
       <TableShards tables={query.tables} />
-      <Card className={classes.root}>
+      <Card sx={{ marginTop: 1 }}>
         <LogList quantity={6} server={query.main.id} />
       </Card>
       <pre>The server is {JSON.stringify(query, null, 2)}</pre>

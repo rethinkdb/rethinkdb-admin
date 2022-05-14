@@ -1,14 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-
-const useStyles = makeStyles({ inline: { display: 'inline' } });
+import Link from '@mui/material/Link';
 
 export type Log = {
   id: string[];
@@ -34,7 +31,6 @@ const ServerLink: FunctionComponent<{ logItem: Log }> = ({ logItem }) => (
 );
 
 function LogItem({ logItem }: ILogItem) {
-  const classes = useStyles();
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
@@ -46,7 +42,7 @@ function LogItem({ logItem }: ILogItem) {
           <Typography
             component="span"
             variant="body2"
-            className={classes.inline}
+            sx={{ display: 'inline' }}
             color="textPrimary"
           >
             <ServerLink logItem={logItem} /> | {logItem.timestamp}

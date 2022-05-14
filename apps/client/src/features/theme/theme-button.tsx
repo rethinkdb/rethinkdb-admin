@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';
-import Brightness4Icon from '@material-ui/icons/Brightness4';
-import Brightness7Icon from '@material-ui/icons/Brightness7';
-import { IconButton } from '@material-ui/core';
+import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { IconButton } from '@mui/material';
 
 import { ThemeState } from './state';
 

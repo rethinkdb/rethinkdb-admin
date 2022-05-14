@@ -1,15 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Paper, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import { LogList } from './log-list';
-import { useStyles } from './styles';
 
-const RecentLogList: FunctionComponent<{ server?: string }> = ({ server }) => {
-  const classes = useStyles();
-
-  return (
-    <Paper className={classes.root}>
+const RecentLogList: FunctionComponent<{ server?: string }> = ({ server }) =>
+  (
+    <Paper sx={{
+      marginTop: 1,
+      width: '100%',
+      backgroundColor: 'background.paper',
+    }}>
       <Typography>Recent log entries</Typography>
       <Button
         component={NavLink}
@@ -19,9 +20,8 @@ const RecentLogList: FunctionComponent<{ server?: string }> = ({ server }) => {
       >
         View All
       </Button>
-      <LogList quantity={6} server={server} />
+      <LogList quantity={6} server={server}/>
     </Paper>
   );
-};
 
 export { RecentLogList };

@@ -1,17 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 import {
   Chip,
   ListItem,
   ListItemAvatar,
   ListItemText,
   ListItemSecondaryAction,
-} from '@material-ui/core';
+} from '@mui/material';
 import { ComparableTime } from '../time/relative';
-
-const useStyles = makeStyles({ inline: { display: 'inline' } });
 
 export type Server = {
   id: string;
@@ -31,7 +28,6 @@ export interface IServerItem {
 const ServerItem: FunctionComponent<IServerItem> = ({
   serverItem,
 }: IServerItem) => {
-  const classes = useStyles();
   const { primaryCount, secondaryCount } = serverItem;
   const primaryRow = (
     <>
@@ -47,7 +43,7 @@ const ServerItem: FunctionComponent<IServerItem> = ({
     <Typography
       component="span"
       variant="body2"
-      className={classes.inline}
+      sx={{ display: 'inline' }}
       color="textPrimary"
     >
       {primaryCount} primary, {secondaryCount} secondaries
@@ -57,7 +53,7 @@ const ServerItem: FunctionComponent<IServerItem> = ({
     <Typography
       component="span"
       variant="body2"
-      className={classes.inline}
+      sx={{ display: 'inline' }}
       color="textPrimary"
     >
       {serverItem.hostname} started{' '}
