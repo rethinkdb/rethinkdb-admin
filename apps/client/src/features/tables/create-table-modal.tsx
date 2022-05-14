@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -9,6 +10,7 @@ import {
   FormControl,
   FormControlLabel,
   Modal,
+  Stack,
   Switch,
   TextField,
   Typography,
@@ -17,6 +19,7 @@ import {
 import { request } from '../rethinkdb/socket';
 import { system_db } from '../rethinkdb';
 import { useTableEntries } from './db-table-list';
+import { WriteResult } from 'rethinkdb-ts/lib/types';
 
 const style = {
   position: 'absolute',
@@ -87,6 +90,13 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
     primaryKey: '',
     hardDurability: true,
   });
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [hasEntered, setHasEntered] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string>('');
+  const [writeResult, setWriteResult] = React.useState<WriteResult | null>(
+    null,
+  );
+  const dbEntries = useTableEntries();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let value;
@@ -105,10 +115,6 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
       [event.target.name]: value,
     });
   };
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [hasEntered, setHasEntered] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string>('');
-  const dbEntries = useTableEntries();
 
   const query = React.useMemo(
     () =>
@@ -126,10 +132,6 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
     ],
   );
 
-  useEffect(() => {
-    console.log(query);
-  }, [query]);
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -143,12 +145,13 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
       hardDurability: true,
     });
     setError('');
+    setWriteResult(null);
   };
 
   const onTableCreate = React.useCallback(() => {
-    request(query).then((data: unknown) => {
+    request(query).then((data: WriteResult) => {
       if (data?.errors) {
-        setError(JSON.stringify(data, null, 2));
+        setWriteResult(data);
         return;
       }
       handleClose();
@@ -170,7 +173,7 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
     // Check if it's a duplicate
     for (const database of dbEntries) {
       debugger;
-      if (database.tables.map(t => t.name).includes(formState.tableName)) {
+      if (database.tables.map((t) => t.name).includes(formState.tableName)) {
         setError("it's a duplicate");
         return;
       }
@@ -192,10 +195,12 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
             <Typography variant="h6" marginTop={1}>
               Add table
             </Typography>
-            <Typography component="pre">
-              {JSON.stringify(formState, null, 2)}
-            </Typography>
-            <Box component="form" noValidate autoComplete="off">
+            {writeResult && !!writeResult.errors && (
+              <Stack marginTop={1}>
+                <Alert severity="error">{writeResult.first_error}</Alert>
+              </Stack>
+            )}
+            <Box component="form" noValidate autoComplete="off" marginTop={1}>
               <FormControl variant="standard" fullWidth>
                 <TextField
                   name="tableName"
@@ -213,8 +218,6 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
                   label="Primary Key"
                   sx={{ marginTop: 1 }}
                   onChange={handleChange}
-                  helperText={hasEntered && error}
-                  error={hasEntered && !!error}
                   value={formState.primaryKey}
                   placeholder="id"
                 />
@@ -232,7 +235,6 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
               />
             </Box>
             <Typography>{formState.tableName}</Typography>
-            <Typography component="pre">{error}</Typography>
           </CardContent>
           <CardActions>
             <Button onClick={onTableCreate}>Create</Button>

@@ -11,6 +11,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { TableEntry, TableStatus } from './types';
+import {RemoveTableModal} from "./remove-table-modal";
 
 export interface ITableItem {
   table: TableEntry;
@@ -65,12 +66,7 @@ export const TableListItem: FunctionComponent<ITableItem> = React.memo(
           }
         />
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="comments">
-            <CommentIcon />
-          </IconButton>
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
+          <RemoveTableModal dbName={table.db} tableName={table.name}/>
         </ListItemSecondaryAction>
       </ListItem>
     );
