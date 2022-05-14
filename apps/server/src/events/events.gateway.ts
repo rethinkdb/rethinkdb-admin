@@ -4,49 +4,19 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import {
-  connect,
-  RethinkDBConnection,
-  RethinkDBConnectionOptions,
-  ServerInfo,
-  TermJson,
-} from 'rethinkdb-ts';
-import { URL } from 'url';
+
+import { Inject } from '@nestjs/common';
+import { nanoid } from 'nanoid';
+import { RethinkDBConnection, ServerInfo, TermJson } from 'rethinkdb-ts';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
+import { toQuery } from 'rethinkdb-ts/lib/query-builder/query';
+import { Cursor } from 'rethinkdb-ts/lib/response/cursor';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { fromStream } from '../from-stream';
-import { toQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { ServerOptions, Socket } from 'socket.io';
-import { nanoid } from 'nanoid';
-import { Cursor } from 'rethinkdb-ts/lib/response/cursor';
-import { RethinkDBServerConnectionOptions } from 'rethinkdb-ts/lib/connection/types';
+import { request } from 'undici';
 
-let connection: RethinkDBConnection;
-
-const RETHINKDB_URL =
-  process.env.RETHINKDB_URL || 'rethinkdb://localhost:28015';
-
-async function connectToDB() {
-  const rethinkdbUrl = new URL(RETHINKDB_URL);
-  const connectionOptions: RethinkDBServerConnectionOptions = {};
-  const options: RethinkDBConnectionOptions = { db: 'test' };
-  if (rethinkdbUrl.hostname) {
-    connectionOptions.host = rethinkdbUrl.hostname;
-  }
-  if (rethinkdbUrl.port) {
-    connectionOptions.port = Number.parseInt(rethinkdbUrl.port, 10);
-  }
-  if (rethinkdbUrl.pathname) {
-    options.db = rethinkdbUrl.pathname.substring(1);
-  }
-  if (rethinkdbUrl.username) {
-    options.user = rethinkdbUrl.username;
-  }
-  if (rethinkdbUrl.password) {
-    options.password = rethinkdbUrl.password;
-  }
-  connection = await connect(connectionOptions, options);
-}
+import { fromStream } from '../from-stream';
 
 type LocalSocket = Socket & { changeQueries: Record<string, Cursor> };
 
@@ -57,8 +27,10 @@ type LocalSocket = Socket & { changeQueries: Record<string, Cursor> };
 export class EventsGateway
   implements OnGatewayDisconnect<LocalSocket>, OnGatewayConnection<LocalSocket>
 {
-  constructor() {
-    connectToDB();
+  private connection: RethinkDBConnection;
+
+  constructor(@Inject('RethinkdbProvider') connection: RethinkDBConnection) {
+    this.connection = connection;
   }
 
   handleConnection(client: LocalSocket): any {
@@ -77,7 +49,7 @@ export class EventsGateway
     payload: TermJson,
   ): Promise<[boolean, unknown] | Observable<['feed' | boolean, unknown]>> {
     try {
-      const data = await connection.run(toQuery(payload));
+      const data = await this.connection.run(toQuery(payload));
       if (data && data.type === 'Feed') {
         return from(fromStream(data)).pipe(
           map((data) => {
@@ -100,7 +72,7 @@ export class EventsGateway
     const queryId = nanoid();
     const payload: TermJson = JSON.parse(payloadString) as TermJson;
     try {
-      const cursor = await connection.run(toQuery(payload));
+      const cursor = await this.connection.run(toQuery(payload));
       if (cursor && cursor.type !== 'Feed') {
         return [false, 'Should be feed'];
       }
@@ -130,6 +102,21 @@ export class EventsGateway
 
   @SubscribeMessage('me')
   async handleMe(): Promise<ServerInfo> {
-    return connection.server();
+    return this.connection.server();
+  }
+
+  @SubscribeMessage('checkUpdates')
+  async checkUpdates(): Promise<unknown> {
+    const serverInfo = await this.connection.server();
+    const version = await this.connection.run(
+      r.db('rethinkdb').table('server_status').get(serverInfo.id)('process')(
+        'version',
+      ),
+    );
+    const versionString = version.split(' ')[1].split('~')[0];
+    const { body } = await request(
+      `https://update.rethinkdb.com/update_for/${versionString}`,
+    );
+    return body.json();
   }
 }

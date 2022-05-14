@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Codemirror } from 'react-codemirror-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
+import SwipeableViews from 'react-swipeable-views';
 
 import {
   AppBar,
@@ -15,7 +16,6 @@ import {
   useTheme,
   styled
 } from '@mui/material';
-import SwipeableViews from 'react-swipeable-views';
 
 import { request } from '../rethinkdb/socket';
 import { useChangesRequest } from '../top-bar/data-hooks';
@@ -145,7 +145,7 @@ export function DataExplorerPage() {
     <Paper elevation={2}>
       <Codemirror
         options={{
-          theme: theme.palette.type === 'dark' ? 'material-darker' : 'neo',
+          theme: theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
           lineNumbers: true,
           mode: 'javascript',
           extraKeys: {

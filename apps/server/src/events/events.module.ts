@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { EventsService } from './events.service';
-import { EventsController } from './events.controller';
+import {RethinkdbModule} from "../rethinkdb/rethinkdb.module";
+import {EventsGateway} from "./events.gateway";
 
 @Module({
-  providers: [EventsService],
-  controllers: [EventsController],
+  imports: [RethinkdbModule],
+  providers: [EventsGateway],
 })
 export class EventsModule {}

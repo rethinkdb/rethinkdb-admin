@@ -1,6 +1,7 @@
+import { RDatum, RTable } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
+
 import { system_db } from './index';
-import { RDatum, RQuery, RTable } from 'rethinkdb-ts';
 
 const admin = {
   cluster_config: r.db(system_db).table('cluster_config'),
@@ -151,19 +152,13 @@ const queries = {
   },
 
   tables_with_primaries_not_ready(
-    table_config_id?: RDatum,
-    table_status?: RDatum,
+    table_config_id: RTable = admin.table_config_id,
+    table_status: RTable = admin.table_status,
   ) {
-    if (table_config_id == null) {
-      ({ table_config_id } = admin);
-    }
-    if (table_status == null) {
-      ({ table_status } = admin);
-    }
     return r.do(
       admin.server_config
         .map((x) => [x('id'), x('name')])
-        .coerceTo('ARRAY')
+        .coerceTo('array')
         .coerceTo('OBJECT'),
       (server_names) =>
         table_status
@@ -181,8 +176,8 @@ const queries = {
                   const primary_id = conf_shard('primary_replica');
                   const primary_name = server_names(primary_id);
                   return {
-                    position: pos.add(1),
                     num_shards: status('shards').count().default(0),
+                    position: pos.add(1),
                     primary_id,
                     primary_name: primary_name.default('-'),
                     primary_state: shard('replicas')
@@ -270,10 +265,7 @@ const queries = {
       .sum();
   },
 
-  num_replicas(table_config_id?: RTable) {
-    if (table_config_id == null) {
-      ({ table_config_id } = admin);
-    }
+  num_replicas(table_config_id: RTable = admin.table_config_id) {
     return table_config_id('shards')
       .default([])
       .map((shards) => shards.map((shard) => shard('replicas').count()).sum())

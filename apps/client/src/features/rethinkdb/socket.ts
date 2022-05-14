@@ -43,6 +43,14 @@ function requestMe(): Promise<MeResponse> {
   });
 }
 
+export function requestUpdates(): Promise<MeResponse> {
+  return new Promise((resolve) => {
+    socket.emit('checkUpdates', (data: MeResponse) => {
+      resolve(data);
+    });
+  });
+}
+
 function requestChanges<T = unknown>(
   query: RQuery,
   cb: (data: T) => void,

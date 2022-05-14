@@ -23,7 +23,7 @@ function LogsPage() {
     }}>
       {logs.length} of requested {count}
       <LogList quantity={count} />
-      <Grid container justify="center" item>
+      <Grid container justifyContent="center" item>
         {count <= logs.length && (
           <Button onClick={onButtonUpCount}>Older log entries</Button>
         )}

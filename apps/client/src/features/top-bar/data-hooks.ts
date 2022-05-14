@@ -7,7 +7,7 @@ import {
   MeResponse,
   request,
   requestChanges,
-  requestMe,
+  requestMe, requestUpdates,
 } from '../rethinkdb/socket';
 
 const issuesQuery = r.db(system_db).table('current_issues').count();
@@ -61,6 +61,39 @@ function useTablesNumber(): null | { tablesReady: number; tables: number } {
     });
   }, []);
   return state;
+}
+
+export function useRequest<T = unknown>(query?: RQuery): T | null {
+  const [responses, setResponses] = useState<T>(null);
+
+  useEffect(() => {
+    setResponses(() => null);
+    if (query) {
+      request<T>(query)
+        .then((data) => {
+          setResponses(data);
+        })
+        .catch((error) => {
+          setResponses(() => error.message);
+        });
+    }
+  }, [query]);
+  return responses;
+}
+
+export function useUpdates(): any | null {
+  const [responses, setResponses] = useState(null);
+
+  useEffect(() => {
+    requestUpdates()
+      .then((data) => {
+        setResponses(data);
+      })
+      .catch((error) => {
+        setResponses(() => error.message);
+      });
+  }, []);
+  return responses;
 }
 
 function useChangesRequest<T = unknown>(query?: RQuery) {

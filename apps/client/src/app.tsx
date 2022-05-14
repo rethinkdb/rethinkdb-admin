@@ -8,7 +8,7 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
-  styled
+  styled, Box
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -23,6 +23,7 @@ import { TopBar } from './features/top-bar';
 import './features/rethinkdb/socket';
 import { ThemeButton } from './features/theme/theme-button';
 import { themeAtom } from './features/theme/state';
+import {HasUpdate} from "./features/update/has-update";
 
 const drawerWidth = 280;
 const { Provider: StateProvider } = reatomContext;
@@ -105,7 +106,10 @@ export const AppInnerContent = () => {
       />
       <ContentWrapper sx={{ p: 3 }}>
         <Offset />
-        <TopBar />
+        <HasUpdate />
+        <Box marginTop={1}>
+          <TopBar />
+        </Box>
         <Routes />
       </ContentWrapper>
     </Root>

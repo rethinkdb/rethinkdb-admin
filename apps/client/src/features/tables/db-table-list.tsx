@@ -3,7 +3,7 @@ import {
   Button,
   CardActions,
   Chip,
-  Paper,
+  Paper, styled,
   Typography,
 } from '@mui/material';
 
@@ -13,6 +13,8 @@ import { useChangesRequest } from '../top-bar/data-hooks';
 import { dbConfigQuery, tableListQuery, tableStatusQuery } from './queries';
 import { TableList } from './table-list';
 import { EnrichedDatabaseEntry } from './types';
+import {CreateTableModal} from "./create-table-modal";
+import {RemoveDatabaseModal} from "./remove-database-modal";
 
 const dbFeed = dbConfigQuery.changes();
 const tableFeed = tableStatusQuery.changes();
@@ -27,6 +29,14 @@ export function useTableEntries(): null | EnrichedDatabaseEntry[] {
   }, [dbChanges.length, tableChanges.length]);
   return state;
 }
+
+const NoTablePaper = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.grey['200'],
+  padding: theme.spacing(1),
+}));
 
 export const FullTableList: FunctionComponent<{
   entries: EnrichedDatabaseEntry[];
@@ -49,15 +59,13 @@ export const FullTableList: FunctionComponent<{
         {entry.tables.length > 0 ? (
           <TableList tables={entry.tables} />
         ) : (
-          'There are no tables in this database'
+          <NoTablePaper elevation={3} >
+            There are no tables in this database
+          </NoTablePaper>
         )}
         <CardActions>
-          <Button size="small" color="primary">
-            Add Table
-          </Button>
-          <Button size="small" color="secondary">
-            Remove Database
-          </Button>
+          <CreateTableModal dbName={entry.name} />
+          <RemoveDatabaseModal dbName={entry.name} />
         </CardActions>
       </Paper>
     );
