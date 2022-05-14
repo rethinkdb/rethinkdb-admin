@@ -1,4 +1,4 @@
-import { declareAction, declareAtom } from '@reatom/core';
+import { createAtom } from '@reatom/core';
 import { store } from '../../store';
 
 export type ThemeState = 'auto' | 'light' | 'dark';
@@ -7,18 +7,23 @@ export const STATES: ThemeState[] = ['auto', 'light', 'dark'];
 
 const LS_KEY = 'theme-state';
 
-/** Actions */
-export const changeThemeState = declareAction('theme');
+const initState = localStorage.getItem(LS_KEY) as ThemeState || 'auto';
 
 /** Atoms */
-export const themeAtom = declareAtom<ThemeState>(
-  localStorage.getItem(LS_KEY) as ThemeState,
-  (on) => [
-    on(changeThemeState, (state) => {
-      const index = STATES.indexOf(state);
-      return STATES[(index + 1) % STATES.length];
-    }),
-  ],
+export const themeAtom = createAtom<
+  ThemeState,
+  { changeThemeState: () => undefined }
+>(
+  { changeThemeState: () => undefined },
+  ({ onAction }, state = initState) => {
+    onAction('changeThemeState', () => {
+      const index = STATES.indexOf(state as ThemeState);
+      state = STATES[(index + 1) % STATES.length];
+      console.log(state);
+    });
+
+    return state;
+  },
 );
 
 /** Store */

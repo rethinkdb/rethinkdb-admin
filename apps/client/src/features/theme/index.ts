@@ -18,7 +18,7 @@ const darkTheme = createMuiTheme({
 
 function useTheme(): Theme {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const themeState = useAtom(themeAtom);
+  const [themeState] = useAtom(themeAtom);
 
   return React.useMemo(() => {
     if (themeState === 'light') {

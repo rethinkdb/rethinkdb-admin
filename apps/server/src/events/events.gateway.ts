@@ -47,7 +47,6 @@ async function connectToDB() {
   }
   connection = await connect(connectionOptions, options);
 }
-connectToDB();
 
 type LocalSocket = Socket & { changeQueries: Record<string, Cursor> };
 
@@ -58,6 +57,10 @@ type LocalSocket = Socket & { changeQueries: Record<string, Cursor> };
 export class EventsGateway
   implements OnGatewayDisconnect<LocalSocket>, OnGatewayConnection<LocalSocket>
 {
+  constructor() {
+    connectToDB();
+  }
+
   handleConnection(client: LocalSocket): any {
     client.changeQueries = {};
   }

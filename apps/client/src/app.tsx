@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core/styles';
 import styled from 'styled-components';
 import { HashRouter as Router } from 'react-router-dom';
-import { context, useAtom } from '@reatom/react';
+import { reatomContext, useAtom } from '@reatom/react';
 
 import { LocalDrawer } from './drawer';
 import { useTheme } from './features/theme';
@@ -24,10 +24,10 @@ import { TopBar } from './features/top-bar/top-bar';
 
 import './features/rethinkdb/socket';
 import { ThemeButton } from './features/theme/theme-button';
-import { changeThemeState, themeAtom } from './features/theme/state';
+import { themeAtom } from './features/theme/state';
 
 const drawerWidth = 280;
-const { Provider: StateProvider } = context;
+const { Provider: StateProvider } = reatomContext;
 
 const Root = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ export const AppContent = () => {
   const handleDrawerToggle = (): void => {
     setMobileOpen(!mobileOpen);
   };
-  const themeState = useAtom(themeAtom);
+  const [themeState] = useAtom(themeAtom);
   const theme = useTheme();
   return (
     <ThemeProvider theme={theme}>
@@ -104,7 +104,7 @@ export const AppContent = () => {
             <ThemeButton
               state={themeState}
               onClick={() => {
-                store.dispatch(changeThemeState());
+                store.dispatch(themeAtom.changeThemeState());
               }}
             />
           </Toolbar>

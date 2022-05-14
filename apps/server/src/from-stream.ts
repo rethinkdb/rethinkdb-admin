@@ -1,20 +1,20 @@
 import { Observable } from 'rxjs';
-import { Stream } from 'stream';
+import {Readable} from 'stream';
 
 // Adapted from https://github.com/Reactive-Extensions/rx-node/blob/87589c07be626c32c842bdafa782fca5924e749c/index.js#L52
 export function fromStream(
-  stream: Stream,
+  stream: Readable,
   finishEventName = 'end',
   dataEventName = 'data',
 ) {
   stream.pause();
 
   return new Observable((observer) => {
-    function dataHandler(data) {
+    function dataHandler(data: unknown) {
       observer.next(data);
     }
 
-    function errorHandler(err) {
+    function errorHandler(err: Error) {
       observer.error(err);
     }
 
