@@ -12,8 +12,6 @@ import {
 } from '@mui/material';
 
 import { request } from '../rethinkdb/socket';
-import { system_db } from '../rethinkdb';
-import { useTableEntries } from './db-table-list';
 
 const style = {
   position: 'absolute',

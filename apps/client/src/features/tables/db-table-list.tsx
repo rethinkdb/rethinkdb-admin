@@ -1,20 +1,14 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import {
-  Button,
-  CardActions,
-  Chip,
-  Paper, styled,
-  Typography,
-} from '@mui/material';
+import { CardActions, Chip, Paper, styled, Typography } from '@mui/material';
 
 import { request } from '../rethinkdb/socket';
 import { useChangesRequest } from '../top-bar/data-hooks';
 
+import { CreateTableModal } from './create-table-modal';
 import { dbConfigQuery, tableListQuery, tableStatusQuery } from './queries';
+import { RemoveDatabaseModal } from './remove-database-modal';
 import { TableList } from './table-list';
 import { EnrichedDatabaseEntry } from './types';
-import {CreateTableModal} from "./create-table-modal";
-import {RemoveDatabaseModal} from "./remove-database-modal";
 
 const dbFeed = dbConfigQuery.changes();
 const tableFeed = tableStatusQuery.changes();
@@ -46,20 +40,23 @@ export const FullTableList: FunctionComponent<{
   }
   return entries.map((entry) => {
     return (
-      <Paper key={entry.id} sx={{
-        marginBottom: 2,
-        marginTop: 1,
-        padding: 1,
-        width: '100%',
-      }}>
+      <Paper
+        key={entry.id}
+        sx={{
+          marginBottom: 2,
+          marginTop: 1,
+          padding: 1,
+          width: '100%',
+        }}
+      >
         <Typography gutterBottom variant="h5" component="h2">
-          <Chip color="primary" label="DATABASE" sx={{marginRight: 1 }} />
+          <Chip color="primary" label="DATABASE" sx={{ marginRight: 1 }} />
           {entry.name}
         </Typography>
         {entry.tables.length > 0 ? (
           <TableList tables={entry.tables} />
         ) : (
-          <NoTablePaper elevation={3} >
+          <NoTablePaper elevation={3}>
             There are no tables in this database
           </NoTablePaper>
         )}

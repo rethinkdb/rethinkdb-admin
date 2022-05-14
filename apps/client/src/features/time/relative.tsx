@@ -16,8 +16,8 @@ export const compareToNow = (start: Date, end = new Date()) => {
   const duration = intervalToDuration({ start, end });
 
   const nonzero = Object.entries(duration)
-    .filter(([_, value]) => value || 0 > 0)
-    .map(([unit, _]) => unit);
+    .filter(([, value]) => value || 0 > 0)
+    .map(([unit]) => unit);
 
   return formatDuration(duration, {
     format: units.filter((i) => new Set(nonzero).has(i)).slice(0, 3),

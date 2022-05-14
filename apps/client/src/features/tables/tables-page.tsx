@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Box, Button, styled, Typography} from '@mui/material';
+import {Box, styled, Typography} from '@mui/material';
 
 import { FullTableList, useTableEntries } from './db-table-list';
 import {CreateDatabaseModal} from "./create-database-modal";

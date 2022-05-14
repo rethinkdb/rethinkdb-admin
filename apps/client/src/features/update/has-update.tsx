@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import useFetch from 'react-fetch-hook';
 import { Alert, Link, Stack } from '@mui/material';
 import {useUpdates} from "../top-bar/data-hooks";
 

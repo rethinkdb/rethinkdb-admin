@@ -155,7 +155,7 @@ export function DataExplorerPage() {
           lineWrapping: true,
           tabSize: 2,
         }}
-        onChange={(value, options) => {
+        onChange={(value) => {
           setValue(value);
         }}
       />

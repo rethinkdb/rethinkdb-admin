@@ -1,7 +1,5 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { Divider, List } from '@mui/material';
-import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 
 import { request } from '../rethinkdb/socket';
 import { useChangesRequest } from '../top-bar/data-hooks';
