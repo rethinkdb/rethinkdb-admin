@@ -31,7 +31,7 @@ const getHttpConfig = (): webpack.Configuration => ({
     rules: [
       {
         test: /.*((?!spec).).tsx?$/,
-        use: 'babel-loader',
+        use: 'ts-loader',
         exclude: /node_modules/,
       },
     ],
