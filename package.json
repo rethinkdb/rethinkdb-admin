@@ -32,7 +32,7 @@
     "date-fns": "^2.28.0",
     "nanoid": "^3.3.4",
     "reflect-metadata": "^0.1.13",
-    "rethinkdb-ts": "^3.0.0-next.5",
+    "rethinkdb-ts": "^3.0.0-next.8",
     "rxjs": "^7.5.5",
     "socket.io": "^4.5.0",
     "undici": "^5.2.0"

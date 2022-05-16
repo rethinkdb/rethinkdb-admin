@@ -31,15 +31,7 @@ const getHttpConfig = (): webpack.Configuration => ({
     rules: [
       {
         test: /.*((?!spec).).tsx?$/,
-        use: [
-          {
-            loader: 'ts-loader',
-            // TODO remove when main work above the rethinkdb admin is finished
-            options: {
-              transpileOnly: true,
-            },
-          },
-        ],
+        use: [{ loader: 'ts-loader' }],
         exclude: /node_modules/,
       },
     ],

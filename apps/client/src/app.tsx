@@ -40,15 +40,18 @@ const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const App: FunctionComponent = () => (
   <StrictMode>
+    {/* TODO fix Router weird ts error */}
+    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+    {/* @ts-ignore */}
     <Router>
       <StateProvider value={store}>
-        <AppContent />
+        <ThemedContent />
       </StateProvider>
     </Router>
   </StrictMode>
 );
 
-export const AppContent = () => {
+export const ThemedContent = () => {
   const theme = useTheme();
   return (
     <ThemeProvider theme={theme}>
