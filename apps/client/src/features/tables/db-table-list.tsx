@@ -38,33 +38,35 @@ export const FullTableList: FunctionComponent<{
   if (!Array.isArray(entries)) {
     return <div>loading</div>;
   }
-  return entries.map((entry) => {
-    return (
-      <Paper
-        key={entry.id}
-        sx={{
-          marginBottom: 2,
-          marginTop: 1,
-          padding: 1,
-          width: '100%',
-        }}
-      >
-        <Typography gutterBottom variant="h5" component="h2">
-          <Chip color="primary" label="DATABASE" sx={{ marginRight: 1 }} />
-          {entry.name}
-        </Typography>
-        {entry.tables.length > 0 ? (
-          <TableList tables={entry.tables} />
-        ) : (
-          <NoTablePaper elevation={3}>
-            There are no tables in this database
-          </NoTablePaper>
-        )}
-        <CardActions>
-          <CreateTableModal dbName={entry.name} />
-          <RemoveDatabaseModal dbName={entry.name} />
-        </CardActions>
-      </Paper>
-    );
-  });
+  return (
+    <>
+      {entries.map((entry) => (
+        <Paper
+          key={entry.id}
+          sx={{
+            marginBottom: 2,
+            marginTop: 1,
+            padding: 1,
+            width: '100%',
+          }}
+        >
+          <Typography gutterBottom variant="h5" component="h2">
+            <Chip color="primary" label="DATABASE" sx={{ marginRight: 1 }} />
+            {entry.name}
+          </Typography>
+          {entry.tables.length > 0 ? (
+            <TableList tables={entry.tables} />
+          ) : (
+            <NoTablePaper elevation={3}>
+              There are no tables in this database
+            </NoTablePaper>
+          )}
+          <CardActions>
+            <CreateTableModal dbName={entry.name} />
+            <RemoveDatabaseModal dbName={entry.name} />
+          </CardActions>
+        </Paper>
+      ))}
+    </>
+  );
 });
