@@ -1,9 +1,9 @@
-import { RDatum, RTable } from 'rethinkdb-ts';
+import { RDatum, RTable, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import { system_db } from './index';
 
-const admin = {
+export const admin = {
   cluster_config: r.db(system_db).table('cluster_config'),
   cluster_config_id: r
     .db(system_db)
@@ -40,29 +40,15 @@ const admin = {
     .table('table_status', { identifierFormat: 'uuid' }),
 };
 
-const helpers = {
-  // Macro to create a match/switch construct in reql by
-  // nesting branches
-  // Use like: match(doc('field'),
-  //                 ['foo', some_reql],
-  //                 [r.expr('bar'), other_reql],
-  //                 [some_other_query, contingent_3_reql],
-  //                 default_reql)
-  // Throws an error if a match isn't found. The error can be absorbed
-  // by tacking on a .default() if you want
-  match(variable, ...specs) {
-    let previous = r.error(`nothing matched ${variable}`);
-    for (const [val, action] of Array.from(specs.reverse())) {
-      previous = r.branch(r.expr(variable).eq(val), action, previous);
-    }
-    return previous;
-  },
-  identity(x) {
-    return x;
-  },
+export const match = (variable: RValue, ...specs: any[]) => {
+  let previous = r.error(`nothing matched ${variable}`);
+  for (const [val, action] of Array.from(specs.reverse())) {
+    previous = r.branch(r.expr(variable).eq(val), action, previous);
+  }
+  return previous;
 };
 
-const queries = {
+export const queries = {
   server_logs: (limit: number, server_id: string) => {
     const server_conf = admin.server_config;
     return r
@@ -79,11 +65,7 @@ const queries = {
       );
   },
 
-  issues_with_ids(current_issues?: RDatum) {
-    // we use .get on issues_id, so it must be the real table
-    if (current_issues == null) {
-      ({ current_issues } = admin);
-    }
+  issues_with_ids(current_issues = admin.current_issues) {
     const { current_issues_id } = admin;
     return current_issues
       .merge(function (issue) {
@@ -91,7 +73,7 @@ const queries = {
         const log_write_error = {
           servers: issue('info')('servers').map(
             issue_id('info')('servers'),
-            (server, server_id) => ({
+            (server: RDatum, server_id: RDatum) => ({
               server,
               server_id,
             }),
@@ -100,7 +82,7 @@ const queries = {
         const memory_error = {
           servers: issue('info')('servers').map(
             issue_id('info')('servers'),
-            (server, server_id) => ({
+            (server: RDatum, server_id: RDatum) => ({
               server,
               server_id,
             }),
@@ -109,7 +91,7 @@ const queries = {
         const non_transitive_error = {
           servers: issue('info')('servers').map(
             issue_id('info')('servers'),
-            (server, server_id) => ({
+            (server: RDatum, server_id: RDatum) => ({
               server,
               server_id,
             }),
@@ -118,7 +100,7 @@ const queries = {
         const outdated_index = {
           tables: issue('info')('tables').map(
             issue_id('info')('tables'),
-            (table, table_id) => ({
+            (table: RDatum, table_id: RDatum) => ({
               db: table('db'),
               db_id: table_id('db'),
               table_id: table_id('table'),
@@ -137,7 +119,7 @@ const queries = {
             .distinct(),
         });
         return {
-          info: helpers.match(
+          info: match(
             issue('type'),
             ['log_write_error', log_write_error],
             ['memory_error', memory_error],
@@ -162,7 +144,7 @@ const queries = {
         .coerceTo('OBJECT'),
       (server_names) =>
         table_status
-          .map(table_config_id, (status, config) => ({
+          .map(table_config_id, (status: RDatum, config: RDatum) => ({
             id: status('id'),
             name: status('name'),
             db: status('db'),
@@ -172,7 +154,7 @@ const queries = {
               .map(
                 r.range(),
                 config('shards').default([]),
-                function (shard, pos, conf_shard) {
+                function (shard: RDatum, pos: RDatum, conf_shard: RDatum) {
                   const primary_id = conf_shard('primary_replica');
                   const primary_name = server_names(primary_id);
                   return {
@@ -192,20 +174,17 @@ const queries = {
               .filter((shard) => shard('primary_state').ne('ready'))
               .coerceTo('ARRAY'),
           }))
-          .filter((table) => table('shards').isEmpty().not())
+          .filter((table: RDatum) => table('shards').isEmpty().not())
           .coerceTo('ARRAY'),
     );
   },
 
-  tables_with_replicas_not_ready(table_config_id, table_status?: RDatum) {
-    if (table_config_id == null) {
-      ({ table_config_id } = admin);
-    }
-    if (table_status == null) {
-      ({ table_status } = admin);
-    }
+  tables_with_replicas_not_ready(
+    table_config_id = admin.table_config_id,
+    table_status = admin.table_status,
+  ) {
     return table_status
-      .map(table_config_id, (status, config) => ({
+      .map(table_config_id, (status: RDatum, config: RDatum) => ({
         id: status('id'),
         name: status('name'),
         db: status('db'),
@@ -215,7 +194,7 @@ const queries = {
           .map(
             r.range(),
             config('shards').default([]),
-            (shard, pos, conf_shard) => ({
+            (shard: RDatum, pos: RDatum, conf_shard: RDatum) => ({
               position: pos.add(1),
               num_shards: status('shards').count().default(0),
 
@@ -230,37 +209,34 @@ const queries = {
                     .contains(replica('state'))
                     .not(),
                 )
-                .map(conf_shard('replicas'), (replica, replica_id) => ({
-                  replica_id,
-                  replica_name: replica('server'),
-                }))
+                .map(
+                  conf_shard('replicas'),
+                  (replica: RDatum, replica_id: RDatum) => ({
+                    replica_id,
+                    replica_name: replica('server'),
+                  }),
+                )
                 .coerceTo('ARRAY'),
             }),
           )
           .coerceTo('ARRAY'),
       }))
-      .filter((table) => table('shards')(0)('replicas').isEmpty().not())
+      .filter((table: RDatum) => table('shards')(0)('replicas').isEmpty().not())
       .coerceTo('ARRAY');
   },
-  num_primaries(table_config_id?: RDatum) {
-    if (table_config_id == null) {
-      ({ table_config_id } = admin);
-    }
+  num_primaries(table_config_id = admin.table_config_id) {
     return table_config_id('shards')
       .default([])
-      .map((x) => x.count())
+      .map((x: RDatum) => x.count())
       .sum();
   },
 
-  num_connected_primaries(table_status?: RDatum) {
-    if (table_status == null) {
-      ({ table_status } = admin);
-    }
+  num_connected_primaries(table_status = admin.table_status) {
     return table_status
       .map((table) =>
         table('shards')
           .default([])('primary_replicas')
-          .count((arr) => arr.isEmpty().not()),
+          .count((arr: RDatum) => arr.isEmpty().not()),
       )
       .sum();
   },
@@ -268,20 +244,19 @@ const queries = {
   num_replicas(table_config_id: RTable = admin.table_config_id) {
     return table_config_id('shards')
       .default([])
-      .map((shards) => shards.map((shard) => shard('replicas').count()).sum())
+      .map((shards: RDatum) =>
+        shards.map((shard: RDatum) => shard('replicas').count()).sum(),
+      )
       .sum();
   },
 
-  num_connected_replicas(table_status?: RTable) {
-    if (table_status == null) {
-      ({ table_status } = admin);
-    }
+  num_connected_replicas(table_status = admin.table_status) {
     return table_status('shards')
       .default([])
-      .map((shards) =>
+      .map((shards: RDatum) =>
         shards('replicas')
-          .map((replica) =>
-            replica('state').count((replica) =>
+          .map((replica: RDatum) =>
+            replica('state').count((replica: RDatum) =>
               r
                 .expr(['ready', 'looking_for_primary_replica'])
                 .contains(replica),
@@ -292,12 +267,9 @@ const queries = {
       .sum();
   },
 
-  disconnected_servers(server_status?: RTable) {
-    if (server_status == null) {
-      ({ server_status } = admin);
-    }
+  disconnected_servers(server_status = admin.server_status) {
     return server_status
-      .filter((server) => server('status').ne('connected'))
+      .filter((server: RDatum) => server('status').ne('connected'))
       .map((server) => ({
         time_disconnected: server('connection')('time_disconnected'),
         name: server('name'),
@@ -305,22 +277,16 @@ const queries = {
       .coerceTo('ARRAY');
   },
 
-  num_disconnected_tables(table_status?: RTable) {
-    if (table_status == null) {
-      ({ table_status } = admin);
-    }
+  num_disconnected_tables(table_status = admin.table_status) {
     return table_status.count(function (table?: RDatum) {
-      const shard_is_down = (shard) =>
+      const shard_is_down = (shard: RDatum) =>
         shard('primary_replicas').isEmpty().not();
       return table('shards').default([]).map(shard_is_down).contains(true);
     });
   },
 
-  num_tables_w_missing_replicas(table_status?: RDatum) {
-    if (table_status == null) {
-      ({ table_status } = admin);
-    }
-    return table_status.count((table) =>
+  num_tables_w_missing_replicas(table_status = admin.table_status) {
+    return table_status.count((table: RDatum) =>
       table('status')('all_replicas_ready').not(),
     );
   },
@@ -329,22 +295,18 @@ const queries = {
     if (server_status == null) {
       ({ server_status } = admin);
     }
-    return server_status.count((server) => server('status').eq('connected'));
+    return server_status.count((server: RDatum) =>
+      server('status').eq('connected'),
+    );
   },
 
-  num_sindex_issues(current_issues?: RTable) {
-    if (current_issues == null) {
-      ({ current_issues } = admin);
-    }
-    return current_issues.count((issue) => issue('type').eq('outdated_index'));
+  num_sindex_issues(current_issues = admin.current_issues) {
+    return current_issues.count((issue: RDatum) =>
+      issue('type').eq('outdated_index'),
+    );
   },
 
-  num_sindexes_constructing(jobs?: RTable) {
-    if (!jobs) {
-      ({ jobs } = admin);
-    }
-    return jobs.count((job) => job('type').eq('index_construction'));
+  num_sindexes_constructing(jobs = admin.jobs) {
+    return jobs.count((job: RDatum) => job('type').eq('index_construction'));
   },
 };
-
-export { admin, helpers, queries };
