@@ -9,6 +9,7 @@ import {
   Typography,
   Link,
 } from '@mui/material';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 export type Log = {
   id: string[];
@@ -36,7 +37,9 @@ const ServerLink: FunctionComponent<{ logItem: Log }> = ({ logItem }) => (
 const LogItem: FunctionComponent<ILogItem> = ({ logItem }) => (
   <ListItem alignItems="flex-start">
     <ListItemAvatar>
-      <Avatar alt="Log" />
+      <Avatar sx={{ bgcolor: 'primary.dark' }} variant="rounded">
+        <TextSnippetIcon />
+      </Avatar>
     </ListItemAvatar>
     <ListItemText
       primary={logItem.message}

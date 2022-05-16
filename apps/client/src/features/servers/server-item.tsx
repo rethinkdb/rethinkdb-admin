@@ -9,6 +9,7 @@ import {
   ListItemSecondaryAction,
   Typography,
 } from '@mui/material';
+import ComputerIcon from '@mui/icons-material/Computer';
 
 import { ComparableTime } from '../time/relative';
 
@@ -65,7 +66,9 @@ const ServerItem: FunctionComponent<IServerItem> = ({
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Server" />
+        <Avatar sx={{ bgcolor: 'primary.dark' }} variant="rounded">
+          <ComputerIcon />
+        </Avatar>
       </ListItemAvatar>
       <ListItemText primary={primaryRow} secondary={secondaryRow} />
       <ListItemSecondaryAction>{rightRow}</ListItemSecondaryAction>

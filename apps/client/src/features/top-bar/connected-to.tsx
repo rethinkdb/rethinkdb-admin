@@ -1,21 +1,12 @@
 import React from 'react';
 
-import { Box, Typography } from '@mui/material';
 import ComputerIcon from '@mui/icons-material/Computer';
 
-import { BorderedIcon } from './bordered-icon';
 import { useConnectedTo } from './data-hooks';
+import { TopBarItem } from './top-bar-item';
 
-const ConnectedTo = React.memo(() => {
+export const ConnectedTo = () => {
   const connectedToData = useConnectedTo();
-  return (
-    <Box display="flex" alignItems="center" flexWrap="wrap">
-      <BorderedIcon color="primaryInverse" component={ComputerIcon} />
-      <Typography variant="h6" py={2} textAlign="center" color="text.secondary">
-        {connectedToData && `Connected to ${connectedToData.name}`}
-      </Typography>
-    </Box>
-  );
-});
-
-export { ConnectedTo };
+  const text = connectedToData && connectedToData.name;
+  return <TopBarItem icon={ComputerIcon} text={text} label="Connected to" />;
+};

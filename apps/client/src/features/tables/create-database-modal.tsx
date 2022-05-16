@@ -80,7 +80,7 @@ export const CreateDatabaseModal: FunctionComponent = () => {
 
   return (
     <>
-      <Button onClick={handleOpen} variant="contained" color="primary">
+      <Button onClick={handleOpen} color="secondary">
         Create Database
       </Button>
       <Modal

@@ -1,0 +1,36 @@
+import React from 'react';
+
+import { Avatar, Box, Grid, Typography } from '@mui/material';
+
+export type TopBarItemProps = {
+  icon: React.ComponentType;
+  text: React.ReactNode;
+  label: React.ReactNode;
+};
+
+export const TopBarItem = ({ label, icon: Icon, text }: TopBarItemProps) => (
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    flexWrap="wrap"
+  >
+    <Avatar sx={{ bgcolor: 'primary.dark' }} variant="rounded">
+      {<Icon />}
+    </Avatar>
+    <Grid py={1} pl={1} direction="column">
+      <Typography
+        pt={0.5}
+        variant="subtitle1"
+        lineHeight={1}
+        textAlign="center"
+        color="text.secondary"
+      >
+        {label}
+      </Typography>
+      <Typography variant="h6" lineHeight={1.2} textAlign="center">
+        {text}
+      </Typography>
+    </Grid>
+  </Box>
+);

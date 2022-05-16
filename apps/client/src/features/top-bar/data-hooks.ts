@@ -10,9 +10,10 @@ import {
   requestMe,
   requestUpdates,
 } from '../rethinkdb/socket';
+import { admin } from '../rethinkdb/app-driver';
 
-const issuesQuery = r.db(system_db).table('current_issues').count();
-const serversCountQuery = r.db(system_db).table('server_config').count();
+const issuesQuery = admin.current_issues.count();
+const serversCountQuery = admin.server_config.count();
 const getTablesAndReadyTablesQuery = r.do(
   r.db(system_db).table('table_config').count(),
   r
@@ -56,6 +57,8 @@ function useServersNumber(): null | number {
 
 function useTablesNumber(): null | { tablesReady: number; tables: number } {
   const [state, setState] = useState(null);
+
+  const tChanges = useChangesRequest();
   useEffect(() => {
     request(getTablesAndReadyTablesQuery).then((data) => {
       setState(data);
