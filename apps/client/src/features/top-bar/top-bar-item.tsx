@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Stack, Typography } from '@mui/material';
 
 export type TopBarItemProps = {
   icon: React.ComponentType;
@@ -18,7 +18,7 @@ export const TopBarItem = ({ label, icon: Icon, text }: TopBarItemProps) => (
     <Avatar sx={{ bgcolor: 'primary.dark' }} variant="rounded">
       {<Icon />}
     </Avatar>
-    <Grid py={1} pl={1} direction="column">
+    <Stack py={1} pl={1} direction="column">
       <Typography
         pt={0.5}
         variant="subtitle1"
@@ -31,6 +31,6 @@ export const TopBarItem = ({ label, icon: Icon, text }: TopBarItemProps) => (
       <Typography variant="h6" lineHeight={1.2} textAlign="center">
         {text}
       </Typography>
-    </Grid>
+    </Stack>
   </Box>
 );

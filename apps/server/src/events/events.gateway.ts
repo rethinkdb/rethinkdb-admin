@@ -73,7 +73,7 @@ export class EventsGateway
     const payload: TermJson = JSON.parse(payloadString) as TermJson;
     try {
       const cursor = await this.connection.run(toQuery(payload));
-      if (cursor && cursor.type !== 'Feed') {
+      if (cursor && !cursor.type.includes('Feed')) {
         return [false, 'Should be feed'];
       }
       client.changeQueries[queryId] = cursor;

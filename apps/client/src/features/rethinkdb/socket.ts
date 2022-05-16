@@ -3,13 +3,6 @@ import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 
 const socket = io({ transports: ['websocket', 'polling'] });
 
-socket.onAny((event) => {
-  console.log(event);
-});
-
-socket.on('connect', () => {
-  console.log(`connect ${socket.id}`);
-});
 socket.io.on('error', (error) => {
   console.error(error);
   debugger;

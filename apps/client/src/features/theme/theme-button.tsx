@@ -15,12 +15,12 @@ export const ThemeIcon: FunctionComponent<{ state: ThemeState }> = ({
   state,
 }) => {
   if (state === 'light') {
-    return <Brightness7Icon />;
+    return <Brightness7Icon sx={{ color: 'common.white' }} />;
   }
   if (state === 'dark') {
-    return <Brightness4Icon />;
+    return <Brightness4Icon sx={{ color: 'common.white' }} />;
   }
-  return <BrightnessAutoIcon />;
+  return <BrightnessAutoIcon sx={{ color: 'common.white' }} />;
 };
 
 export const ThemeButton: FunctionComponent<iThemeButton> = ({

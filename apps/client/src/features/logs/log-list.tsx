@@ -34,10 +34,11 @@ export const LogList: FunctionComponent<{ server?: string; quantity: number }> =
     if (!Array.isArray(logs)) {
       return <div>loading</div>;
     }
+
     return (
       <List>
         {logs.map((logItem, index) => (
-          <React.Fragment key={logItem.id[1]}>
+          <React.Fragment key={logItem.id.join()}>
             <LogItem logItem={logItem} />
             {logs.length > index + 1 && (
               <Divider
