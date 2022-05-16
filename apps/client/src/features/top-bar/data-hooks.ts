@@ -7,7 +7,8 @@ import {
   MeResponse,
   request,
   requestChanges,
-  requestMe, requestUpdates,
+  requestMe,
+  requestUpdates,
 } from '../rethinkdb/socket';
 
 const issuesQuery = r.db(system_db).table('current_issues').count();

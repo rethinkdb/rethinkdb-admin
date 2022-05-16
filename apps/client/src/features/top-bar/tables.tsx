@@ -1,14 +1,18 @@
 import React from 'react';
 
 import { useTablesNumber } from './data-hooks';
-import { StyledTypography } from './styled-typography';
+import { Typography } from '@mui/material';
 
 const TablesNumber = React.memo(() => {
   const tablesData = useTablesNumber();
   return (
-    <StyledTypography>
+    <Typography
+      variant="h5"
+      component="h2"
+      sx={{ p: 2, textAlign: 'center', color: 'text.secondary' }}
+    >
       {tablesData && `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
-    </StyledTypography>
+    </Typography>
   );
 });
 

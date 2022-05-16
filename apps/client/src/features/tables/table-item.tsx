@@ -4,14 +4,11 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import IconButton from '@mui/material/IconButton';
-import CommentIcon from '@mui/icons-material/Comment';
-import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
 import ClearIcon from '@mui/icons-material/Clear';
 
 import { TableEntry, TableStatus } from './types';
-import {RemoveTableModal} from "./remove-table-modal";
+import { RemoveTableModal } from './remove-table-modal';
 
 export interface ITableItem {
   table: TableEntry;
@@ -66,7 +63,7 @@ export const TableListItem: FunctionComponent<ITableItem> = React.memo(
           }
         />
         <ListItemSecondaryAction>
-          <RemoveTableModal dbName={table.db} tableName={table.name}/>
+          <RemoveTableModal dbName={table.db} tableName={table.name} />
         </ListItemSecondaryAction>
       </ListItem>
     );

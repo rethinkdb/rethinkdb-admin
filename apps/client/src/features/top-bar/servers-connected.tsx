@@ -1,14 +1,19 @@
 import React from 'react';
 
+import { Typography } from '@mui/material';
+
 import { useServersNumber } from './data-hooks';
-import {StyledTypography} from "./styled-typography";
 
 function ServersConnected() {
   const serversNumber = useServersNumber();
   return (
-    <StyledTypography>
+    <Typography
+      variant="h5"
+      component="h2"
+      sx={{ p: 2, textAlign: 'center', color: 'text.secondary' }}
+    >
       Servers: {serversNumber} connected
-    </StyledTypography>
+    </Typography>
   );
 }
 

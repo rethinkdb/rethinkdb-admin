@@ -6,14 +6,15 @@ import {
   Card,
   CardActions,
   CardContent,
-  Modal, Stack,
+  Modal,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
 
 import { request } from '../rethinkdb/socket';
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
   position: 'absolute',
@@ -30,9 +31,10 @@ const style = {
 const notValidText =
   "This name doesn't match the name of the database you're trying to delete.";
 
-export const RemoveTableModal: FunctionComponent<{ dbName: string; tableName: string }> = ({
-  dbName, tableName
-}) => {
+export const RemoveTableModal: FunctionComponent<{
+  dbName: string;
+  tableName: string;
+}> = ({ dbName, tableName }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [hasEntered, setHasEntered] = React.useState<boolean>(false);
   const [value, setValue] = React.useState<string>('');
@@ -84,7 +86,7 @@ export const RemoveTableModal: FunctionComponent<{ dbName: string; tableName: st
             <Typography variant="h6" marginTop={1} marginBottom={2}>
               Remove database
             </Typography>
-            <Stack  >
+            <Stack>
               <Alert severity="warning">
                 Deleting the database will delete all the tables in it.
                 <br />
@@ -92,7 +94,8 @@ export const RemoveTableModal: FunctionComponent<{ dbName: string; tableName: st
               </Alert>
             </Stack>
             <Typography component="p" marginTop={1}>
-              Please type in the name of the table to confirm. ({dbName}.{tableName})
+              Please type in the name of the table to confirm. ({dbName}.
+              {tableName})
             </Typography>
             <TextField
               label="Name of the database"
@@ -104,7 +107,9 @@ export const RemoveTableModal: FunctionComponent<{ dbName: string; tableName: st
             />
           </CardContent>
           <CardActions>
-            <Button onClick={onDatabaseCreate} disabled={error}>Delete</Button>
+            <Button onClick={onDatabaseCreate} disabled={error}>
+              Delete
+            </Button>
           </CardActions>
         </Card>
       </Modal>

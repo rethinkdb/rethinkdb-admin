@@ -1,4 +1,4 @@
-import { RTable } from 'rethinkdb-ts';
+import { RDatum, RTable } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import { system_db } from '../rethinkdb';
@@ -20,13 +20,13 @@ function query(server_status: RTable, table_config: RTable) {
       .concatMap((row) => row('shards').default([]))
       .concatMap((row) => row('replicas'))
       .distinct(),
-    (connected_servers, assigned_servers) => ({
+    (connected_servers: RDatum, assigned_servers: RDatum) => ({
       servers_connected: connected_servers.count(),
 
       servers_missing: assigned_servers.setDifference(connected_servers),
 
       unknown_missing: table_config
-        .filter((row) => row.hasFields('shards').not())('name')
+        .filter((row: RDatum) => row.hasFields('shards').not())('name')
         .isEmpty()
         .not(),
     }),

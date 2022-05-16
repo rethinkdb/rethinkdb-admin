@@ -14,11 +14,13 @@ function ServersPage() {
       <Typography sx={{ marginTop: 1 }} variant="h6" noWrap>
         Servers connected to the cluster
       </Typography>
-      <Paper sx={{
-        marginTop: 1,
-        width: '100%',
-        backgroundColor: 'background.paper',
-      }}>
+      <Paper
+        sx={{
+          marginTop: 1,
+          width: '100%',
+          backgroundColor: 'background.paper',
+        }}
+      >
         <ServerList servers={servers} />
       </Paper>
     </>

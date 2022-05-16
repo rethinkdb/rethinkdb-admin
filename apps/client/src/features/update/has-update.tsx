@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Alert, Link, Stack } from '@mui/material';
-import {useUpdates} from "../top-bar/data-hooks";
+import { useUpdates } from '../top-bar/data-hooks';
 
 export type UpdateInfo = {
   status: 'need_update' | 'ok';

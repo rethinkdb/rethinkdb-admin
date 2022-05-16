@@ -63,7 +63,9 @@ export const CreateDatabaseModal: FunctionComponent = () => {
       return;
     }
     if (/^[a-zA-Z0-9_]+$/.test(value) === false) {
-      setError('Only alphanumeric characters and underscore are allowed ([a-zA-Z0-9_])');
+      setError(
+        'Only alphanumeric characters and underscore are allowed ([a-zA-Z0-9_])',
+      );
       return;
     }
     // Check if it's a duplicate

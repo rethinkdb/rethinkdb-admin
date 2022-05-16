@@ -54,33 +54,17 @@ export const TablePage = () => {
       </Typography>
       <Card sx={{ marginTop: 1 }}>
         <CardContent>
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
             Statistics: {humanizeTableStatus(table.status)}
           </Typography>
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
             {table.num_primary_replicas}/{table.num_shards} primary replicas
           </Typography>
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
             {table.num_available_replicas}/{table.num_replicas} replicas
             available
           </Typography>
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
             About 0 documents Sharding and replication 1 shard 1 replica per
             shard Reconfigure Secondary indexes No secondary indexes found.
             Create a new secondary index → Servers used by this table Shard 1 ~0

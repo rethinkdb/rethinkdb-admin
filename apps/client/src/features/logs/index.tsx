@@ -16,11 +16,13 @@ function LogsPage() {
     return <div>loading</div>;
   }
   return (
-    <Paper sx={{
-      marginTop: 1,
-      width: '100%',
-      backgroundColor: 'background.paper',
-    }}>
+    <Paper
+      sx={{
+        marginTop: 1,
+        width: '100%',
+        backgroundColor: 'background.paper',
+      }}
+    >
       {logs.length} of requested {count}
       <LogList quantity={count} />
       <Grid container justifyContent="center" item>

@@ -14,7 +14,7 @@ import {
   Tabs,
   Typography,
   useTheme,
-  styled
+  styled,
 } from '@mui/material';
 
 import { request } from '../rethinkdb/socket';
@@ -35,14 +35,14 @@ import 'codemirror/addon/hint/show-hint.css';
 const FinalResultTypography = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(2),
   minWidth: 275,
-}))
+}));
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(1),
   marginLeft: theme.spacing(1),
   marginRight: theme.spacing(1),
-}))
+}));
 
 function evalInContext(js: string, context: unknown) {
   return function () {

@@ -4,7 +4,15 @@ import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import StorageIcon from '@mui/icons-material/Storage';
-import { Card, CardContent, Divider, List, ListItem, ListItemText, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 
 import { system_db } from '../rethinkdb';
 import { request } from '../rethinkdb/socket';

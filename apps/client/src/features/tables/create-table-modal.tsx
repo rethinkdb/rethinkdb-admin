@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
+import { WriteResult } from 'rethinkdb-ts/lib/types';
+
 import {
   Alert,
   Box,
@@ -18,8 +20,8 @@ import {
 
 import { request } from '../rethinkdb/socket';
 import { system_db } from '../rethinkdb';
+
 import { useTableEntries } from './db-table-list';
-import { WriteResult } from 'rethinkdb-ts/lib/types';
 
 const style = {
   position: 'absolute',

@@ -6,7 +6,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  Modal, Stack,
+  Modal,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -80,7 +81,7 @@ export const RemoveDatabaseModal: FunctionComponent<{ dbName: string }> = ({
             <Typography variant="h6" marginTop={1} marginBottom={2}>
               Remove database
             </Typography>
-            <Stack  >
+            <Stack>
               <Alert severity="warning">
                 Deleting the database will delete all the tables in it.
                 <br />
@@ -100,7 +101,9 @@ export const RemoveDatabaseModal: FunctionComponent<{ dbName: string }> = ({
             />
           </CardContent>
           <CardActions>
-            <Button onClick={onDatabaseCreate} disabled={error}>Delete</Button>
+            <Button onClick={onDatabaseCreate} disabled={error}>
+              Delete
+            </Button>
           </CardActions>
         </Card>
       </Modal>
