@@ -174,7 +174,6 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
     }
     // Check if it's a duplicate
     for (const database of dbEntries) {
-      debugger;
       if (database.tables.map((t) => t.name).includes(formState.tableName)) {
         setError("it's a duplicate");
         return;
@@ -185,7 +184,9 @@ export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
 
   return (
     <>
-      <Button onClick={handleOpen}>Create Table</Button>
+      <Button onClick={handleOpen} variant="contained">
+        Create Table
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

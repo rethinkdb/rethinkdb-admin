@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardContent, Divider, Grid } from '@mui/material';
-
+import { Divider, Paper, Stack, Icon } from '@mui/material';
+import ComputerIcon from '@mui/icons-material/Computer';
 import { ConnectedTo } from './connected-to';
 import { Issues } from './issues';
 import { ServersConnected } from './servers-connected';
@@ -8,27 +8,26 @@ import { TablesNumber } from './tables';
 
 function TopBar() {
   return (
-    <Card>
-      <CardContent>
-        <Grid container spacing={3} justifyContent="center">
-          <Grid item xs={2}>
-            <ConnectedTo />
-          </Grid>
-          <Divider orientation="vertical" flexItem />
-          <Grid item xs={2}>
-            <Issues />
-          </Grid>
-          <Divider orientation="vertical" flexItem />
-          <Grid item xs={2}>
-            <ServersConnected />
-          </Grid>
-          <Divider orientation="vertical" flexItem />
-          <Grid item xs={2}>
-            <TablesNumber />
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+    <Paper variant="outlined" square>
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" flexItem />}
+        justifyContent="space-evenly"
+      >
+        <div>
+          <ConnectedTo />
+        </div>
+        <div item xs={3}>
+          <Issues />
+        </div>
+        <div item xs={3}>
+          <ServersConnected />
+        </div>
+        <div item xs={3}>
+          <TablesNumber />
+        </div>
+      </Stack>
+    </Paper>
   );
 }
 

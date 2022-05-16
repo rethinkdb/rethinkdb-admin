@@ -103,12 +103,10 @@ export const AppInnerContent = () => {
         handleDrawerToggle={handleDrawerToggle}
         mobileOpen={mobileOpen}
       />
-      <ContentWrapper sx={{ p: 3 }}>
+      <ContentWrapper>
         <Offset />
         <HasUpdate />
-        <Box marginTop={1}>
-          <TopBar />
-        </Box>
+        <TopBar />
         <Routes />
       </ContentWrapper>
     </Root>

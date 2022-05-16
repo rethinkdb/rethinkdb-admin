@@ -1,18 +1,22 @@
 import React from 'react';
+import { Box, Typography } from '@mui/material';
+import DataArrayIcon from '@mui/icons-material/DataArray';
 
+import { BorderedIcon } from './bordered-icon';
 import { useTablesNumber } from './data-hooks';
-import { Typography } from '@mui/material';
 
 const TablesNumber = React.memo(() => {
   const tablesData = useTablesNumber();
   return (
-    <Typography
-      variant="h5"
-      component="h2"
-      sx={{ p: 2, textAlign: 'center', color: 'text.secondary' }}
-    >
-      {tablesData && `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
-    </Typography>
+    <Box display="flex" alignItems="center" flexWrap="wrap">
+      <BorderedIcon color="primaryInverse" component={DataArrayIcon} />
+      <Typography
+        variant="h6"
+        sx={{ py: 2, textAlign: 'center', color: 'text.secondary' }}
+      >
+        {tablesData && `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
+      </Typography>
+    </Box>
   );
 });
 

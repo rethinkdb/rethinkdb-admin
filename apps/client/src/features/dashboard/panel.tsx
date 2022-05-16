@@ -1,34 +1,36 @@
-import { RDatum, RTable } from 'rethinkdb-ts';
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
+import { FunctionComponent } from 'react';
+import { Divider, Paper, Stack, styled } from '@mui/material';
+import { Servers } from './panel/servers';
+import { Tables } from './panel/tables';
+import { Indexes } from './panel/indexes';
+import { Stats } from './panel/stats';
 
-import { system_db } from '../rethinkdb';
+const Item = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  textAlign: 'center',
+}));
 
-const systable = (name: string) => r.db(system_db).table(name);
-
-function query(server_status: RTable, table_config: RTable) {
-  if (!server_status) {
-    server_status = systable('server_status');
-  }
-  if (!table_config) {
-    table_config = systable('table_config');
-  }
-  return r.do(
-    // All connected servers
-    server_status('name').coerceTo('array'),
-    // All servers assigned to tables
-    table_config
-      .concatMap((row) => row('shards').default([]))
-      .concatMap((row) => row('replicas'))
-      .distinct(),
-    (connected_servers: RDatum, assigned_servers: RDatum) => ({
-      servers_connected: connected_servers.count(),
-
-      servers_missing: assigned_servers.setDifference(connected_servers),
-
-      unknown_missing: table_config
-        .filter((row: RDatum) => row.hasFields('shards').not())('name')
-        .isEmpty()
-        .not(),
-    }),
+export const Panel: FunctionComponent = () => {
+  return (
+    <Paper sx={{ m: 1 }} elevation={4}>
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" flexItem />}
+        justifyContent="space-evenly"
+      >
+        <Item>
+          <Servers />
+        </Item>
+        <Item>
+          <Tables />
+        </Item>
+        <Item>
+          <Indexes />
+        </Item>
+        <Item>
+          <Stats />
+        </Item>
+      </Stack>
+    </Paper>
   );
-}
+};

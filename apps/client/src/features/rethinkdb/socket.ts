@@ -5,7 +5,6 @@ const socket = io({ transports: ['websocket', 'polling'] });
 
 socket.onAny((event) => {
   console.log(event);
-  debugger;
 });
 
 socket.on('connect', () => {

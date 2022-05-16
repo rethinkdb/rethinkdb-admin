@@ -10,7 +10,7 @@ export type UpdateInfo = {
 
 export const HasUpdate: FunctionComponent = () => {
   const data: UpdateInfo | null = useUpdates();
-  debugger;
+
   if (!data || data.status === 'ok') {
     return;
   }

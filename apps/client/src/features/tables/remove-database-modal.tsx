@@ -69,7 +69,9 @@ export const RemoveDatabaseModal: FunctionComponent<{ dbName: string }> = ({
 
   return (
     <>
-      <Button onClick={handleOpen}>Remove Database</Button>
+      <Button onClick={handleOpen} color="primary">
+        Remove Database
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}

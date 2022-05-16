@@ -20,7 +20,7 @@ function TablesPage() {
   return (
     <PageRoot>
       <Box display="flex" my={1}>
-        <Typography sx={{ marginTop: 1, flexGrow: 1 }} variant="h6" noWrap>
+        <Typography sx={{ mt: 1, flexGrow: 1 }} variant="h6" noWrap>
           Tables existing in the cluster
         </Typography>
         <CreateDatabaseModal />
