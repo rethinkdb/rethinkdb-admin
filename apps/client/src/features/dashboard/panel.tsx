@@ -12,7 +12,7 @@ const Item = styled('div')(({ theme }) => ({
 
 export const Panel: FunctionComponent = () => {
   return (
-    <Paper sx={{ m: 1 }} elevation={4}>
+    <Paper my={1} elevation={4}>
       <Stack
         direction="row"
         divider={<Divider orientation="vertical" flexItem />}

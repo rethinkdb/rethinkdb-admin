@@ -4,6 +4,7 @@ import { Box, styled, Typography } from '@mui/material';
 
 import { FullTableList, useTableEntries } from './db-table-list';
 import { CreateDatabaseModal } from './create-database-modal';
+import { CommonTitledLayout } from '../../layouts/page';
 
 const PageRoot = styled('div')({
   marginTop: 1,
@@ -18,15 +19,12 @@ function TablesPage() {
   }
 
   return (
-    <PageRoot>
-      <Box display="flex" my={1}>
-        <Typography sx={{ mt: 1, flexGrow: 1 }} variant="h6" noWrap>
-          Tables existing in the cluster
-        </Typography>
-        <CreateDatabaseModal />
-      </Box>
+    <CommonTitledLayout
+      title="Tables existing in the cluster"
+      titleOptions={<CreateDatabaseModal />}
+    >
       <FullTableList entries={tables} />
-    </PageRoot>
+    </CommonTitledLayout>
   );
 }
 

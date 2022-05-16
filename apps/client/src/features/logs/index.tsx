@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { Button, Grid, Paper } from '@mui/material';
+import { Button, Grid, Paper, Typography } from '@mui/material';
 
 import { LogList, useLogEntries } from './log-list';
+import { CommonTitledLayout } from '../../layouts/page';
 
 function LogsPage() {
   const [count, setCount] = useState<number>(20);
@@ -16,21 +17,19 @@ function LogsPage() {
     return <div>loading</div>;
   }
   return (
-    <Paper
-      sx={{
-        marginTop: 1,
-        width: '100%',
-        backgroundColor: 'background.paper',
-      }}
-    >
-      {logs.length} of requested {count}
-      <LogList quantity={count} />
-      <Grid container justifyContent="center" item>
-        {count <= logs.length && (
-          <Button onClick={onButtonUpCount}>Older log entries</Button>
-        )}
-      </Grid>
-    </Paper>
+    <CommonTitledLayout title="Logs">
+      <Paper>
+        <Typography p={1} variant="h6">
+          {logs.length} of requested {count}
+        </Typography>
+        <LogList quantity={count} />
+        <Grid container justifyContent="center" item>
+          {count <= logs.length && (
+            <Button onClick={onButtonUpCount}>Older log entries</Button>
+          )}
+        </Grid>
+      </Paper>
+    </CommonTitledLayout>
   );
 }
 

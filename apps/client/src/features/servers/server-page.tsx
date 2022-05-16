@@ -18,9 +18,10 @@ import { system_db } from '../rethinkdb';
 import { request } from '../rethinkdb/socket';
 import { ComparableTime } from '../time/relative';
 import { LogList } from '../logs/log-list';
+import { admin } from '../rethinkdb/app-driver';
+import { CommonTitledLayout } from '../../layouts/page';
 
-const tableConfig = r.db(system_db).table('table_config');
-const tableStatus = r.db(system_db).table('table_status');
+const { table_config: tableConfig, table_status: tableStatus } = admin;
 
 function serverRespQuery(server_name: RValue) {
   return tableConfig
@@ -29,36 +30,30 @@ function serverRespQuery(server_name: RValue) {
         .concatMap((x) => x)
         .contains(server_name),
     )
-    .map(function (config) {
-      return {
-        db: config('db'),
-        name: config('name'),
-        id: config('id'),
-        shards: config('shards')
-          .map(
-            tableStatus.get(config('id'))('shards'),
-            r.range(config.count()),
-            function (
-              sconfig: RValue,
-              sstatus: RValue,
-              shardId: RValue,
-            ): RValue {
-              return {
-                shard_id: shardId.add(1),
-                total_shards: config('shards').count(),
-                inshard: sconfig('replicas').contains(server_name),
-                currently_primary:
-                  sstatus('primary_replicas').contains(server_name),
-                configured_primary: sconfig('primary_replica').eq(server_name),
-                nonvoting: sconfig('nonvoting_replicas').contains(server_name),
-              };
-            },
-          )
-          .filter({ inshard: true })
-          .without('inshard')
-          .coerceTo('array'),
-      };
-    })
+    .map((config) => ({
+      db: config('db'),
+      name: config('name'),
+      id: config('id'),
+      shards: config('shards')
+        .map(
+          tableStatus.get(config('id'))('shards'),
+          r.range(config.count()),
+          function (sconfig: RValue, sstatus: RValue, shardId: RValue): RValue {
+            return {
+              shard_id: shardId.add(1),
+              total_shards: config('shards').count(),
+              inshard: sconfig('replicas').contains(server_name),
+              currently_primary:
+                sstatus('primary_replicas').contains(server_name),
+              configured_primary: sconfig('primary_replica').eq(server_name),
+              nonvoting: sconfig('nonvoting_replicas').contains(server_name),
+            };
+          },
+        )
+        .filter({ inshard: true })
+        .without('inshard')
+        .coerceTo('array'),
+    }))
     .coerceTo('array');
 }
 
@@ -210,11 +205,8 @@ export const ServerPage = () => {
   }
 
   return (
-    <>
-      <Typography variant="h6" noWrap marginTop={1}>
-        Server overview for {query.main.name}
-      </Typography>
-      <Card sx={{ marginTop: 1 }}>
+    <CommonTitledLayout title={`Server overview for ${query.main.name}`}>
+      <Card>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
             {query.profile.version.split(' ')[1]} version
@@ -226,7 +218,10 @@ export const ServerPage = () => {
             {query.profile.tags} tags
           </Typography>
           <Typography variant="body2" component="p">
-            <ComparableTime date={new Date(query.profile.time_started)} />{' '}
+            <ComparableTime
+              date={new Date(query.profile.time_started)}
+              suffix={false}
+            />{' '}
             uptime
             <br />
             {Number(query.profile.cache_size / 1024 / 1024 / 1024).toFixed(2)}
@@ -242,6 +237,6 @@ export const ServerPage = () => {
         <LogList quantity={6} server={query.main.id} />
       </Card>
       <pre>The server is {JSON.stringify(query, null, 2)}</pre>
-    </>
+    </CommonTitledLayout>
   );
 };

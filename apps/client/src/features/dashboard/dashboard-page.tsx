@@ -1,19 +1,18 @@
 import React from 'react';
 
+import { Stack } from '@mui/material';
+
 import { RecentLogList } from '../logs/recent-log-list';
 import { Panel } from './panel';
-import { Stack, Typography } from '@mui/material';
+import { CommonTitledLayout } from '../../layouts/page';
 
-function DashboardPage() {
-  return (
-    <Stack sx={{ m: 1 }} spacing={1}>
-      <Typography sx={{ m: 1 }} variant="h3">
-        Dashboard page
-      </Typography>
+const DashboardPage = () => (
+  <CommonTitledLayout title="Dashboard page">
+    <Stack spacing={1}>
       <Panel />
       <RecentLogList />
     </Stack>
-  );
-}
+  </CommonTitledLayout>
+);
 
 export { DashboardPage };

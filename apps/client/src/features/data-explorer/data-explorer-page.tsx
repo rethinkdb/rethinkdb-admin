@@ -14,9 +14,9 @@ import {
   Tabs,
   Typography,
   useTheme,
-  styled,
 } from '@mui/material';
 
+import { CommonTitledLayout } from '../../layouts/page';
 import { request } from '../rethinkdb/socket';
 import { useChangesRequest } from '../top-bar/data-hooks';
 
@@ -31,18 +31,6 @@ import 'codemirror/theme/neo.css';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/hint/show-hint.css';
-
-const FinalResultTypography = styled(Typography)(({ theme }) => ({
-  padding: theme.spacing(2),
-  minWidth: 275,
-}));
-
-const StyledGrid = styled(Grid)(({ theme }) => ({
-  marginTop: theme.spacing(1),
-  marginBottom: theme.spacing(1),
-  marginLeft: theme.spacing(1),
-  marginRight: theme.spacing(1),
-}));
 
 function evalInContext(js: string, context: unknown) {
   return function () {
@@ -142,86 +130,93 @@ export function DataExplorerPage() {
       : JSON.stringify(changesResult, null, 2)
     : result;
   return (
-    <Paper elevation={2}>
-      <Codemirror
-        options={{
-          theme: theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
-          lineNumbers: true,
-          mode: 'javascript',
-          extraKeys: {
-            'Ctrl-Space': 'autocomplete',
-          },
-          matchBrackets: true,
-          lineWrapping: true,
-          tabSize: 2,
-        }}
-        onChange={(value) => {
-          setValue(value);
-        }}
-      />
-      <StyledGrid container spacing={1}>
-        <Grid item xs={2} direction="row">
-          <Button variant="contained" color="primary" onClick={onRequestClick}>
-            Request
-          </Button>
-          {isChangesQ && (
-            <Button variant="contained" onClick={onStopChangesClick}>
-              Abort
+    <CommonTitledLayout title="Data Explorer">
+      <Paper elevation={1} square>
+        <Codemirror
+          options={{
+            theme: theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
+            lineNumbers: true,
+            mode: 'javascript',
+            extraKeys: {
+              'Ctrl-Space': 'autocomplete',
+            },
+            matchBrackets: true,
+            lineWrapping: true,
+            tabSize: 2,
+          }}
+          onChange={(value) => {
+            setValue(value);
+          }}
+        />
+        <Grid m={1} container spacing={1}>
+          <Grid item xs={2} direction="row">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={onRequestClick}
+            >
+              Request
             </Button>
-          )}
+            {isChangesQ && (
+              <Button variant="contained" onClick={onStopChangesClick}>
+                Abort
+              </Button>
+            )}
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>
+              Last run timestamp: {lastRunTime && +lastRunTime}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={2}>
-          <Typography>
-            Last run timestamp: {lastRunTime && +lastRunTime}
-          </Typography>
-        </Grid>
-      </StyledGrid>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={num}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Raw view" {...a11yProps(0)} />
-          <Tab label="Tree view" {...a11yProps(1)} />
-          <Tab label="Query profile" {...a11yProps(2)} />
-          <Tab label="Table viewer view" {...a11yProps(3)} />
-          <Tab label="Table view" {...a11yProps(4)} />
-        </Tabs>
-      </AppBar>
-      <SwipeableViews index={num} onChangeIndex={handleChangeIndex}>
-        <TabPanel value={num} index={0}>
-          <FinalResultTypography component="pre">
-            {finalResult}
-          </FinalResultTypography>
-        </TabPanel>
-        <TabPanel value={num} index={1}>
-          <Codemirror
-            value={finalResult}
-            options={{
-              theme: theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
-              readOnly: true,
-              lineNumbers: true,
-              mode: 'javascript',
-              matchBrackets: true,
-              lineWrapping: true,
-              tabSize: 2,
-            }}
-          />
-        </TabPanel>
-        <TabPanel value={num} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={num} index={3}>
-          To be implemented
-        </TabPanel>
-        <TabPanel value={num} index={4}>
-          To be implemented
-        </TabPanel>
-      </SwipeableViews>
-    </Paper>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={num}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Raw view" {...a11yProps(0)} />
+            <Tab label="Tree view" {...a11yProps(1)} />
+            <Tab label="Query profile" {...a11yProps(2)} />
+            <Tab label="Table viewer view" {...a11yProps(3)} />
+            <Tab label="Table view" {...a11yProps(4)} />
+          </Tabs>
+        </AppBar>
+        <SwipeableViews index={num} onChangeIndex={handleChangeIndex}>
+          <TabPanel value={num} index={0}>
+            <Typography padding={2} minWidth={275} component="pre">
+              {finalResult}
+            </Typography>
+          </TabPanel>
+          <TabPanel value={num} index={1}>
+            <Codemirror
+              value={finalResult}
+              options={{
+                theme:
+                  theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
+                readOnly: true,
+                lineNumbers: true,
+                mode: 'javascript',
+                matchBrackets: true,
+                lineWrapping: true,
+                tabSize: 2,
+              }}
+            />
+          </TabPanel>
+          <TabPanel value={num} index={2}>
+            To be implemented
+          </TabPanel>
+          <TabPanel value={num} index={3}>
+            To be implemented
+          </TabPanel>
+          <TabPanel value={num} index={4}>
+            To be implemented
+          </TabPanel>
+        </SwipeableViews>
+      </Paper>
+    </CommonTitledLayout>
   );
 }

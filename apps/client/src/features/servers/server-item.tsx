@@ -57,7 +57,7 @@ const ServerItem: FunctionComponent<IServerItem> = ({
       color="textPrimary"
     >
       {serverItem.hostname} started{' '}
-      <ComparableTime date={new Date(serverItem.timeStarted)} /> ago
+      <ComparableTime date={new Date(serverItem.timeStarted)} />
     </Typography>
   );
   return (
