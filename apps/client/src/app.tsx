@@ -8,7 +8,8 @@ import {
   ThemeProvider,
   Toolbar,
   Typography,
-  styled, Box
+  styled,
+  Box,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -23,7 +24,7 @@ import { TopBar } from './features/top-bar';
 import './features/rethinkdb/socket';
 import { ThemeButton } from './features/theme/theme-button';
 import { themeAtom } from './features/theme/state';
-import {HasUpdate} from "./features/update/has-update";
+import { HasUpdate } from './features/update/has-update';
 
 const drawerWidth = 280;
 const { Provider: StateProvider } = reatomContext;
@@ -38,17 +39,15 @@ const ContentWrapper = styled('main')`
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-const App: FunctionComponent = () => {
-  return (
-    <StrictMode>
-      <Router>
-        <StateProvider value={store}>
-          <AppContent />
-        </StateProvider>
-      </Router>
-    </StrictMode>
-  );
-};
+const App: FunctionComponent = () => (
+  <StrictMode>
+    <Router>
+      <StateProvider value={store}>
+        <AppContent />
+      </StateProvider>
+    </Router>
+  </StrictMode>
+);
 
 export const AppContent = () => {
   const theme = useTheme();

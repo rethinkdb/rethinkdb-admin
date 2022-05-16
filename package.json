@@ -33,7 +33,7 @@
     "nanoid": "^3.3.4",
     "react-swipeable-views": "^0.14.0",
     "reflect-metadata": "^0.1.13",
-    "rethinkdb-ts": "^3.0.0-next.1",
+    "rethinkdb-ts": "^3.0.0-next.4",
     "rxjs": "^7.5.5",
     "socket.io": "^4.5.0",
     "undici": "^5.2.0"
