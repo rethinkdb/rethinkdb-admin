@@ -26,7 +26,6 @@ export const RethinkdbProvider = {
     if (rethinkdbUrl.password) {
       options.password = rethinkdbUrl.password;
     }
-    console.log('kek');
     return connect(connectionOptions, options);
   },
 };
