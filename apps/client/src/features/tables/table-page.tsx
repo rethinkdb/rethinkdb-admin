@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import { Paper, Typography } from '@mui/material';
 
-import { guaranteedQuery } from './queries';
-import { request } from '../rethinkdb/socket';
-
-import { humanizeTableStatus } from './table-item';
 import { CommonTitledLayout } from '../../layouts/page';
+import { request } from '../rethinkdb/socket';
+import { humanizeTableStatus } from '../utils/rethinkdb';
+
+import { guaranteedQuery } from './queries';
 
 export type TableGuaranteedData = {
   db: string;

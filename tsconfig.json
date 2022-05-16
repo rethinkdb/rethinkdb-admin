@@ -13,7 +13,8 @@
     "incremental": true,
     "noImplicitAny": true,
     "allowJs": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "skipLibCheck": true,
   },
   "exclude": [
     "node_modules",

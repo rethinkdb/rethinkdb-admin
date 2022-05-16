@@ -52,9 +52,9 @@ function serverRespQuery(server_name: RValue) {
         )
         .filter({ inshard: true })
         .without('inshard')
-        .coerceTo('array'),
+        .coerceTo('ARRAY'),
     }))
-    .coerceTo('array');
+    .coerceTo('ARRAY');
 }
 
 function fetchServer(id: string) {
@@ -208,13 +208,13 @@ export const ServerPage = () => {
     <CommonTitledLayout title={`Server overview for ${query.main.name}`}>
       <Card>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="textSecondary" gutterBottom>
+          <Typography fontSize={14} color="textSecondary" gutterBottom>
             {query.profile.version.split(' ')[1]} version
           </Typography>
           <Typography variant="h5" component="h2">
             {query.profile.hostname} hostname
           </Typography>
-          <Typography sx={{ m: 1 }} color="textSecondary">
+          <Typography m={1} color="textSecondary">
             {query.profile.tags} tags
           </Typography>
           <Typography variant="body2" component="p">

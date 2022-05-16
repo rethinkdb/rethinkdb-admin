@@ -148,7 +148,7 @@ const queries = {
           ),
         };
       })
-      .coerceTo('array');
+      .coerceTo('ARRAY');
   },
 
   tables_with_primaries_not_ready(
@@ -158,7 +158,7 @@ const queries = {
     return r.do(
       admin.server_config
         .map((x) => [x('id'), x('name')])
-        .coerceTo('array')
+        .coerceTo('ARRAY')
         .coerceTo('OBJECT'),
       (server_names) =>
         table_status
@@ -190,10 +190,10 @@ const queries = {
                 },
               )
               .filter((shard) => shard('primary_state').ne('ready'))
-              .coerceTo('array'),
+              .coerceTo('ARRAY'),
           }))
           .filter((table) => table('shards').isEmpty().not())
-          .coerceTo('array'),
+          .coerceTo('ARRAY'),
     );
   },
 
@@ -220,7 +220,7 @@ const queries = {
               num_shards: status('shards').count().default(0),
 
               replicas: shard('replicas')
-                .filter((replica) =>
+                .filter((replica: RDatum) =>
                   r
                     .expr([
                       'ready',
@@ -234,13 +234,13 @@ const queries = {
                   replica_id,
                   replica_name: replica('server'),
                 }))
-                .coerceTo('array'),
+                .coerceTo('ARRAY'),
             }),
           )
-          .coerceTo('array'),
+          .coerceTo('ARRAY'),
       }))
       .filter((table) => table('shards')(0)('replicas').isEmpty().not())
-      .coerceTo('array');
+      .coerceTo('ARRAY');
   },
   num_primaries(table_config_id?: RDatum) {
     if (table_config_id == null) {
@@ -302,7 +302,7 @@ const queries = {
         time_disconnected: server('connection')('time_disconnected'),
         name: server('name'),
       }))
-      .coerceTo('array');
+      .coerceTo('ARRAY');
   },
 
   num_disconnected_tables(table_status?: RTable) {

@@ -1,13 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
+
 import {
+  Avatar,
   Chip,
   ListItem,
   ListItemAvatar,
   ListItemText,
   ListItemSecondaryAction,
+  Typography,
 } from '@mui/material';
+
 import { ComparableTime } from '../time/relative';
 
 export type Server = {
@@ -43,7 +45,7 @@ const ServerItem: FunctionComponent<IServerItem> = ({
     <Typography
       component="span"
       variant="body2"
-      sx={{ display: 'inline' }}
+      display="inline"
       color="textPrimary"
     >
       {primaryCount} primary, {secondaryCount} secondaries
@@ -53,7 +55,7 @@ const ServerItem: FunctionComponent<IServerItem> = ({
     <Typography
       component="span"
       variant="body2"
-      sx={{ display: 'inline' }}
+      display="inline"
       color="textPrimary"
     >
       {serverItem.hostname} started{' '}

@@ -9,7 +9,6 @@ import {
   Toolbar,
   Typography,
   styled,
-  Box,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -88,7 +87,7 @@ export const AppInnerContent = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography sx={{ flexGrow: 1 }} variant="h6" noWrap>
+          <Typography flexGrow={1} variant="h6" noWrap>
             RethinkDB Administration Console
           </Typography>
           <ThemeButton

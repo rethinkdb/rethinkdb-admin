@@ -5,14 +5,20 @@ export const CommonLayout = styled('div')({
   margin: 1,
 });
 
-export const CommonTitledLayout: FunctionComponent<{
-  children?: React.ReactElement;
+export type CommonTitledLayoutProps = {
+  children?: React.ReactNode;
   title: string;
   titleOptions?: React.ReactElement;
-}> = ({ children, title, titleOptions }) => (
+};
+
+export const CommonTitledLayout: FunctionComponent<CommonTitledLayoutProps> = ({
+  children,
+  title,
+  titleOptions,
+}) => (
   <CommonLayout>
     <Box display="flex" m={1}>
-      <Typography sx={{ flexGrow: 1 }} variant="h4" noWrap>
+      <Typography flexGrow={1} variant="h4" noWrap>
         {title}
       </Typography>
       {titleOptions}

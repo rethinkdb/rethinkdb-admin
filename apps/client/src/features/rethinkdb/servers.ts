@@ -6,9 +6,9 @@ import { system_db } from './index';
 export const serverConfigQuery = r
   .db(system_db)
   .table('server_config')
-  .coerceTo('array');
-const server_status = r.db(system_db).table('server_status').coerceTo('array');
-const table_status = r.db(system_db).table('table_status').coerceTo('array');
+  .coerceTo('ARRAY');
+const server_status = r.db(system_db).table('server_status').coerceTo('ARRAY');
+const table_status = r.db(system_db).table('table_status').coerceTo('ARRAY');
 
 export const getServerListQuery = serverConfigQuery.map(
   server_status,

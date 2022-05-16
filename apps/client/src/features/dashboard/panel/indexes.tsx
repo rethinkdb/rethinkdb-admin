@@ -1,12 +1,11 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
+import { RDatum } from 'rethinkdb-ts';
 import { Stack, Typography } from '@mui/material';
 
+import { admin } from '../../rethinkdb/app-driver';
 import { request } from '../../rethinkdb/socket';
 import { useChangesRequest } from '../../top-bar/data-hooks';
-import { admin } from '../../rethinkdb/app-driver';
-import { pluralizeNoun } from '../../utils';
-import { RDatum } from 'rethinkdb-ts';
 
 const { table_config: tableConfig, jobs, table_status: tableStatus } = admin;
 

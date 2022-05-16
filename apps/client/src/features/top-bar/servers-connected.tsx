@@ -10,10 +10,7 @@ function ServersConnected() {
   return (
     <Box display="flex" alignItems="center" flexWrap="wrap">
       <BorderedIcon color="primaryInverse" component={StorageIcon} />
-      <Typography
-        variant="h6"
-        sx={{ py: 2, textAlign: 'center', color: 'text.secondary' }}
-      >
+      <Typography variant="h6" py={2} textAlign="center" color="text.secondary">
         Servers: {serversNumber} connected
       </Typography>
     </Box>

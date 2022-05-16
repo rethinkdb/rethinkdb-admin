@@ -33,7 +33,7 @@ export const tableListQuery = dbConfigQuery.map((db) => ({
 
 export const guaranteedQuery = (tableId: string) =>
   r.do(
-    r.db(system_db).table('server_config').coerceTo('array'),
+    r.db(system_db).table('server_config').coerceTo('ARRAY'),
     r.db(system_db).table('table_status').get(tableId),
     r.db(system_db).table('table_config').get(tableId),
     (

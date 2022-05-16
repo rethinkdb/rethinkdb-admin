@@ -143,7 +143,8 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      width={{ sm: drawerWidth }}
+      flexShrink={{ sm: 0 }}
       aria-label="mailbox folders"
     >
       <Hidden smUp implementation="css">

@@ -10,10 +10,7 @@ const TablesNumber = React.memo(() => {
   return (
     <Box display="flex" alignItems="center" flexWrap="wrap">
       <BorderedIcon color="primaryInverse" component={DataArrayIcon} />
-      <Typography
-        variant="h6"
-        sx={{ py: 2, textAlign: 'center', color: 'text.secondary' }}
-      >
+      <Typography variant="h6" py={2} textAlign="center" color="text.secondary">
         {tablesData && `Tables: ${tablesData.tablesReady}/${tablesData.tables}`}
       </Typography>
     </Box>

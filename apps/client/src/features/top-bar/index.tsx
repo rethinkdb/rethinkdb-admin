@@ -1,6 +1,6 @@
 import React from 'react';
-import { Divider, Paper, Stack, Icon } from '@mui/material';
-import ComputerIcon from '@mui/icons-material/Computer';
+import { Divider, Paper, Stack } from '@mui/material';
+
 import { ConnectedTo } from './connected-to';
 import { Issues } from './issues';
 import { ServersConnected } from './servers-connected';
@@ -14,18 +14,10 @@ function TopBar() {
         divider={<Divider orientation="vertical" flexItem />}
         justifyContent="space-evenly"
       >
-        <div>
-          <ConnectedTo />
-        </div>
-        <div item xs={3}>
-          <Issues />
-        </div>
-        <div item xs={3}>
-          <ServersConnected />
-        </div>
-        <div item xs={3}>
-          <TablesNumber />
-        </div>
+        <ConnectedTo />
+        <Issues />
+        <ServersConnected />
+        <TablesNumber />
       </Stack>
     </Paper>
   );

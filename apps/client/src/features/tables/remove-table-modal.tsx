@@ -1,20 +1,21 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
+
 import {
   Alert,
   Button,
   Card,
   CardActions,
   CardContent,
+  IconButton,
   Modal,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { request } from '../rethinkdb/socket';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
   position: 'absolute',

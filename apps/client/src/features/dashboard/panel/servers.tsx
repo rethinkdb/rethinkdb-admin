@@ -14,7 +14,7 @@ const tcChanges = tableConfig.changes();
 
 const serversQuery = r.do(
   // All connected servers
-  serverStatus('name').coerceTo('array'),
+  serverStatus('name').coerceTo('ARRAY'),
   // All servers assigned to tables
   tableConfig
     .concatMap((row) => row('shards').default([]))

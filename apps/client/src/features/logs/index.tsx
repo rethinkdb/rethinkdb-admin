@@ -16,6 +16,7 @@ function LogsPage() {
   if (!Array.isArray(logs)) {
     return <div>loading</div>;
   }
+
   return (
     <CommonTitledLayout title="Logs">
       <Paper>
