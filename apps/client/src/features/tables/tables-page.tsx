@@ -13,7 +13,7 @@ function TablesPage() {
 
   return (
     <CommonTitledLayout
-      title="Tables existing in the cluster"
+      title="Tables in the cluster"
       titleOptions={<CreateDatabaseModal />}
     >
       <FullTableList entries={tables} />

@@ -1,18 +1,24 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import StorageIcon from '@mui/icons-material/Storage';
 import {
-  Card,
-  CardContent,
+  Avatar,
   Divider,
+  Grid,
   List,
   ListItem,
+  ListItemAvatar,
+  ListItemButton,
   ListItemText,
+  Paper,
   Typography,
 } from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image';
+import WorkIcon from '@mui/icons-material/Work';
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 
 import { system_db } from '../rethinkdb';
 import { request } from '../rethinkdb/socket';
@@ -20,6 +26,7 @@ import { ComparableTime } from '../time/relative';
 import { LogList } from '../logs/log-list';
 import { admin } from '../rethinkdb/app-driver';
 import { CommonTitledLayout } from '../../layouts/page';
+import { LineChart } from '../chart';
 
 const { table_config: tableConfig, table_status: tableStatus } = admin;
 
@@ -163,13 +170,13 @@ export const TableShardItem: FunctionComponent<IShardedTableItem> = React.memo(
       </React.Fragment>
     );
     return (
-      <ListItem dense button>
+      <ListItemButton dense component={NavLink} to={`/tables/${table.id}`}>
         <ListItemText
           id={table.id}
           primary={`Table ${fullTableName}`}
           secondary={secondary}
         />
-      </ListItem>
+      </ListItemButton>
     );
   },
 );
@@ -177,66 +184,118 @@ export const TableShardItem: FunctionComponent<IShardedTableItem> = React.memo(
 export const TableShards: FunctionComponent<{ tables: ShardedTable[] }> = ({
   tables,
 }) => (
-  <Card sx={{ marginTop: 1 }}>
-    <CardContent>
-      <List>
-        {tables.map((table, index) => (
-          <React.Fragment key={table.id}>
-            <TableShardItem table={table} />
-            {tables.length > index + 1 && (
-              <Divider variant="inset" component="li" />
-            )}
-          </React.Fragment>
-        ))}
-      </List>
-    </CardContent>
-    {/*<CardActions>*/}
-    {/*  <Button size="small">Learn More</Button>*/}
-    {/*</CardActions>*/}
-  </Card>
+  <List>
+    {tables.map((table, index) => (
+      <React.Fragment key={table.id}>
+        <TableShardItem table={table} />
+        {tables.length > index + 1 && (
+          <Divider variant="inset" component="li" />
+        )}
+      </React.Fragment>
+    ))}
+  </List>
 );
+
+const ServerOverview = ({ data }: { data: ExpandedServer }) => {
+  if (!data) {
+    return <div>loading</div>;
+  }
+  return (
+    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+      <ListItem dense>
+        <ListItemAvatar>
+          <Avatar>
+            <ImageIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={data.profile.version.split(' ')[1]}
+          secondary="version"
+        />
+      </ListItem>
+      <ListItem dense>
+        <ListItemAvatar>
+          <Avatar>
+            <WorkIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={data.profile.hostname} secondary="hostname" />
+      </ListItem>
+      <ListItem dense>
+        <ListItemAvatar>
+          <Avatar>
+            <BeachAccessIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={data.profile.tags} secondary="tags" />
+      </ListItem>
+      <ListItem dense>
+        <ListItemAvatar>
+          <Avatar>
+            <BeachAccessIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            <ComparableTime
+              date={new Date(data.profile.time_started)}
+              suffix={false}
+            />
+          }
+          secondary="uptime"
+        />
+      </ListItem>
+      <ListItem dense>
+        <ListItemAvatar>
+          <Avatar>
+            <BeachAccessIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText
+          primary={`${Number(
+            data.profile.cache_size / 1024 / 1024 / 1024,
+          ).toFixed(2)} Gb`}
+          secondary="cache size"
+        />
+      </ListItem>
+    </List>
+  );
+};
 
 export const ServerPage = () => {
   const params = useParams<{ id: string }>();
-  const query = useServer(params.id);
+  const data = useServer(params.id);
 
-  if (!query) {
+  if (!data) {
     return <div>loading</div>;
   }
 
   return (
-    <CommonTitledLayout title={`Server overview for ${query.main.name}`}>
-      <Card>
-        <CardContent>
-          <Typography fontSize={14} color="textSecondary" gutterBottom>
-            {query.profile.version.split(' ')[1]} version
-          </Typography>
-          <Typography variant="h5" component="h2">
-            {query.profile.hostname} hostname
-          </Typography>
-          <Typography m={1} color="textSecondary">
-            {query.profile.tags} tags
-          </Typography>
-          <Typography variant="body2" component="p">
-            <ComparableTime
-              date={new Date(query.profile.time_started)}
-              suffix={false}
-            />{' '}
-            uptime
-            <br />
-            {Number(query.profile.cache_size / 1024 / 1024 / 1024).toFixed(2)}
-            Gb cache size
-          </Typography>
-        </CardContent>
-        {/*<CardActions>*/}
-        {/*  <Button size="small">Learn More</Button>*/}
-        {/*</CardActions>*/}
-      </Card>
-      <TableShards tables={query.tables} />
-      <Card sx={{ marginTop: 1 }}>
-        <LogList quantity={6} server={query.main.id} />
-      </Card>
-      <pre>The server is {JSON.stringify(query, null, 2)}</pre>
+    <CommonTitledLayout title={`Server overview for ${data.main.name}`}>
+      <Paper>
+        <Grid p={1} container direction="row" spacing={1}>
+          <Grid item xs={3}>
+            <ServerOverview data={data} />
+          </Grid>
+          <Grid item xs={9}>
+            <LineChart />
+          </Grid>
+        </Grid>
+      </Paper>
+      <Grid mt={1} container direction="row" spacing={1}>
+        <Grid item md={4}>
+          <Paper sx={{ marginTop: 1, p: 1 }}>
+            <Typography variant="h6">Table shards on this server</Typography>
+            <TableShards tables={data.tables} />
+          </Paper>
+        </Grid>
+        <Grid item md={8}>
+          <Paper sx={{ marginTop: 1, p: 1 }}>
+            <Typography variant="h6">Recent Log Entries</Typography>
+            <LogList quantity={6} server={params.id} />
+          </Paper>
+        </Grid>
+      </Grid>
     </CommonTitledLayout>
   );
 };

@@ -4,20 +4,24 @@ import {
   Box,
   Divider,
   Drawer,
+  Grid,
   Hidden,
   Link,
   List,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   styled,
 } from '@mui/material';
 
-import ComputerIcon from '@mui/icons-material/Computer';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ListIcon from '@mui/icons-material/List';
-import ExploreIcon from '@mui/icons-material/Explore';
-import DataUsageIcon from '@mui/icons-material/DataUsage';
+import {
+  Dashboard,
+  DataArray,
+  Explore,
+  Storage,
+  TextSnippet,
+} from '@mui/icons-material';
+
 import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 280;
@@ -25,13 +29,6 @@ const drawerWidth = 280;
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
 const Kek = styled('div')({ flexGrow: 1 });
-
-const Links = styled('div')(({ theme }) => ({
-  margin: theme.spacing(2),
-  '& > * + *': {
-    marginLeft: theme.spacing(2),
-  },
-}));
 
 interface LocalDrawerProps {
   mobileOpen: boolean;
@@ -41,27 +38,27 @@ interface LocalDrawerProps {
 const menuList = [
   {
     title: 'Dashboard',
-    icon: DashboardIcon,
+    icon: Dashboard,
     url: '/',
     exact: true,
   },
   {
-    icon: DataUsageIcon,
+    icon: DataArray,
     title: 'Tables',
     url: '/tables',
   },
   {
-    icon: ComputerIcon,
+    icon: Storage,
     title: 'Servers',
     url: '/servers',
   },
   {
-    icon: ListIcon,
+    icon: TextSnippet,
     title: 'Logs',
     url: '/logs',
   },
   {
-    icon: ExploreIcon,
+    icon: Explore,
     title: 'Data Explorer',
     url: '/dataexplorer',
   },
@@ -77,9 +74,8 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
       <Divider />
       <List>
         {menuList.map(({ exact, title, icon: Icon, url }) => (
-          <ListItem
+          <ListItemButton
             component={NavLink}
-            button
             key={title}
             activeClassName="Mui-selected"
             to={url}
@@ -89,55 +85,67 @@ const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
               <Icon />
             </ListItemIcon>
             <ListItemText primary={title} />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
       <Kek />
       <Divider />
-      <Links>
-        <Link
-          href="http://rethinkdb.com/docs/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Documentation
-        </Link>
-        <Link
-          href="http://rethinkdb.com/api/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          API
-        </Link>
-        <Link
-          href="http://groups.google.com/group/rethinkdb"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Google Groups
-        </Link>
-        <Link
-          href="irc://chat.freenode.net/#rethinkdb"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          #rethinkdb on freenode
-        </Link>
-        <Link
-          href="https://github.com/rethinkdb/rethinkdb/issues"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Github
-        </Link>
-        <Link
-          href="http://rethinkdb.com/community/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Community
-        </Link>
-      </Links>
+      <Grid container spacing={0.5}>
+        <Grid item xs="auto">
+          <Link
+            href="https://rethinkdb.com/docs/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Documentation
+          </Link>
+        </Grid>
+        <Grid item xs="auto">
+          <Link
+            href="https://rethinkdb.com/api/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            API
+          </Link>
+        </Grid>
+        <Grid item xs="auto">
+          <Link
+            href="https://groups.google.com/group/rethinkdb"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Groups
+          </Link>
+        </Grid>
+        <Grid item xs="auto">
+          <Link
+            href="irc://chat.freenode.net/#rethinkdb"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            #rethinkdb on freenode
+          </Link>
+        </Grid>
+        <Grid item xs="auto">
+          <Link
+            href="https://github.com/rethinkdb/rethinkdb/issues"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Github
+          </Link>
+        </Grid>
+        <Grid item xs="auto">
+          <Link
+            href="https://rethinkdb.com/community/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Community
+          </Link>
+        </Grid>
+      </Grid>
     </>
   );
   return (
