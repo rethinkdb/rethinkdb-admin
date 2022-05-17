@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Paper, Typography } from '@mui/material';
 
 import { CommonTitledLayout } from '../../layouts/page';
-import { request } from '../rethinkdb/socket';
+import { request } from '../rethinkdb';
 import { humanizeTableStatus } from '../utils/rethinkdb';
 
 import { guaranteedQuery } from './queries';

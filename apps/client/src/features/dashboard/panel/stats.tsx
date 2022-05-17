@@ -1,10 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { Stack, Typography } from '@mui/material';
 
-import { admin } from '../../rethinkdb/app-driver';
-import { request } from '../../rethinkdb/socket';
+import { admin, request } from '../../rethinkdb';
 import { useChangesRequest } from '../../top-bar/data-hooks';
 import { formatBytes } from '../../utils';
 
@@ -50,7 +49,7 @@ export function useStatsQuery(): null | StatsQueryResult {
   return state;
 }
 
-export const Stats: FunctionComponent = () => {
+export const Stats = () => {
   const statsResult = useStatsQuery();
   if (!statsResult) {
     return <>loading</>;

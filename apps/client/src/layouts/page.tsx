@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Box, styled, Typography } from '@mui/material';
 
 export const CommonLayout = styled('div')({
@@ -11,11 +11,11 @@ export type CommonTitledLayoutProps = {
   titleOptions?: React.ReactElement;
 };
 
-export const CommonTitledLayout: FunctionComponent<CommonTitledLayoutProps> = ({
+export const CommonTitledLayout = ({
   children,
   title,
   titleOptions,
-}) => (
+}: CommonTitledLayoutProps) => (
   <CommonLayout>
     <Box display="flex" m={1}>
       <Typography flexGrow={1} variant="h4" noWrap>

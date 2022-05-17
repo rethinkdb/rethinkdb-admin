@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { request } from '../../rethinkdb/socket';
-import { useChangesRequest } from '../../top-bar/data-hooks';
-import { admin } from '../../rethinkdb/app-driver';
-import { pluralizeNoun } from '../../utils';
 import { Stack, Typography } from '@mui/material';
+
+import { admin, request } from '../../rethinkdb';
+import { useChangesRequest } from '../../top-bar/data-hooks';
+import { pluralizeNoun } from '../../utils';
 
 const { server_status: serverStatus, table_config: tableConfig } = admin;
 
@@ -49,7 +49,7 @@ export function useServerQuery(): null | ServerQueryResult {
   return state;
 }
 
-export const Servers: FunctionComponent = () => {
+export const Servers = () => {
   const serverResult = useServerQuery();
   if (!serverResult) {
     return <>loading</>;

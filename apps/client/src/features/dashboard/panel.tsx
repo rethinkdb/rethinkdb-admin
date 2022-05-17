@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import React from 'react';
 import { Divider, Paper, Stack, styled } from '@mui/material';
 
 import { Indexes } from './panel/indexes';
@@ -11,7 +11,7 @@ const Item = styled('div')(({ theme }) => ({
   textAlign: 'center',
 }));
 
-export const Panel: FunctionComponent = () => (
+export const Panel = () => (
   <Paper elevation={4}>
     <Stack
       direction="row"

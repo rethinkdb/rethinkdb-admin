@@ -1,7 +1,6 @@
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { system_db } from '../rethinkdb';
 import { RQuery } from 'rethinkdb-ts';
-import { admin } from '../rethinkdb/app-driver';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
+import { admin, system_db } from '../rethinkdb';
 
 const server_conf = admin.server_config;
 

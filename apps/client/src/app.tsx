@@ -1,4 +1,4 @@
-import React, { FunctionComponent, StrictMode } from 'react';
+import React, { StrictMode } from 'react';
 
 import { HashRouter as Router } from 'react-router-dom';
 import {
@@ -20,7 +20,7 @@ import { store } from './features/store';
 import { useTheme } from './features/theme';
 import { TopBar } from './features/top-bar';
 
-import './features/rethinkdb/socket';
+import './features/rethinkdb';
 import { ThemeButton } from './features/theme/theme-button';
 import { themeAtom } from './features/theme/state';
 import { HasUpdate } from './features/update/has-update';
@@ -38,7 +38,7 @@ const ContentWrapper = styled('main')`
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-const App: FunctionComponent = () => (
+const App = () => (
   <StrictMode>
     {/* TODO fix Router weird ts error */}
     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}

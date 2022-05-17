@@ -8,8 +8,7 @@ import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import { lightTheme } from '../theme';
-import { requestChanges } from '../rethinkdb/socket';
-import { system_db } from '../rethinkdb';
+import { requestChanges, system_db } from '../rethinkdb';
 
 import 'chart.js/auto';
 import 'chartjs-adapter-date-fns';

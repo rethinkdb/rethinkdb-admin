@@ -2,7 +2,7 @@ import React, { useEffect, useState, FunctionComponent } from 'react';
 import { Divider, Link, List } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import { request } from '../rethinkdb/socket';
+import { request } from '../rethinkdb';
 import { useChangesRequest } from '../top-bar/data-hooks';
 
 import { Server, ServerItem } from './server-item';

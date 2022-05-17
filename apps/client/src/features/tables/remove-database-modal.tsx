@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { request } from '../rethinkdb/socket';
+import { request } from '../rethinkdb';
 
 const style = {
   position: 'absolute',

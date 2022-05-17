@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import {
   Box,
@@ -64,10 +64,7 @@ const menuList = [
   },
 ];
 
-const LocalDrawer: FunctionComponent<LocalDrawerProps> = ({
-  mobileOpen,
-  handleDrawerToggle,
-}) => {
+const LocalDrawer = ({ mobileOpen, handleDrawerToggle }: LocalDrawerProps) => {
   const drawerContent = (
     <>
       <Offset />

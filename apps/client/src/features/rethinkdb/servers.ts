@@ -12,7 +12,7 @@ const table_status = r.db(system_db).table('table_status').coerceTo('ARRAY');
 
 export const getServerListQuery = serverConfigQuery.map(
   server_status,
-  function (sconfig: RDatum, sstatus: RDatum) {
+  (sconfig: RDatum, sstatus: RDatum) => {
     return {
       id: sconfig('id'),
       name: sconfig('name'),
@@ -21,24 +21,24 @@ export const getServerListQuery = serverConfigQuery.map(
       hostname: sstatus('network')('hostname'),
       cacheSize: sconfig('cache_size_mb'),
       primaryCount: table_status
-        .map(function (table) {
-          return table('shards')
+        .map((table) =>
+          table('shards')
             ['default']([])
-            .count(function (shard) {
-              return shard('primary_replicas').contains(sconfig('name'));
-            });
-        })
+            .count((shard) =>
+              shard('primary_replicas').contains(sconfig('name')),
+            ),
+        )
         .sum(),
       secondaryCount: table_status
-        .map(function (table) {
-          return table('shards')
+        .map((table) =>
+          table('shards')
             ['default']([])
             .count(function (shard) {
               return shard('replicas')('server')
                 .contains(sconfig('name'))
                 .and(shard('primary_replicas').contains(sconfig('name')).not());
-            });
-        })
+            }),
+        )
         .sum(),
     };
   },

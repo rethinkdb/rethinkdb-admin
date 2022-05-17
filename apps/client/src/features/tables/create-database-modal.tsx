@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
   Button,
@@ -10,8 +10,8 @@ import {
   Typography,
 } from '@mui/material';
 
-import { request } from '../rethinkdb/socket';
-import { system_db } from '../rethinkdb';
+import { request, system_db } from '../rethinkdb';
+
 import { useTableEntries } from './db-table-list';
 
 const style = {
@@ -26,7 +26,7 @@ const style = {
   pb: 3,
 };
 
-export const CreateDatabaseModal: FunctionComponent = () => {
+export const CreateDatabaseModal = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [hasEntered, setHasEntered] = React.useState<boolean>(false);
   const [value, setValue] = React.useState<string>('');

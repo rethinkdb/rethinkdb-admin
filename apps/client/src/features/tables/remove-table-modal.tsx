@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { request } from '../rethinkdb/socket';
+import { request } from '../rethinkdb';
 
 const style = {
   position: 'absolute',

@@ -1,10 +1,9 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RDatum } from 'rethinkdb-ts';
 import { Stack, Typography } from '@mui/material';
 
-import { admin } from '../../rethinkdb/app-driver';
-import { request } from '../../rethinkdb/socket';
+import { admin, request } from '../../rethinkdb';
 import { useChangesRequest } from '../../top-bar/data-hooks';
 
 const { table_config: tableConfig, jobs, table_status: tableStatus } = admin;
@@ -33,7 +32,7 @@ export function useIndexesQuery(): null | IndexQueryResult {
   return state;
 }
 
-export const Indexes: FunctionComponent = () => {
+export const Indexes = () => {
   const indexesResult = useIndexesQuery();
   if (!indexesResult) {
     return <>loading</>;

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { formatRFC7231 } from 'date-fns';
 import { NavLink } from 'react-router-dom';
 import {
@@ -25,16 +25,13 @@ export interface ILogItem {
   logItem: Log;
 }
 
-const ServerLink: FunctionComponent<{ logItem: Log }> = ({ logItem }) => (
-  <>
-    Posted by{' '}
-    <Link component={NavLink} to={`/servers/${logItem.server_id}`}>
-      {logItem.server}
-    </Link>
-  </>
+const ServerLink = ({ logItem }: { logItem: Log }) => (
+  <Link component={NavLink} to={`/servers/${logItem.server_id}`}>
+    {logItem.server}
+  </Link>
 );
 
-const LogItem: FunctionComponent<ILogItem> = ({ logItem }) => (
+const LogItem = ({ logItem }: ILogItem) => (
   <ListItem alignItems="flex-start">
     <ListItemAvatar>
       <Avatar sx={{ bgcolor: 'primary.dark' }} variant="rounded">
@@ -50,7 +47,7 @@ const LogItem: FunctionComponent<ILogItem> = ({ logItem }) => (
           display="inline"
           color="textPrimary"
         >
-          <ServerLink logItem={logItem} /> |{' '}
+          Posted by <ServerLink logItem={logItem} /> |{' '}
           {formatRFC7231(new Date(logItem.timestamp))}
         </Typography>
       }

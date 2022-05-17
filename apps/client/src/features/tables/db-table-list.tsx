@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
 import { CardActions, Chip, Paper, styled, Typography } from '@mui/material';
 
-import { request } from '../rethinkdb/socket';
+import { request } from '../rethinkdb';
 import { useChangesRequest } from '../top-bar/data-hooks';
 
 import { CreateTableModal } from './create-table-modal';

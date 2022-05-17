@@ -2,15 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
-import { system_db } from '../rethinkdb';
+
 import {
+  admin,
   MeResponse,
   request,
   requestChanges,
   requestMe,
   requestUpdates,
-} from '../rethinkdb/socket';
-import { admin } from '../rethinkdb/app-driver';
+  system_db,
+} from '../rethinkdb';
 
 const issuesQuery = admin.current_issues.count();
 const serversCountQuery = admin.server_config.count();
@@ -59,11 +60,12 @@ function useTablesNumber(): null | { tablesReady: number; tables: number } {
   const [state, setState] = useState(null);
 
   const tChanges = useChangesRequest();
+
   useEffect(() => {
     request(getTablesAndReadyTablesQuery).then((data) => {
       setState(data);
     });
-  }, []);
+  }, [tChanges.length]);
   return state;
 }
 

@@ -1,14 +1,14 @@
-import { io } from 'socket.io-client';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
+import { io } from 'socket.io-client';
 
-const socket = io({ transports: ['websocket', 'polling'] });
+export const socket = io({ transports: ['websocket', 'polling'] });
 
 socket.io.on('error', (error) => {
   console.error(error);
   debugger;
 });
 
-function request<T = unknown>(query: RQuery): Promise<T> {
+export function request<T = unknown>(query: RQuery): Promise<T> {
   const { term } = query;
   return new Promise((resolve, reject) => {
     socket.emit('query', term, ([success, data]: [boolean, T]) => {
@@ -27,7 +27,7 @@ export type MeResponse = {
   proxy: boolean;
 };
 
-function requestMe(): Promise<MeResponse> {
+export function requestMe(): Promise<MeResponse> {
   return new Promise((resolve) => {
     socket.emit('me', (data: MeResponse) => {
       resolve(data);
@@ -43,7 +43,7 @@ export function requestUpdates(): Promise<MeResponse> {
   });
 }
 
-function requestChanges<T = unknown>(
+export function requestChanges<T = unknown>(
   query: RQuery,
   cb: (data: T) => void,
 ): Promise<() => void> {
@@ -68,5 +68,3 @@ function requestChanges<T = unknown>(
     );
   });
 }
-
-export { socket, request, requestChanges, requestMe };

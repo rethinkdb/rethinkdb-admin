@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Grid, Paper, Typography } from '@mui/material';
 
-import { LogList, useLogEntries } from './log-list';
 import { CommonTitledLayout } from '../../layouts/page';
 
-function LogsPage() {
+import { LogList, useLogEntries } from './log-list';
+
+export const LogsPage = () => {
   const [count, setCount] = useState<number>(20);
   const logs = useLogEntries(count);
 
@@ -32,6 +33,4 @@ function LogsPage() {
       </Paper>
     </CommonTitledLayout>
   );
-}
-
-export { LogsPage };
+};

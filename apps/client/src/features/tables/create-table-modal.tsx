@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { WriteResult } from 'rethinkdb-ts/lib/types';
 
@@ -18,8 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { request } from '../rethinkdb/socket';
-import { system_db } from '../rethinkdb';
+import { request, system_db } from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
 
@@ -84,9 +83,7 @@ export type CreateTableFormData = {
   hardDurability: boolean;
 };
 
-export const CreateTableModal: FunctionComponent<{ dbName: string }> = ({
-  dbName,
-}) => {
+export const CreateTableModal = ({ dbName }: { dbName: string }) => {
   const [formState, setFormState] = React.useState<CreateTableFormData>({
     tableName: '',
     primaryKey: '',

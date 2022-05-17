@@ -285,13 +285,13 @@ export const ServerPage = () => {
       </Paper>
       <Grid mt={1} container direction="row" spacing={1}>
         <Grid item md={4}>
-          <Paper sx={{ marginTop: 1, p: 1 }}>
+          <Paper sx={{ p: 1 }}>
             <Typography variant="h6">Table shards on this server</Typography>
             <TableShards tables={data.tables} />
           </Paper>
         </Grid>
         <Grid item md={8}>
-          <Paper sx={{ marginTop: 1, p: 1 }}>
+          <Paper sx={{ p: 1 }}>
             <Typography variant="h6">Recent Log Entries</Typography>
             <LogList quantity={6} server={params.id} />
           </Paper>

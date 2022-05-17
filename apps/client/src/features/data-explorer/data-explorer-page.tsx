@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 
 import { CommonTitledLayout } from '../../layouts/page';
-import { request } from '../rethinkdb/socket';
+import { request } from '../rethinkdb';
 import { useChangesRequest } from '../top-bar/data-hooks';
 
 import 'codemirror/mode/javascript/javascript';

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Alert, Link, Stack } from '@mui/material';
 import { useUpdates } from '../top-bar/data-hooks';
 
@@ -8,7 +8,7 @@ export type UpdateInfo = {
   link_changelog: string;
 };
 
-export const HasUpdate: FunctionComponent = () => {
+export const HasUpdate = () => {
   const data: UpdateInfo | null = useUpdates();
 
   if (!data || data.status === 'ok') {
