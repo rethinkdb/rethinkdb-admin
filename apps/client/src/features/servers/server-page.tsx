@@ -3,7 +3,6 @@ import { NavLink, useParams } from 'react-router-dom';
 import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
-import StorageIcon from '@mui/icons-material/Storage';
 import {
   Avatar,
   Divider,
@@ -16,17 +15,19 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import CachedIcon from '@mui/icons-material/Cached';
+import DifferenceIcon from '@mui/icons-material/Difference';
+import LanIcon from '@mui/icons-material/Lan';
+import StorageIcon from '@mui/icons-material/Storage';
+import StyleIcon from '@mui/icons-material/Style';
 
-import { system_db } from '../rethinkdb';
-import { request } from '../rethinkdb/socket';
-import { ComparableTime } from '../time/relative';
-import { LogList } from '../logs/log-list';
-import { admin } from '../rethinkdb/app-driver';
 import { CommonTitledLayout } from '../../layouts/page';
+
 import { LineChart } from '../chart';
+import { LogList } from '../logs/log-list';
+import { admin, system_db, request } from '../rethinkdb';
+import { ComparableTime } from '../time/relative';
 
 const { table_config: tableConfig, table_status: tableStatus } = admin;
 
@@ -205,7 +206,7 @@ const ServerOverview = ({ data }: { data: ExpandedServer }) => {
       <ListItem dense>
         <ListItemAvatar>
           <Avatar>
-            <ImageIcon />
+            <DifferenceIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -216,7 +217,7 @@ const ServerOverview = ({ data }: { data: ExpandedServer }) => {
       <ListItem dense>
         <ListItemAvatar>
           <Avatar>
-            <WorkIcon />
+            <LanIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={data.profile.hostname} secondary="hostname" />
@@ -224,7 +225,7 @@ const ServerOverview = ({ data }: { data: ExpandedServer }) => {
       <ListItem dense>
         <ListItemAvatar>
           <Avatar>
-            <BeachAccessIcon />
+            <StyleIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={data.profile.tags} secondary="tags" />
@@ -232,7 +233,7 @@ const ServerOverview = ({ data }: { data: ExpandedServer }) => {
       <ListItem dense>
         <ListItemAvatar>
           <Avatar>
-            <BeachAccessIcon />
+            <AccessTimeIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
@@ -248,7 +249,7 @@ const ServerOverview = ({ data }: { data: ExpandedServer }) => {
       <ListItem dense>
         <ListItemAvatar>
           <Avatar>
-            <BeachAccessIcon />
+            <CachedIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText
