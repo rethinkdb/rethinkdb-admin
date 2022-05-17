@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Chart as ChartJS } from 'react-chartjs-2';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import ChartStreaming from 'chartjs-plugin-streaming';
@@ -8,25 +8,12 @@ import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import { lightTheme } from '../theme';
-import { requestChanges, system_db } from '../rethinkdb';
+import { system_db, useLatestChange } from '../rethinkdb';
 
 import 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
 
 Chart.register(ChartStreaming);
-
-const data: ChartData<'line'> = {
-  datasets: [
-    {
-      label: 'Dataset 1 (linear interpolation)',
-      fill: false,
-      data: [],
-      borderColor: lightTheme.palette.primary.main,
-      backgroundColor: alpha(lightTheme.palette.primary.light, 0.7),
-      pointStyle: 'line',
-    },
-  ],
-};
 
 const options: ChartOptions<'line'> = {
   aspectRatio: 5,
@@ -73,31 +60,8 @@ const changesQuery = r
     keysSet: stat('new_val')('query_engine')('written_docs_per_sec'),
   }));
 
-const useRequest = (): ChangesResult | null => {
-  const [latestData, setData] = React.useState<ChangesResult>(null);
-  const unsubRef = useRef<() => void>();
-  useEffect(() => {
-    requestChanges<ChangesResult>(changesQuery, (data) => {
-      setData(() => data);
-    })
-      .then((unsub) => {
-        unsubRef.current = unsub;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    return () => {
-      if (unsubRef.current) {
-        unsubRef.current();
-        unsubRef.current = null;
-      }
-    };
-  }, []);
-  return latestData;
-};
-
-const useData = () => {
-  const data = React.useRef<ChartData<'line'>>({
+const useData = () =>
+  React.useRef<ChartData<'line'>>({
     datasets: [
       {
         label: 'Reads',
@@ -117,12 +81,11 @@ const useData = () => {
       },
     ],
   });
-  return data;
-};
 
-export function LineChart() {
+export const LineChart = () => {
   const data = useData();
-  const latestData = useRequest();
+  const [latestData] = useLatestChange<ChangesResult>(changesQuery);
+
   useEffect(() => {
     if (data.current?.datasets[0].data) {
       const date = +new Date();
@@ -136,9 +99,10 @@ export function LineChart() {
       });
     }
   }, [latestData]);
+
   return (
     <Box>
       <ChartJS type="line" data={data.current} options={options} />
     </Box>
   );
-}
+};

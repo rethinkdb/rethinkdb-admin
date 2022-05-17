@@ -1,21 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 
-import {
-  admin,
-  MeResponse,
-  request,
-  requestChanges,
-  requestMe,
-  requestUpdates,
-  system_db,
-} from '../rethinkdb';
+import { admin, request, socket, system_db, useRequest } from '../rethinkdb';
 
 const issuesQuery = admin.current_issues.count();
 const serversCountQuery = admin.server_config.count();
-const getTablesAndReadyTablesQuery = r.do(
+const readyTablesQuery = r.do(
   r.db(system_db).table('table_config').count(),
   r
     .db(system_db)
@@ -28,63 +19,50 @@ const getTablesAndReadyTablesQuery = r.do(
   }),
 );
 
-function useConnectedTo(): null | MeResponse {
+export function useConnectedTo(): null | MeResponse {
   const [state, setState] = useState<MeResponse>(null);
   useEffect(() => {
-    requestMe().then((data) => {
+    request<unknown, MeResponse>('me').then((data) => {
       setState(data);
     });
   }, []);
   return state;
 }
 
-function useIssues(): null | unknown {
-  const [state, setState] = useState(null);
-  useEffect(() => {
-    request(issuesQuery).then(setState);
-  }, []);
+export function useIssues(): null | unknown {
+  const [state] = useRequest(issuesQuery);
   return state;
 }
 
-function useServersNumber(): null | number {
-  const [state, setState] = useState(null);
-  useEffect(() => {
-    request<number>(serversCountQuery).then((data) => {
-      setState(data);
+export function useServersNumber(): null | number {
+  const [state] = useRequest<number>(serversCountQuery);
+  return state;
+}
+
+const cList = [
+  r.db(system_db).table('table_config').changes(),
+  r.db(system_db).table('table_status').changes(),
+];
+
+export type TablesNumberType = { tablesReady: number; tables: number };
+
+export function useTablesNumber(): null | TablesNumberType {
+  const [state] = useRequest<TablesNumberType>(readyTablesQuery, cList);
+  return state;
+}
+
+export type MeResponse = {
+  id: string;
+  name: string;
+  proxy: boolean;
+};
+
+export function requestUpdates(): Promise<MeResponse> {
+  return new Promise((resolve) => {
+    socket.emit('checkUpdates', (data: MeResponse) => {
+      resolve(data);
     });
-  }, []);
-  return state;
-}
-
-function useTablesNumber(): null | { tablesReady: number; tables: number } {
-  const [state, setState] = useState(null);
-
-  const tChanges = useChangesRequest();
-
-  useEffect(() => {
-    request(getTablesAndReadyTablesQuery).then((data) => {
-      setState(data);
-    });
-  }, [tChanges.length]);
-  return state;
-}
-
-export function useRequest<T = unknown>(query?: RQuery): T | null {
-  const [responses, setResponses] = useState<T>(null);
-
-  useEffect(() => {
-    setResponses(() => null);
-    if (query) {
-      request<T>(query)
-        .then((data) => {
-          setResponses(data);
-        })
-        .catch((error) => {
-          setResponses(() => error.message);
-        });
-    }
-  }, [query]);
-  return responses;
+  });
 }
 
 export function useUpdates(): any | null {
@@ -101,43 +79,3 @@ export function useUpdates(): any | null {
   }, []);
   return responses;
 }
-
-function useChangesRequest<T = unknown>(query?: RQuery) {
-  const [responses, setResponses] = useState<T[]>([]);
-  const unsubRef = useRef<() => void>();
-  useEffect(() => {
-    setResponses(() => []);
-    if (!query) {
-      return () => {
-        if (unsubRef.current) {
-          unsubRef.current();
-          unsubRef.current = null;
-        }
-      };
-    }
-    requestChanges<T>(query, (data) => {
-      setResponses((l: T[]) => [...l, data]);
-    })
-      .then((unsub) => {
-        unsubRef.current = unsub;
-      })
-      .catch((error) => {
-        setResponses(() => error.message);
-      });
-    return () => {
-      if (unsubRef.current) {
-        unsubRef.current();
-        unsubRef.current = null;
-      }
-    };
-  }, [query]);
-  return responses;
-}
-
-export {
-  useConnectedTo,
-  useIssues,
-  useServersNumber,
-  useChangesRequest,
-  useTablesNumber,
-};

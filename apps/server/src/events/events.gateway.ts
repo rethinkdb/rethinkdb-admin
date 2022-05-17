@@ -67,10 +67,9 @@ export class EventsGateway
   @SubscribeMessage('changes')
   async handleChanges(
     client: LocalSocket,
-    payloadString: string,
+    payload: TermJson,
   ): Promise<[boolean, unknown] | Observable<['feed' | boolean, unknown]>> {
     const queryId = nanoid();
-    const payload: TermJson = JSON.parse(payloadString) as TermJson;
     try {
       const cursor = await this.connection.run(toQuery(payload));
       if (cursor && !cursor.type.includes('Feed')) {
@@ -90,10 +89,10 @@ export class EventsGateway
   }
 
   @SubscribeMessage('unsub')
-  handleUnsub(client: LocalSocket, queryId: string): string {
+  async handleUnsub(client: LocalSocket, queryId: string): Promise<string> {
     const cursor = client.changeQueries[queryId];
     if (cursor) {
-      cursor.close();
+      await cursor.close();
       delete client.changeQueries[queryId];
       return 'ok';
     }

@@ -1,0 +1,43 @@
+import { RDatum } from 'rethinkdb-ts';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
+
+import { system_db } from '../rethinkdb';
+
+export const serverConfigQuery = r
+  .db(system_db)
+  .table('server_config')
+  .coerceTo('ARRAY');
+const server_status = r.db(system_db).table('server_status').coerceTo('ARRAY');
+const table_status = r.db(system_db).table('table_status').coerceTo('ARRAY');
+
+export const getServerListQuery = serverConfigQuery.map(
+  server_status,
+  (sconfig: RDatum, sstatus: RDatum) => ({
+    id: sconfig('id'),
+    name: sconfig('name'),
+    tags: sconfig('tags'),
+    timeStarted: sstatus('process')('time_started'),
+    hostname: sstatus('network')('hostname'),
+    cacheSize: sconfig('cache_size_mb'),
+    primaryCount: table_status
+      .map((table) =>
+        table('shards')
+          ['default']([])
+          .count((shard) =>
+            shard('primary_replicas').contains(sconfig('name')),
+          ),
+      )
+      .sum(),
+    secondaryCount: table_status
+      .map((table) =>
+        table('shards')
+          ['default']([])
+          .count(function (shard) {
+            return shard('replicas')('server')
+              .contains(sconfig('name'))
+              .and(shard('primary_replicas').contains(sconfig('name')).not());
+          }),
+      )
+      .sum(),
+  }),
+);

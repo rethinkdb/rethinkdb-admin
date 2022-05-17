@@ -63,129 +63,127 @@ const menuList = [
     url: '/dataexplorer',
   },
 ];
-
-const LocalDrawer = ({ mobileOpen, handleDrawerToggle }: LocalDrawerProps) => {
-  const drawerContent = (
-    <>
-      <Offset />
-      <Divider />
-      <List>
-        {menuList.map(({ exact, title, icon: Icon, url }) => (
-          <ListItemButton
-            component={NavLink}
-            key={title}
-            activeClassName="Mui-selected"
-            to={url}
-            exact={!!exact}
-          >
-            <ListItemIcon>
-              <Icon />
-            </ListItemIcon>
-            <ListItemText primary={title} />
-          </ListItemButton>
-        ))}
-      </List>
-      <Kek />
-      <Divider />
-      <Grid container spacing={0.5}>
-        <Grid item xs="auto">
-          <Link
-            href="https://rethinkdb.com/docs/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </Link>
-        </Grid>
-        <Grid item xs="auto">
-          <Link
-            href="https://rethinkdb.com/api/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            API
-          </Link>
-        </Grid>
-        <Grid item xs="auto">
-          <Link
-            href="https://groups.google.com/group/rethinkdb"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Groups
-          </Link>
-        </Grid>
-        <Grid item xs="auto">
-          <Link
-            href="irc://chat.freenode.net/#rethinkdb"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            #rethinkdb on freenode
-          </Link>
-        </Grid>
-        <Grid item xs="auto">
-          <Link
-            href="https://github.com/rethinkdb/rethinkdb/issues"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Github
-          </Link>
-        </Grid>
-        <Grid item xs="auto">
-          <Link
-            href="https://rethinkdb.com/community/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Community
-          </Link>
-        </Grid>
+const DrawerContent = () => (
+  <>
+    <Offset />
+    <Divider />
+    <List>
+      {menuList.map(({ exact, title, icon: Icon, url }) => (
+        <ListItemButton
+          component={NavLink}
+          key={title}
+          activeClassName="Mui-selected"
+          to={url}
+          exact={!!exact}
+        >
+          <ListItemIcon>
+            <Icon />
+          </ListItemIcon>
+          <ListItemText primary={title} />
+        </ListItemButton>
+      ))}
+    </List>
+    <Kek />
+    <Divider />
+    <Grid container spacing={0.5}>
+      <Grid item xs="auto">
+        <Link
+          href="https://rethinkdb.com/docs/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Documentation
+        </Link>
       </Grid>
-    </>
-  );
-  return (
-    <Box
-      component="nav"
-      width={{ sm: drawerWidth }}
-      flexShrink={{ sm: 0 }}
-      aria-label="mailbox folders"
-    >
-      <Hidden smUp implementation="css">
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
-          ModalProps={{ keepMounted: true }}
+      <Grid item xs="auto">
+        <Link
+          href="https://rethinkdb.com/api/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          {drawerContent}
-        </Drawer>
-      </Hidden>
-      <Hidden xsDown implementation="css">
-        <Drawer
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-            },
-          }}
-          variant="permanent"
-          open
+          API
+        </Link>
+      </Grid>
+      <Grid item xs="auto">
+        <Link
+          href="https://groups.google.com/group/rethinkdb"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          {drawerContent}
-        </Drawer>
-      </Hidden>
-    </Box>
-  );
-};
+          Google Groups
+        </Link>
+      </Grid>
+      <Grid item xs="auto">
+        <Link
+          href="irc://chat.freenode.net/#rethinkdb"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          #rethinkdb on freenode
+        </Link>
+      </Grid>
+      <Grid item xs="auto">
+        <Link
+          href="https://github.com/rethinkdb/rethinkdb/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Github
+        </Link>
+      </Grid>
+      <Grid item xs="auto">
+        <Link
+          href="https://rethinkdb.com/community/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Community
+        </Link>
+      </Grid>
+    </Grid>
+  </>
+);
+
+const LocalDrawer = ({ mobileOpen, handleDrawerToggle }: LocalDrawerProps) => (
+  <Box
+    component="nav"
+    width={{ sm: drawerWidth }}
+    flexShrink={{ sm: 0 }}
+    aria-label="mailbox folders"
+  >
+    <Hidden smUp implementation="css">
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+          },
+        }}
+        ModalProps={{ keepMounted: true }}
+      >
+        <DrawerContent />
+      </Drawer>
+    </Hidden>
+    <Hidden xsDown implementation="css">
+      <Drawer
+        sx={{
+          display: { xs: 'none', sm: 'block' },
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+          },
+        }}
+        variant="permanent"
+        open
+      >
+        <DrawerContent />
+      </Drawer>
+    </Hidden>
+  </Box>
+);
 
 export { LocalDrawer };

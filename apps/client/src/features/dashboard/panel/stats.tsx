@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { Stack, Typography } from '@mui/material';
 
-import { admin, request } from '../../rethinkdb';
-import { useChangesRequest } from '../../top-bar/data-hooks';
+import { admin, useRequest } from '../../rethinkdb';
 import { formatBytes } from '../../utils';
 
 const { table_status: tableStatus, stats } = admin;
 
-const tsChanges = tableStatus.changes();
+const cList = [tableStatus.changes()];
 
 const statsQuery = r.do({
   cache_used: stats
@@ -39,18 +37,8 @@ export type StatsQueryResult = {
   disk_used: number;
 };
 
-export function useStatsQuery(): null | StatsQueryResult {
-  const [state, setState] = useState(null);
-  const tccList = useChangesRequest(tsChanges);
-
-  useEffect(() => {
-    request(statsQuery).then(setState);
-  }, [tccList.length]);
-  return state;
-}
-
 export const Stats = () => {
-  const statsResult = useStatsQuery();
+  const [statsResult] = useRequest<StatsQueryResult>(statsQuery, cList);
   if (!statsResult) {
     return <>loading</>;
   }
@@ -60,7 +48,7 @@ export const Stats = () => {
   );
   const diskUsed = formatBytes(statsResult.disk_used);
   return (
-    <Stack sx={{ minWidth: '160px' }}>
+    <Stack minWidth="160px">
       <Typography>Resources</Typography>
       <Typography>{cachePercent}% cache used</Typography>
       <Typography>{diskUsed} disk used</Typography>

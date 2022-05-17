@@ -163,7 +163,7 @@ export const CreateTableModal = ({ dbName }: { dbName: string }) => {
       setError('Empty');
       return;
     }
-    if (/^[a-zA-Z0-9_]+$/.test(formState.tableName) === false) {
+    if (/^\w+$/.test(formState.tableName) === false) {
       setError(
         'Only alphanumeric characters and underscore are allowed ([a-zA-Z0-9_])',
       );

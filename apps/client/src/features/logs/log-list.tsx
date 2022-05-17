@@ -1,8 +1,7 @@
-import React, { useEffect, useState, FunctionComponent } from 'react';
+import React from 'react';
 import { Divider, List } from '@mui/material';
 
-import { request } from '../rethinkdb';
-import { useChangesRequest } from '../top-bar/data-hooks';
+import { useRequest } from '../rethinkdb';
 
 import { Log, LogItem } from './log-item';
 import {
@@ -13,22 +12,20 @@ import {
 } from './queries';
 
 export function useLogEntries(limit = 20, server?: string): null | Log[] {
-  const [state, setState] = useState(null);
-  const changesQuery = server
-    ? allServerChangesQuery(server)
-    : allLogChangesQuery;
-  const lastLog = useChangesRequest(changesQuery);
-
-  useEffect(() => {
-    request(server ? serverLogs(limit, server) : getAllLogsQuery(limit)).then(
-      setState,
-    );
-  }, [server, limit, lastLog.length]);
-  return state;
+  const cList = React.useMemo(
+    () => [server ? allServerChangesQuery(server) : allLogChangesQuery],
+    [server],
+  );
+  const query = React.useMemo(
+    () => (server ? serverLogs(limit, server) : getAllLogsQuery(limit)),
+    [limit, server],
+  );
+  const [logs] = useRequest<Log[]>(query, cList);
+  return logs;
 }
 
-export const LogList: FunctionComponent<{ server?: string; quantity: number }> =
-  React.memo(({ quantity, server }) => {
+export const LogList = React.memo(
+  ({ quantity, server }: { server?: string; quantity: number }) => {
     const logs = useLogEntries(quantity, server);
 
     if (!Array.isArray(logs)) {
@@ -51,4 +48,5 @@ export const LogList: FunctionComponent<{ server?: string; quantity: number }> =
         ))}
       </List>
     );
-  });
+  },
+);

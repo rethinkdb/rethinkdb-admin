@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { Stack, Typography } from '@mui/material';
 
-import { admin, request } from '../../rethinkdb';
-import { useChangesRequest } from '../../top-bar/data-hooks';
+import { admin, useRequest } from '../../rethinkdb';
 import { pluralizeNoun } from '../../utils';
 
 const { table_status: tableStatus } = admin;
 
-const tsChanges = tableStatus.changes();
+const cList = [tableStatus.changes()];
 
 const tablesQuery = r.do({
   tables_ready: tableStatus.count((row: RDatum) =>
@@ -25,23 +23,24 @@ export type TableQueryResult = {
   tables_unready: number;
 };
 
-export function useTableQuery(): null | TableQueryResult {
-  const [state, setState] = useState(null);
-  const tccList = useChangesRequest(tsChanges);
-
-  useEffect(() => {
-    request(tablesQuery).then(setState);
-  }, [tccList.length]);
-  return state;
-}
+// TODO move later on a single changes query
+// const query = r
+//   .db(system_db)
+//   .table('table_status')
+//   .map((i) => ({
+//     tables_ready: i('status')('all_replicas_ready'),
+//     id: i('id'),
+//   }))
+//   .changes({ includeInitial: true, includeStates: true });
 
 export const Tables = () => {
-  const serverResult = useTableQuery();
+  const [serverResult] = useRequest<TableQueryResult>(tablesQuery, cList);
+
   if (!serverResult) {
     return <>loading</>;
   }
   return (
-    <Stack sx={{ minWidth: '160px' }}>
+    <Stack minWidth="160px">
       <Typography>Tables</Typography>
       <Typography>
         {serverResult.tables_ready}{' '}

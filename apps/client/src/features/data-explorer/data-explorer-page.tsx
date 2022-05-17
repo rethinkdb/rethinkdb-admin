@@ -17,8 +17,7 @@ import {
 } from '@mui/material';
 
 import { CommonTitledLayout } from '../../layouts/page';
-import { request } from '../rethinkdb';
-import { useChangesRequest } from '../top-bar/data-hooks';
+import { requestQuery, useChangeList } from '../rethinkdb';
 
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/edit/matchbrackets';
@@ -84,7 +83,7 @@ export function DataExplorerPage() {
   const [num, setNum] = React.useState(0);
   const theme = useTheme();
   const isChangesQ = !!query && isChangesQuery(query);
-  const changesResult = useChangesRequest(isChangesQ ? query : null);
+  const changesResult = useChangeList(isChangesQ ? query : null);
 
   const handleChange = (event: React.ChangeEvent, newValue: number) => {
     setNum(newValue);
@@ -110,7 +109,7 @@ export function DataExplorerPage() {
   useEffect(() => {
     if (query && !isChangesQ) {
       try {
-        request(query).then(
+        requestQuery(query).then(
           (data) => setResult(JSON.stringify(data, null, 2)),
           setResult,
         );

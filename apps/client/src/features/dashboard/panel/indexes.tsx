@@ -1,14 +1,12 @@
-import { useEffect, useState } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RDatum } from 'rethinkdb-ts';
 import { Stack, Typography } from '@mui/material';
 
-import { admin, request } from '../../rethinkdb';
-import { useChangesRequest } from '../../top-bar/data-hooks';
+import { admin, useRequest } from '../../rethinkdb';
 
 const { table_config: tableConfig, jobs, table_status: tableStatus } = admin;
 
-const tsChanges = tableStatus.changes();
+const cList = [tableStatus.changes()];
 
 const indexesQuery = r.do({
   num_sindexes: tableConfig.sum((row: RDatum) => row('indexes').count()),
@@ -22,23 +20,14 @@ export type IndexQueryResult = {
   sindexes_constructing: number;
 };
 
-export function useIndexesQuery(): null | IndexQueryResult {
-  const [state, setState] = useState(null);
-  const tccList = useChangesRequest(tsChanges);
-
-  useEffect(() => {
-    request(indexesQuery).then(setState);
-  }, [tccList.length]);
-  return state;
-}
-
 export const Indexes = () => {
-  const indexesResult = useIndexesQuery();
+  const [indexesResult] = useRequest<IndexQueryResult>(indexesQuery, cList);
+
   if (!indexesResult) {
     return <>loading</>;
   }
   return (
-    <Stack sx={{ minWidth: '160px' }}>
+    <Stack minWidth="160px">
       <Typography>Indexes</Typography>
       <Typography>{indexesResult.num_sindexes} secondary indexes</Typography>
       <Typography>
