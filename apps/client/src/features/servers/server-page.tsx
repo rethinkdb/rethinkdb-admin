@@ -26,7 +26,7 @@ import { CommonTitledLayout } from '../../layouts/page';
 
 import { LineChart } from '../chart';
 import { LogList } from '../logs/log-list';
-import { admin, system_db, request } from '../rethinkdb';
+import { admin, system_db, useRequest } from '../rethinkdb';
 import { ComparableTime } from '../time/relative';
 
 const { table_config: tableConfig, table_status: tableStatus } = admin;
@@ -91,15 +91,6 @@ function fetchServer(id: string) {
       };
     },
   );
-}
-
-export function useServer(id: string): ExpandedServer {
-  const [state, setState] = useState(null);
-
-  useEffect(() => {
-    request(fetchServer(id)).then(setState);
-  }, [id]);
-  return state;
 }
 
 export type Shard = {
@@ -265,7 +256,7 @@ const ServerOverview = ({ data }: { data: ExpandedServer }) => {
 
 export const ServerPage = () => {
   const params = useParams<{ id: string }>();
-  const data = useServer(params.id);
+  const [data] = useRequest<ExpandedServer>(fetchServer(params.id));
 
   if (!data) {
     return <div>loading</div>;

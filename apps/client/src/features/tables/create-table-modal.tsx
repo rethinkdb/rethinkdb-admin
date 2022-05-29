@@ -18,7 +18,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { request, system_db } from '../rethinkdb';
+import { requestQuery, system_db } from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
 
@@ -147,14 +147,13 @@ export const CreateTableModal = ({ dbName }: { dbName: string }) => {
     setWriteResult(null);
   };
 
-  const onTableCreate = React.useCallback(() => {
-    request(query).then((data: WriteResult) => {
-      if (data?.errors) {
-        setWriteResult(data);
-        return;
-      }
-      handleClose();
-    });
+  const onTableCreate = React.useCallback(async () => {
+    const data: WriteResult = await requestQuery(query);
+    if (data?.errors) {
+      setWriteResult(data);
+      return;
+    }
+    handleClose();
   }, [query]);
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Editor } from 'codemirror';
 import { Codemirror } from 'react-codemirror-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
@@ -55,11 +56,7 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
@@ -123,6 +120,24 @@ export function DataExplorerPage() {
     setQuery(null);
   }
 
+  function handleKeyPress(instance: Editor, event: KeyboardEvent): boolean {
+    // If the user hit enter and (Ctrl or Shift)
+    console.log(event);
+    debugger;
+    if (
+      event.key === '13' &&
+      (event.shiftKey || event.ctrlKey || event.metaKey)
+    ) {
+      event.preventDefault();
+      if (event.type !== 'keydown') {
+        return true;
+      }
+      onRequestClick();
+      return true;
+    }
+    return true;
+  }
+
   const finalResult = isChangesQ
     ? typeof changesResult === 'string'
       ? changesResult
@@ -134,12 +149,13 @@ export function DataExplorerPage() {
         <Codemirror
           options={{
             theme: theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
-            lineNumbers: true,
             mode: 'javascript',
             extraKeys: {
               'Ctrl-Space': 'autocomplete',
             },
+            onKeyEvent: handleKeyPress,
             matchBrackets: true,
+            lineNumbers: true,
             lineWrapping: true,
             tabSize: 2,
           }}
@@ -148,7 +164,7 @@ export function DataExplorerPage() {
           }}
         />
         <Grid m={1} container spacing={1}>
-          <Grid item xs={2} direction="row">
+          <Grid item xs={2}>
             <Button
               variant="contained"
               color="primary"

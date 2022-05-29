@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { reatomContext, useAtom } from '@reatom/react';
 
 import { LocalDrawer } from './drawer';
-import { Routes } from './features/routes';
+import { AppRoutes } from './features/routes';
 import { store } from './features/store';
 import { useTheme } from './features/theme';
 import { TopBar } from './features/top-bar';
@@ -109,7 +109,7 @@ export const AppInnerContent = () => {
         <Offset />
         <HasUpdate />
         <TopBar />
-        <Routes />
+        <AppRoutes />
       </ContentWrapper>
     </Root>
   );

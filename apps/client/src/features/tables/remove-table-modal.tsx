@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { request } from '../rethinkdb';
+import { requestQuery } from '../rethinkdb';
 
 const style = {
   position: 'absolute',
@@ -58,8 +58,9 @@ export const RemoveTableModal: FunctionComponent<{
     setValue(event?.target.value.toString() || '');
   }, []);
 
-  const onDatabaseCreate = React.useCallback(() => {
-    request(r.db(dbName).tableDrop(tableName)).then(handleClose);
+  const onDatabaseCreate = React.useCallback(async () => {
+    await requestQuery(r.db(dbName).tableDrop(tableName));
+    handleClose();
   }, [dbName]);
 
   useEffect(() => {

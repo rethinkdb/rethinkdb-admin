@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { request, system_db } from '../rethinkdb';
+import { requestQuery, system_db } from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
 
@@ -50,10 +50,11 @@ export const CreateDatabaseModal = () => {
     setValue(event?.target.value.toString() || '');
   }, []);
 
-  const onDatabaseCreate = React.useCallback(() => {
-    request(r.db(system_db).table('db_config').insert({ name: value })).then(
-      handleClose,
+  const onDatabaseCreate = React.useCallback(async () => {
+    await requestQuery(
+      r.db(system_db).table('db_config').insert({ name: value }),
     );
+    handleClose();
   }, [value]);
 
   useEffect(() => {

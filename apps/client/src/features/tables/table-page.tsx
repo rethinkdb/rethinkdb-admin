@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { Paper, Typography } from '@mui/material';
 
 import { CommonTitledLayout } from '../../layouts/page';
-import { request } from '../rethinkdb';
+import { useRequest } from '../rethinkdb';
 import { humanizeTableStatus } from '../utils/rethinkdb';
 
 import { guaranteedQuery } from './queries';
@@ -31,18 +31,9 @@ export type TableGuaranteedData = {
   };
 };
 
-const useTableData = (tableId: string): TableGuaranteedData | null => {
-  const [state, setState] = useState(null);
-
-  useEffect(() => {
-    request(guaranteedQuery(tableId)).then(setState);
-  }, [tableId]);
-  return state;
-};
-
 export const TablePage = () => {
   const params = useParams<{ id: string }>();
-  const table = useTableData(params.id);
+  const [table] = useRequest<TableGuaranteedData>(guaranteedQuery(params.id));
 
   if (!table) {
     return <div>loading</div>;

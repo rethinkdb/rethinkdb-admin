@@ -22,7 +22,7 @@ import {
   TextSnippet,
 } from '@mui/icons-material';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, NavLinkProps } from 'react-router-dom';
 
 const drawerWidth = 280;
 
@@ -63,6 +63,15 @@ const menuList = [
     url: '/dataexplorer',
   },
 ];
+const MuiNavLink = (
+  props: NavLinkProps & React.RefAttributes<HTMLAnchorElement>,
+) => (
+  <NavLink
+    className={({ isActive }) => (isActive ? 'Mui-selected' : '')}
+    {...props}
+  />
+);
+
 const DrawerContent = () => (
   <>
     <Offset />
@@ -70,11 +79,10 @@ const DrawerContent = () => (
     <List>
       {menuList.map(({ exact, title, icon: Icon, url }) => (
         <ListItemButton
-          component={NavLink}
+          component={MuiNavLink}
           key={title}
-          activeClassName="Mui-selected"
           to={url}
-          exact={!!exact}
+          end={!!exact}
         >
           <ListItemIcon>
             <Icon />

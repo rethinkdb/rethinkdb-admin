@@ -4,15 +4,25 @@ import { createTheme, Theme, useMediaQuery } from '@mui/material';
 import { useAtom } from '@reatom/react';
 
 import { themeAtom } from './state';
+import { blueGrey, common } from '@mui/material/colors';
 
 const lightTheme = createTheme({
   palette: {
     mode: 'light',
+    primary: {
+      main: blueGrey['900'],
+    },
   },
 });
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: blueGrey['900'],
+    },
+    text: {
+      primary: common.white,
+    },
   },
 });
 

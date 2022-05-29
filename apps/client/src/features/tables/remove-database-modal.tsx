@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { request } from '../rethinkdb';
+import { requestQuery } from '../rethinkdb';
 
 const style = {
   position: 'absolute',
@@ -54,8 +54,9 @@ export const RemoveDatabaseModal: FunctionComponent<{ dbName: string }> = ({
     setValue(event?.target.value.toString() || '');
   }, []);
 
-  const onDatabaseCreate = React.useCallback(() => {
-    request(r.dbDrop(dbName)).then(handleClose);
+  const onDatabaseCreate = React.useCallback(async () => {
+    await requestQuery(r.dbDrop(dbName));
+    handleClose();
   }, [dbName]);
 
   useEffect(() => {
