@@ -3,7 +3,7 @@
 build
 node_modules
 .dockerignore
-.eslintrc.js
+.eslintrc.json
 .gitignore
 .prettierrc
 CODE_OF_CONDUCT.md

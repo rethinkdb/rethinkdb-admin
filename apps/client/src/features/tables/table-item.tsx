@@ -1,10 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import {
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
   Typography,
   ListItemButton,
 } from '@mui/material';
@@ -20,50 +19,45 @@ export interface ITableItem {
   table: TableEntry;
 }
 
-export const TableListItem: FunctionComponent<ITableItem> = React.memo(
-  ({ table }) => {
-    const humanizedReadiness = humanizeTableReadiness(
-      table.status,
-      table.replicas,
-      table.replicas_ready,
-    );
-    return (
-      <ListItem
-        component={NavLink}
-        to={`/tables/${table.id}`}
-        role={undefined}
-        dense
-        disablePadding
-      >
-        <ListItemButton>
-          <ListItemText
-            id={table.id}
-            primary={table.name}
-            secondary={
-              <React.Fragment>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  display="inline"
-                  color="textPrimary"
-                >
-                  {table.shards} shard(s), {table.replicas} replica(s)
-                </Typography>
-                {' - '}
-                {humanizedReadiness.label === 'failure' ? (
-                  <ClearIcon fontSize="inherit" />
-                ) : (
-                  <DoneIcon fontSize="inherit" />
-                )}
-                {humanizedReadiness.value}
-              </React.Fragment>
-            }
-          />
-          <ListItemSecondaryAction>
-            <RemoveTableModal dbName={table.db} tableName={table.name} />
-          </ListItemSecondaryAction>
-        </ListItemButton>
-      </ListItem>
-    );
-  },
-);
+export const TableListItem = React.memo(({ table }: ITableItem) => {
+  const humanizedReadiness = humanizeTableReadiness(
+    table.status,
+    table.replicas,
+    table.replicas_ready,
+  );
+  return (
+    <ListItem
+      role={undefined}
+      dense
+      disablePadding
+      secondaryAction={
+        <RemoveTableModal dbName={table.db} tableName={table.name} />
+      }
+    >
+      <ListItemButton component={NavLink} to={`/tables/${table.id}`}>
+        <ListItemText
+          primary={table.name}
+          secondary={
+            <React.Fragment>
+              <Typography
+                component="span"
+                variant="body2"
+                display="inline"
+                color="textPrimary"
+              >
+                {table.shards} shard(s), {table.replicas} replica(s)
+              </Typography>
+              {' - '}
+              {humanizedReadiness.label === 'failure' ? (
+                <ClearIcon fontSize="inherit" />
+              ) : (
+                <DoneIcon fontSize="inherit" />
+              )}
+              {humanizedReadiness.value}
+            </React.Fragment>
+          }
+        />
+      </ListItemButton>
+    </ListItem>
+  );
+});

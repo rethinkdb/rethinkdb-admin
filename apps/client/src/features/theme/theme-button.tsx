@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import BrightnessAutoIcon from '@mui/icons-material/BrightnessAuto';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -11,9 +11,7 @@ export type iThemeButton = {
   onClick: () => void;
 };
 
-export const ThemeIcon: FunctionComponent<{ state: ThemeState }> = ({
-  state,
-}) => {
+export const ThemeIcon = ({ state }: { state: ThemeState }) => {
   if (state === 'light') {
     return <Brightness7Icon sx={{ color: 'common.white' }} />;
   }
@@ -23,10 +21,7 @@ export const ThemeIcon: FunctionComponent<{ state: ThemeState }> = ({
   return <BrightnessAutoIcon sx={{ color: 'common.white' }} />;
 };
 
-export const ThemeButton: FunctionComponent<iThemeButton> = ({
-  onClick,
-  state,
-}) => {
+export const ThemeButton = ({ onClick, state }: iThemeButton) => {
   return (
     <IconButton onClick={onClick}>
       <ThemeIcon state={state} />

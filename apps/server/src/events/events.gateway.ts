@@ -7,7 +7,7 @@ import {
 
 import { Inject } from '@nestjs/common';
 import { nanoid } from 'nanoid';
-import { RethinkDBConnection, ServerInfo, TermJson } from 'rethinkdb-ts';
+import type { RethinkDBConnection, ServerInfo, TermJson } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { toQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { Cursor } from 'rethinkdb-ts/lib/response/cursor';

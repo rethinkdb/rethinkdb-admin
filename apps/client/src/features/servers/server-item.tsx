@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import {
   Avatar,
@@ -28,9 +28,7 @@ export interface IServerItem {
   serverItem: Server;
 }
 
-const ServerItem: FunctionComponent<IServerItem> = ({
-  serverItem,
-}: IServerItem) => {
+const ServerItem = ({ serverItem }: IServerItem) => {
   const { primaryCount, secondaryCount } = serverItem;
   const primaryRow = (
     <>

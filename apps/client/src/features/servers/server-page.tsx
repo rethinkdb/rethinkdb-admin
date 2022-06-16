@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
@@ -149,33 +149,29 @@ const replicaRolename = function ({
   }
 };
 
-export const TableShardItem: FunctionComponent<IShardedTableItem> = React.memo(
-  ({ table }) => {
-    const fullTableName = `${table.db}.${table.name}`;
-    const secondary = (
-      <React.Fragment>
-        <Typography component="span" variant="body2" color="textPrimary">
-          Shard {table.shards[0].shard_id}/{table.shards[0].total_shards} -{' '}
-          <StorageIcon fontSize="inherit" />
-          {replicaRolename(table.shards[0])}
-        </Typography>
-      </React.Fragment>
-    );
-    return (
-      <ListItemButton dense component={NavLink} to={`/tables/${table.id}`}>
-        <ListItemText
-          id={table.id}
-          primary={`Table ${fullTableName}`}
-          secondary={secondary}
-        />
-      </ListItemButton>
-    );
-  },
-);
+export const TableShardItem = React.memo(({ table }: IShardedTableItem) => {
+  const fullTableName = `${table.db}.${table.name}`;
+  const secondary = (
+    <React.Fragment>
+      <Typography component="span" variant="body2" color="textPrimary">
+        Shard {table.shards[0].shard_id}/{table.shards[0].total_shards} -{' '}
+        <StorageIcon fontSize="inherit" />
+        {replicaRolename(table.shards[0])}
+      </Typography>
+    </React.Fragment>
+  );
+  return (
+    <ListItemButton dense component={NavLink} to={`/tables/${table.id}`}>
+      <ListItemText
+        id={table.id}
+        primary={`Table ${fullTableName}`}
+        secondary={secondary}
+      />
+    </ListItemButton>
+  );
+});
 
-export const TableShards: FunctionComponent<{ tables: ShardedTable[] }> = ({
-  tables,
-}) => (
+export const TableShards = ({ tables }: { tables: ShardedTable[] }) => (
   <List>
     {tables.map((table, index) => (
       <React.Fragment key={table.id}>

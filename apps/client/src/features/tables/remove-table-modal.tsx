@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import {
@@ -32,10 +32,13 @@ const style = {
 const notValidText =
   "This name doesn't match the name of the database you're trying to delete.";
 
-export const RemoveTableModal: FunctionComponent<{
+export const RemoveTableModal = ({
+  dbName,
+  tableName,
+}: {
   dbName: string;
   tableName: string;
-}> = ({ dbName, tableName }) => {
+}) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [hasEntered, setHasEntered] = React.useState<boolean>(false);
   const [value, setValue] = React.useState<string>('');
@@ -58,7 +61,7 @@ export const RemoveTableModal: FunctionComponent<{
     setValue(event?.target.value.toString() || '');
   }, []);
 
-  const onDatabaseCreate = React.useCallback(async () => {
+  const onTableDelete = React.useCallback(async () => {
     await requestQuery(r.db(dbName).tableDrop(tableName));
     handleClose();
   }, [dbName]);
@@ -109,7 +112,7 @@ export const RemoveTableModal: FunctionComponent<{
             />
           </CardContent>
           <CardActions>
-            <Button onClick={onDatabaseCreate} disabled={error}>
+            <Button onClick={onTableDelete} disabled={error}>
               Delete
             </Button>
           </CardActions>

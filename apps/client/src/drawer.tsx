@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Ref } from 'react';
 
 import {
   Box,
@@ -63,13 +63,18 @@ const menuList = [
     url: '/dataexplorer',
   },
 ];
-const MuiNavLink = (
-  props: NavLinkProps & React.RefAttributes<HTMLAnchorElement>,
-) => (
-  <NavLink
-    className={({ isActive }) => (isActive ? 'Mui-selected' : '')}
-    {...props}
-  />
+
+const MuiNavLink = React.forwardRef(
+  (
+    props: NavLinkProps & React.RefAttributes<HTMLAnchorElement>,
+    ref: Ref<HTMLAnchorElement>,
+  ) => (
+    <NavLink
+      className={({ isActive }) => (isActive ? 'Mui-selected' : '')}
+      ref={ref}
+      {...props}
+    />
+  ),
 );
 
 const DrawerContent = () => (

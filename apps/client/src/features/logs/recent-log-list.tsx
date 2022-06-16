@@ -1,10 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import { LogList } from './log-list';
 
-const RecentLogList: FunctionComponent<{ server?: string }> = ({ server }) => (
+const RecentLogList = ({ server }: { server?: string }) => (
   <Paper
     sx={{
       mt: 1,

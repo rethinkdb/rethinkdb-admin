@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 
 import { TableEntry } from './types';
 import { TableListItem } from './table-item';
@@ -9,16 +9,15 @@ const StyledList = styled(List)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export const TableList: FunctionComponent<{ tables: TableEntry[] }> =
-  React.memo(({ tables }) => (
-    <StyledList>
-      {tables.map((table, index) => (
-        <React.Fragment key={table.id}>
-          <TableListItem table={table} />
-          {tables.length > index + 1 && (
-            <Divider variant="inset" component="li" />
-          )}
-        </React.Fragment>
-      ))}
-    </StyledList>
-  ));
+export const TableList = React.memo(({ tables }: { tables: TableEntry[] }) => (
+  <StyledList>
+    {tables.map((table, index) => (
+      <React.Fragment key={table.id}>
+        <TableListItem table={table} />
+        {tables.length > index + 1 && (
+          <Divider variant="inset" component="li" />
+        )}
+      </React.Fragment>
+    ))}
+  </StyledList>
+));

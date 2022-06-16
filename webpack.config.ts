@@ -64,7 +64,11 @@ const getClientConfig = (): webpack.Configuration => ({
     hot: isDevelopment,
   },
   devtool: isProduction ? 'source-map' : 'eval-source-map',
-  entry: [isDevelopment && 'react-refresh/runtime', './src'].filter(Boolean),
+  entry: [
+    isDevelopment && 'react-refresh/runtime',
+    isDevelopment && 'webpack-hot-middleware/client',
+    './src',
+  ].filter(Boolean),
   mode,
   module: {
     rules: [
