@@ -10,12 +10,11 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "./build",
     "removeComments": true,
     "skipLibCheck": true,
-    "target": "ES2022"
+    "target": "ES5"
   },
   "exclude": ["node_modules", "build"],
   "include": ["apps"]
