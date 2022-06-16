@@ -3,7 +3,7 @@ FROM node:gallium-alpine as build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm i
+RUN npm ci --legacy-peer-deps
 
 COPY . .
 RUN npm run build
@@ -13,7 +13,7 @@ FROM node:gallium-alpine as release
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm i --only=prod
+RUN npm ci --legacy-peer-deps --only=prod
 
 COPY --from=build /app/build ./build
 
