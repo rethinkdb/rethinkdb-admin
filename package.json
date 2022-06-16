@@ -93,7 +93,7 @@
     "react-router-dom": "^6.3.0",
     "react-swipeable-views": "^0.14.0",
     "rimraf": "^3.0.2",
-    "run-script-webpack-plugin": "^0.0.14",
+    "run-script-webpack-plugin": "^0.1.0",
     "socket.io-client": "^4.5.1",
     "style-loader": "^3.3.1",
     "supertest": "^6.2.3",
