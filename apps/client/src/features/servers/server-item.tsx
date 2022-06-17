@@ -28,7 +28,7 @@ export interface IServerItem {
   serverItem: Server;
 }
 
-const ServerItem = ({ serverItem }: IServerItem) => {
+export const ServerItem = ({ serverItem }: IServerItem) => {
   const { primaryCount, secondaryCount } = serverItem;
   const primaryRow = (
     <>
@@ -73,5 +73,3 @@ const ServerItem = ({ serverItem }: IServerItem) => {
     </ListItem>
   );
 };
-
-export { ServerItem };

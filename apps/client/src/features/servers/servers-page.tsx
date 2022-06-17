@@ -5,7 +5,7 @@ import { CommonTitledLayout } from '../../layouts/page';
 
 import { ServerList, useServerEntries } from './server-list';
 
-function ServersPage() {
+export const ServersPage = () => {
   const servers = useServerEntries();
 
   if (!Array.isArray(servers)) {
@@ -18,6 +18,4 @@ function ServersPage() {
       </Paper>
     </CommonTitledLayout>
   );
-}
-
-export { ServersPage };
+};

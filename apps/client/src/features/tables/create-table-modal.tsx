@@ -21,18 +21,7 @@ import {
 import { requestQuery, system_db } from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
+import { ModalCard } from './modal-style';
 
 export type Durability = 'hard' | 'soft';
 
@@ -41,13 +30,13 @@ export const getCreateQuery = (
   tableName: string,
   primaryKey = 'id',
   durability: Durability = 'hard',
-) => {
-  return r
+) =>
+  r
     .db(system_db)
     .table('server_status')
     .coerceTo('ARRAY')
-    .do((servers) => {
-      return r.branch(
+    .do((servers) =>
+      r.branch(
         servers.isEmpty(),
         r.error('No server is connected'),
         servers
@@ -73,9 +62,8 @@ export const getCreateQuery = (
                 { returnChanges: true },
               ),
           ),
-      );
-    });
-};
+      ),
+    );
 
 export type CreateTableFormData = {
   tableName: string;
@@ -189,7 +177,7 @@ export const CreateTableModal = ({ dbName }: { dbName: string }) => {
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Card sx={{ ...style, width: 600 }}>
+        <ModalCard width={600}>
           <CardContent>
             <Typography variant="h6" marginTop={1}>
               Add table
@@ -238,7 +226,7 @@ export const CreateTableModal = ({ dbName }: { dbName: string }) => {
           <CardActions>
             <Button onClick={onTableCreate}>Create</Button>
           </CardActions>
-        </Card>
+        </ModalCard>
       </Modal>
     </>
   );

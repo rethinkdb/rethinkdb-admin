@@ -1,7 +1,5 @@
 import React from 'react';
 import { NavLink, useParams } from 'react-router-dom';
-import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import {
   Avatar,
@@ -26,108 +24,12 @@ import { CommonTitledLayout } from '../../layouts/page';
 
 import { LineChart } from '../chart';
 import { LogList } from '../logs/log-list';
-import { admin, system_db, useRequest } from '../rethinkdb';
+import { useRequest } from '../rethinkdb';
 import { ComparableTime } from '../time/relative';
 
-const { table_config: tableConfig, table_status: tableStatus } = admin;
+import { ExpandedServer, fetchServer, ShardedTable } from './queries';
 
-function serverRespQuery(server_name: RValue) {
-  return tableConfig
-    .filter((i: RDatum) =>
-      i('shards')('replicas')
-        .concatMap((x) => x)
-        .contains(server_name),
-    )
-    .map((config) => ({
-      db: config('db'),
-      name: config('name'),
-      id: config('id'),
-      shards: config('shards')
-        .map(
-          tableStatus.get(config('id'))('shards'),
-          r.range(config.count()),
-          function (sconfig: RValue, sstatus: RValue, shardId: RValue): RValue {
-            return {
-              shard_id: shardId.add(1),
-              total_shards: config('shards').count(),
-              inshard: sconfig('replicas').contains(server_name),
-              currently_primary:
-                sstatus('primary_replicas').contains(server_name),
-              configured_primary: sconfig('primary_replica').eq(server_name),
-              nonvoting: sconfig('nonvoting_replicas').contains(server_name),
-            };
-          },
-        )
-        .filter({ inshard: true })
-        .without('inshard')
-        .coerceTo('ARRAY'),
-    }))
-    .coerceTo('ARRAY');
-}
-
-function fetchServer(id: string) {
-  return r.do(
-    r.db(system_db).table('server_config').get(id),
-    r.db(system_db).table('server_status').get(id),
-    (
-      server_config: RSingleSelection,
-      server_status: RSingleSelection,
-    ): RValue => {
-      return {
-        profile: {
-          version: server_status('process')('version'),
-          time_started: server_status('process')('time_started'),
-          hostname: server_status('network')('hostname'),
-          tags: server_config('tags'),
-          cache_size: server_status('process')('cache_size_mb').mul(
-            1024 * 1024,
-          ),
-        },
-        main: {
-          name: server_status('name'),
-          id: server_status('id'),
-        },
-        tables: serverRespQuery(server_config('name')),
-      };
-    },
-  );
-}
-
-export type Shard = {
-  configured_primary: boolean;
-  currently_primary: boolean;
-  nonvoting: boolean;
-  shard_id: number;
-  total_shards: number;
-};
-
-export type ShardedTable = {
-  db: string;
-  id: string;
-  name: string;
-  shards: Shard[];
-};
-
-export type ExpandedServer = {
-  main: {
-    id: string;
-    name: string;
-  };
-  profile: {
-    cache_size: number;
-    hostname: string;
-    tags: string[];
-    time_started: string;
-    version: string;
-  };
-  tables: ShardedTable[];
-};
-
-export type IShardedTableItem = {
-  table: ShardedTable;
-};
-
-const replicaRolename = function ({
+const replicaRolename = ({
   configured_primary: configured,
   currently_primary: currently,
   nonvoting,
@@ -135,7 +37,7 @@ const replicaRolename = function ({
   configured_primary: boolean;
   currently_primary: boolean;
   nonvoting: boolean;
-}) {
+}) => {
   if (configured && currently) {
     return 'Primary replica';
   } else if (configured && !currently) {
@@ -147,6 +49,10 @@ const replicaRolename = function ({
   } else {
     return 'Secondary replica';
   }
+};
+
+export type IShardedTableItem = {
+  table: ShardedTable;
 };
 
 export const TableShardItem = React.memo(({ table }: IShardedTableItem) => {
@@ -184,71 +90,66 @@ export const TableShards = ({ tables }: { tables: ShardedTable[] }) => (
   </List>
 );
 
-const ServerOverview = ({ data }: { data: ExpandedServer }) => {
-  if (!data) {
-    return <div>loading</div>;
-  }
-  return (
-    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      <ListItem dense>
-        <ListItemAvatar>
-          <Avatar>
-            <DifferenceIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={data.profile.version.split(' ')[1]}
-          secondary="version"
-        />
-      </ListItem>
-      <ListItem dense>
-        <ListItemAvatar>
-          <Avatar>
-            <LanIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={data.profile.hostname} secondary="hostname" />
-      </ListItem>
-      <ListItem dense>
-        <ListItemAvatar>
-          <Avatar>
-            <StyleIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={data.profile.tags} secondary="tags" />
-      </ListItem>
-      <ListItem dense>
-        <ListItemAvatar>
-          <Avatar>
-            <AccessTimeIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={
-            <ComparableTime
-              date={new Date(data.profile.time_started)}
-              suffix={false}
-            />
-          }
-          secondary="uptime"
-        />
-      </ListItem>
-      <ListItem dense>
-        <ListItemAvatar>
-          <Avatar>
-            <CachedIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText
-          primary={`${Number(
-            data.profile.cache_size / 1024 / 1024 / 1024,
-          ).toFixed(2)} Gb`}
-          secondary="cache size"
-        />
-      </ListItem>
-    </List>
-  );
-};
+const ServerOverview = ({ data }: { data: ExpandedServer }) => (
+  <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <ListItem dense>
+      <ListItemAvatar>
+        <Avatar>
+          <DifferenceIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={data.profile.version.split(' ')[1]}
+        secondary="version"
+      />
+    </ListItem>
+    <ListItem dense>
+      <ListItemAvatar>
+        <Avatar>
+          <LanIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={data.profile.hostname} secondary="hostname" />
+    </ListItem>
+    <ListItem dense>
+      <ListItemAvatar>
+        <Avatar>
+          <StyleIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText primary={data.profile.tags} secondary="tags" />
+    </ListItem>
+    <ListItem dense>
+      <ListItemAvatar>
+        <Avatar>
+          <AccessTimeIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={
+          <ComparableTime
+            date={new Date(data.profile.time_started)}
+            suffix={false}
+          />
+        }
+        secondary="uptime"
+      />
+    </ListItem>
+    <ListItem dense>
+      <ListItemAvatar>
+        <Avatar>
+          <CachedIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={`${Number(
+          data.profile.cache_size / 1024 / 1024 / 1024,
+        ).toFixed(2)} Gb`}
+        secondary="cache size"
+      />
+    </ListItem>
+  </List>
+);
 
 export const ServerPage = () => {
   const params = useParams<{ id: string }>();

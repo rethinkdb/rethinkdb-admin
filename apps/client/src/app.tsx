@@ -2,7 +2,6 @@ import React, { StrictMode } from 'react';
 
 import { HashRouter as Router } from 'react-router-dom';
 import {
-  AppBar,
   CssBaseline,
   IconButton,
   ThemeProvider,
@@ -14,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import { reatomContext, useAtom } from '@reatom/react';
 
-import { LocalDrawer } from './drawer';
+import { AppBar, Drawer } from './features/navigation';
 import { AppRoutes } from './features/routes';
 import { store } from './features/store';
 import { useTheme } from './features/theme';
@@ -25,7 +24,6 @@ import { ThemeButton } from './features/theme/theme-button';
 import { themeAtom } from './features/theme/state';
 import { HasUpdate } from './features/update/has-update';
 
-const drawerWidth = 280;
 const { Provider: StateProvider } = reatomContext;
 
 const Root = styled('div')`
@@ -70,13 +68,7 @@ export const AppInnerContent = () => {
   return (
     <Root>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          magrinLeft: drawerWidth,
-        }}
-      >
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -101,10 +93,7 @@ export const AppInnerContent = () => {
           />
         </Toolbar>
       </AppBar>
-      <LocalDrawer
-        handleDrawerToggle={handleDrawerToggle}
-        mobileOpen={mobileOpen}
-      />
+      <Drawer handleDrawerToggle={handleDrawerToggle} mobileOpen={mobileOpen} />
       <ContentWrapper>
         <Offset />
         <HasUpdate />

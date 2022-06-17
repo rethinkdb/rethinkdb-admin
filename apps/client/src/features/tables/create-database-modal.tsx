@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
   Button,
-  Card,
   CardActions,
   CardContent,
   Modal,
@@ -14,17 +13,7 @@ import { requestQuery, system_db } from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
+import { ModalCard } from './modal-style';
 
 export const CreateDatabaseModal = () => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -90,7 +79,7 @@ export const CreateDatabaseModal = () => {
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Card sx={{ ...style, width: 400 }}>
+        <ModalCard>
           <CardContent>
             <Typography variant="h6" marginTop={1}>
               Add database
@@ -108,7 +97,7 @@ export const CreateDatabaseModal = () => {
           <CardActions>
             <Button onClick={onDatabaseCreate}>Create</Button>
           </CardActions>
-        </Card>
+        </ModalCard>
       </Modal>
     </>
   );

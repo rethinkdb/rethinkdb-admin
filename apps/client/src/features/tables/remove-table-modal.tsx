@@ -4,7 +4,6 @@ import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
   Alert,
   Button,
-  Card,
   CardActions,
   CardContent,
   IconButton,
@@ -17,17 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { requestQuery } from '../rethinkdb';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
+import { ModalCard } from './modal-style';
 
 const notValidText =
   "This name doesn't match the name of the database you're trying to delete.";
@@ -86,10 +75,10 @@ export const RemoveTableModal = ({
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Card sx={{ ...style, width: 600 }}>
+        <ModalCard width={600}>
           <CardContent>
             <Typography variant="h6" marginTop={1} marginBottom={2}>
-              Remove database
+              Remove table
             </Typography>
             <Stack>
               <Alert severity="warning">
@@ -116,7 +105,7 @@ export const RemoveTableModal = ({
               Delete
             </Button>
           </CardActions>
-        </Card>
+        </ModalCard>
       </Modal>
     </>
   );
