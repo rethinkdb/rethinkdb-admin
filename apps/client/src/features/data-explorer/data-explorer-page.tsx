@@ -3,7 +3,6 @@ import { Editor } from 'codemirror';
 import { Codemirror } from 'react-codemirror-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
-import SwipeableViews from 'react-swipeable-views';
 
 import {
   AppBar,
@@ -200,37 +199,37 @@ export function DataExplorerPage() {
             <Tab label="Table view" {...a11yProps(4)} />
           </Tabs>
         </AppBar>
-        <SwipeableViews index={num} onChangeIndex={handleChangeIndex}>
-          <TabPanel value={num} index={0}>
-            <Typography padding={2} minWidth={275} component="pre">
-              {finalResult}
-            </Typography>
-          </TabPanel>
-          <TabPanel value={num} index={1}>
-            <Codemirror
-              value={finalResult}
-              options={{
-                theme:
-                  theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
-                readOnly: true,
-                lineNumbers: true,
-                mode: 'javascript',
-                matchBrackets: true,
-                lineWrapping: true,
-                tabSize: 2,
-              }}
-            />
-          </TabPanel>
-          <TabPanel value={num} index={2}>
-            To be implemented
-          </TabPanel>
-          <TabPanel value={num} index={3}>
-            To be implemented
-          </TabPanel>
-          <TabPanel value={num} index={4}>
-            To be implemented
-          </TabPanel>
-        </SwipeableViews>
+
+        <TabPanel value={num} index={0}>
+          <Typography padding={2} minWidth={275} component="pre">
+            {finalResult}
+          </Typography>
+        </TabPanel>
+        <TabPanel value={num} index={1}>
+          <Codemirror
+            value={finalResult}
+            options={{
+              theme:
+                theme.palette.mode === 'dark' ? 'material-darker' : 'neo',
+              readOnly: true,
+              lineNumbers: true,
+              mode: 'javascript',
+              matchBrackets: true,
+              lineWrapping: true,
+              tabSize: 2,
+            }}
+          />
+        </TabPanel>
+        <TabPanel value={num} index={2}>
+          To be implemented
+        </TabPanel>
+        <TabPanel value={num} index={3}>
+          To be implemented
+        </TabPanel>
+        <TabPanel value={num} index={4}>
+          To be implemented
+        </TabPanel>
+
       </Paper>
     </CommonTitledLayout>
   );
