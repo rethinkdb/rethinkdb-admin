@@ -9,17 +9,11 @@
     "prebuild": "rimraf build",
     "build": "cross-env NODE_ENV=production webpack",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "node build/server",
+    "start": "node build/main",
     "start:dev": "webpack --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.{ts,tsx}\" --fix",
-    "check-types": "tsc --noemit",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config apps/server/test/jest-e2e.json"
+    "check-types": "tsc --noemit"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.11",
@@ -32,7 +26,7 @@
     "date-fns": "^2.29.2",
     "nanoid": "^3.3.4",
     "reflect-metadata": "^0.1.13",
-    "rethinkdb-ts": "^3.0.0-next.8",
+    "rethinkdb-ts": "^3.0.0-next.10",
     "rxjs": "^7.5.6",
     "socket.io": "^4.5.2",
     "undici": "^5.10.0"
@@ -56,12 +50,10 @@
     "@types/codemirror": "^5.60.5",
     "@types/compression": "^1.7.2",
     "@types/express": "^4.17.13",
-    "@types/jest": "^29.0.0",
     "@types/node": "^18.7.16",
     "@types/react": "^18.0.19",
     "@types/react-dom": "^18.0.6",
     "@types/react-router-dom": "^5.3.3",
-    "@types/supertest": "^2.0.12",
     "@types/webpack-bundle-analyzer": "^4.4.2",
     "@types/webpack-hot-middleware": "^2.25.6",
     "@types/webpack-node-externals": "^2.5.3",
@@ -76,11 +68,10 @@
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
-    "eslint": "^8.23.0",
+    "eslint": "8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "html-webpack-plugin": "^5.5.0",
-    "jest": "^29.0.3",
     "postcss-loader": "^7.0.1",
     "postcss-preset-env": "^7.8.1",
     "prettier": "^2.7.1",
@@ -95,8 +86,6 @@
     "run-script-webpack-plugin": "^0.1.1",
     "socket.io-client": "^4.5.2",
     "style-loader": "^3.3.1",
-    "supertest": "^6.2.4",
-    "ts-jest": "^29.0.0",
     "ts-loader": "^9.3.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
@@ -108,23 +97,6 @@
     "webpack-dev-middleware": "^5.3.3",
     "webpack-hot-middleware": "^2.25.2",
     "webpack-node-externals": "^3.0.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": ".",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node",
-    "roots": [
-      "<rootDir>/apps/"
-    ]
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.3",

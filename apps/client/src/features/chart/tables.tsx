@@ -4,9 +4,9 @@ import { Chart as ChartJS } from 'react-chartjs-2';
 import { Chart, ChartData, ChartOptions } from 'chart.js';
 import ChartStreaming from 'chartjs-plugin-streaming';
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
+import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
 import {admin, useLatestChange} from '../rethinkdb';
-import { lightTheme } from '../theme';
 
 import 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
@@ -48,8 +48,7 @@ export type ChangesResult = {
   keysSet: number;
 };
 
-const changesQuery = admin.stats.get(['cluster'])
-  .changes()
+const changesQuery = admin.stats.between(['table', r.minval], ['table', r.maxval]).changes()
   .map((stat: RQuery) => ({
     keysRead: stat('new_val')('query_engine')('read_docs_per_sec'),
     keysSet: stat('new_val')('query_engine')('written_docs_per_sec'),
@@ -62,22 +61,22 @@ const useData = () =>
         label: 'Reads',
         fill: false,
         data: [],
-        borderColor: lightTheme.palette.primary.main,
-        backgroundColor: alpha(lightTheme.palette.primary.light, 0.7),
+        // borderColor: lightTheme.palette.primary.main,
+        // backgroundColor: alpha(lightTheme.palette.primary.light, 0.7),
         pointStyle: 'line',
       },
       {
         label: 'Writes',
         fill: false,
         data: [],
-        borderColor: lightTheme.palette.secondary.main,
-        backgroundColor: alpha(lightTheme.palette.secondary.light, 0.7),
+        // borderColor: lightTheme.palette.secondary.main,
+        // backgroundColor: alpha(lightTheme.palette.secondary.light, 0.7),
         pointStyle: 'line',
       },
     ],
   });
 
-export const LineChart = () => {
+export const TablesLineChart = () => {
   const data = useData();
   const [latestData] = useLatestChange<ChangesResult>(changesQuery);
 

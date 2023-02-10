@@ -1,16 +1,16 @@
 import React from 'react';
 import { CardActions, Chip, Paper, styled, Typography } from '@mui/material';
 
-import { useRequest } from '../rethinkdb';
+import {admin, useRequest} from '../rethinkdb';
 
 import { CreateTableModal } from './create-table-modal';
-import { dbConfigQuery, tableListQuery, tableStatusQuery } from './queries';
+import { tableListQuery } from './queries';
 import { RemoveDatabaseModal } from './remove-database-modal';
 import { TableList } from './table-list';
 import { EnrichedDatabaseEntry } from './types';
 
-const dbFeed = dbConfigQuery.changes();
-const tableFeed = tableStatusQuery.changes();
+const dbFeed = admin.db_config.changes();
+const tableFeed = admin.table_status.changes();
 
 const cList = [dbFeed, tableFeed];
 

@@ -71,7 +71,7 @@ function isChangesQuery(query: RQuery): boolean {
   return Array.isArray(query.term) && query.term[0] === 152;
 }
 
-export function DataExplorerPage() {
+export function TableChartPage() {
   const [value, setValue] = useState<string>('');
   const [lastRunTime, setLastRunTime] = useState<Date>(null);
   const [query, setQuery] = useState<RQuery>(null);

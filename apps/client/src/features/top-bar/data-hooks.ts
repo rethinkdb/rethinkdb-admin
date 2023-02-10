@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react';
 import { RDatum } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
-import { admin, request, socket, system_db, useRequest } from '../rethinkdb';
+import { admin, request, useRequest } from '../rethinkdb';
+import { socket } from '../connection/socket';
 
 const issuesQuery = admin.current_issues.count();
 const serversCountQuery = admin.server_config.count();
 const readyTablesQuery = r.do(
-  r.db(system_db).table('table_config').count(),
-  r
-    .db(system_db)
-    .table('table_status')('status')
+  admin.table_config.count(),
+  admin.table_status('status')
     .filter((status: RDatum) => status('all_replicas_ready'))
     .count(),
   (tables: RDatum, tablesReady: RDatum) => ({
@@ -40,8 +39,8 @@ export function useServersNumber(): null | number {
 }
 
 const cList = [
-  r.db(system_db).table('table_config').changes(),
-  r.db(system_db).table('table_status').changes(),
+  admin.table_config.changes(),
+  admin.table_status.changes(),
 ];
 
 export type TablesNumberType = { tablesReady: number; tables: number };
@@ -57,15 +56,19 @@ export type MeResponse = {
   proxy: boolean;
 };
 
-export function requestUpdates(): Promise<MeResponse> {
-  return new Promise((resolve) => {
-    socket.emit('checkUpdates', (data: MeResponse) => {
-      resolve(data);
-    });
-  });
-}
+export type CheckUpdatesResponse = {
+  currentVersion: string;
+  isSameVersion: boolean;
+  latestVersion: string;
+};
 
-export function useUpdates(): any | null {
+export const requestUpdates = (): Promise<CheckUpdatesResponse> => new Promise((resolve) => {
+  socket.emit('checkUpdates', (data: CheckUpdatesResponse) => {
+    resolve(data);
+  });
+});
+
+export function useUpdates(): CheckUpdatesResponse | null {
   const [responses, setResponses] = useState(null);
 
   useEffect(() => {
@@ -74,7 +77,8 @@ export function useUpdates(): any | null {
         setResponses(data);
       })
       .catch((error) => {
-        setResponses(() => error.message);
+        console.error(error);
+        setResponses(null);
       });
   }, []);
   return responses;

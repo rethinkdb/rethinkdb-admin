@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { r } from 'rethinkdb-ts/lib/query-builder/r';
 import {
   Button,
   CardActions,
@@ -9,10 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 
-import { requestQuery, system_db } from '../rethinkdb';
+import {admin, requestQuery} from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
-
 import { ModalCard } from './modal-style';
 
 export const CreateDatabaseModal = () => {
@@ -40,9 +38,7 @@ export const CreateDatabaseModal = () => {
   }, []);
 
   const onDatabaseCreate = React.useCallback(async () => {
-    await requestQuery(
-      r.db(system_db).table('db_config').insert({ name: value }),
-    );
+    await requestQuery(admin.db_config.insert({ name: value }));
     handleClose();
   }, [value]);
 

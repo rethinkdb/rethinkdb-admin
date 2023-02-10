@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { requestQuery, system_db } from '../rethinkdb';
+import {admin, requestQuery} from '../rethinkdb';
 
 import { useTableEntries } from './db-table-list';
 import { ModalCard } from './modal-style';
@@ -30,10 +30,7 @@ export const getCreateQuery = (
   primaryKey = 'id',
   durability: Durability = 'hard',
 ) =>
-  r
-    .db(system_db)
-    .table('server_status')
-    .coerceTo('ARRAY')
+  admin.server_status.coerceTo('ARRAY')
     .do((servers) =>
       r.branch(
         servers.isEmpty(),
@@ -42,9 +39,7 @@ export const getCreateQuery = (
           .sample(1)
           .nth(0)('name')
           .do((server) =>
-            r
-              .db(system_db)
-              .table('table_config')
+            admin.table_config
               .insert(
                 {
                   db: dbName,

@@ -4,8 +4,8 @@ import {
   Explore,
   Storage,
   TextSnippet,
+  Timeline
 } from '@mui/icons-material';
-
 export const menuList = [
   {
     title: 'Dashboard',
@@ -32,6 +32,11 @@ export const menuList = [
     icon: Explore,
     title: 'Data Explorer',
     url: '/dataexplorer',
+  },
+  {
+    icon: Timeline,
+    title: 'Chart with tables',
+    url: '/chart',
   },
 ];
 

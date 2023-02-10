@@ -59,12 +59,11 @@ export class EventsGateway
       }
       return [true, data];
     } catch (error) {
-      console.error('wtf', JSON.stringify(payload), error);
       return [false, error.message];
     }
   }
 
-  @SubscribeMessage('changes')
+  @SubscribeMessage('sub')
   async handleChanges(
     client: LocalSocket,
     payload: TermJson,
@@ -83,7 +82,6 @@ export class EventsGateway
       });
       return [true, queryId];
     } catch (error) {
-      console.error(error);
       return [false, error.message];
     }
   }
@@ -105,17 +103,20 @@ export class EventsGateway
   }
 
   @SubscribeMessage('checkUpdates')
-  async checkUpdates(): Promise<unknown> {
+  async checkUpdates(): Promise<{ isSameVersion: boolean; latestVersion: string; currentVersion: string }> {
     const serverInfo = await this.connection.server();
     const version = await this.connection.run(
       r.db('rethinkdb').table('server_status').get(serverInfo.id)('process')(
         'version',
       ),
     );
-    const versionString = version.split(' ')[1].split('~')[0];
+    const currentVersion = version.split(' ')[1].split('~')[0];
     const { body } = await request(
-      `https://update.rethinkdb.com/update_for/${versionString}`,
+      `https://download.rethinkdb.com/repository/raw/latest_version.txt`,
     );
-    return body.json();
+
+    const versionText = await body.text();
+    const latestVersion = versionText.split('\n')[0];
+    return { isSameVersion: latestVersion === currentVersion, latestVersion, currentVersion };
   }
 }

@@ -8,19 +8,22 @@ import {
   Toolbar,
   Typography,
   styled,
+  SvgIcon,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import CheckIcon from '@mui/icons-material/Check';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 import { reatomContext, useAtom } from '@reatom/react';
 
-import { AppBar, Drawer } from './features/navigation';
+import { AppBar, Drawer, drawerWidth } from './features/navigation';
 import { AppRoutes } from './features/routes';
 import { store } from './features/store';
 import { useTheme } from './features/theme';
 import { TopBar } from './features/top-bar';
 
 import './features/rethinkdb';
-import { ThemeButton } from './features/theme/theme-button';
+import {useConnectedState} from './features/connection/use-connected-state';
+import {ThemeButton} from './features/theme/theme-button';
 import { themeAtom } from './features/theme/state';
 import { HasUpdate } from './features/update/has-update';
 
@@ -32,6 +35,7 @@ const Root = styled('div')`
 
 const ContentWrapper = styled('main')`
   flex-grow: 1;
+  width: calc(100% - ${drawerWidth}px);
 `;
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
@@ -65,6 +69,8 @@ export const AppInnerContent = () => {
     setMobileOpen(!mobileOpen);
   };
   const [themeState] = useAtom(themeAtom);
+  const connState = useConnectedState();
+
   return (
     <Root>
       <CssBaseline />
@@ -85,6 +91,9 @@ export const AppInnerContent = () => {
           <Typography flexGrow={1} variant="h6" noWrap>
             RethinkDB Administration Console
           </Typography>
+          <SvgIcon>
+            {connState === 'connected' ? <CheckIcon /> : <DoDisturbIcon   />}
+          </SvgIcon>
           <ThemeButton
             state={themeState}
             onClick={() => {

@@ -1,23 +1,27 @@
 import { RQuery } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
-import { admin, system_db } from '../rethinkdb';
+import { admin } from '../rethinkdb';
 
 const server_conf = admin.server_config;
 
 export const allServerChangesQuery = (server: string) =>
-  r
-    .db(system_db)
-    .table('logs', { identifierFormat: 'uuid' })
-    .orderBy({ index: r.desc('id') })
+admin.logs_id.orderBy({ index: r.desc('id') })
     .filter(r.row('server').eq(server))
     .changes();
 
-export function serverLogs(limit: number, server: string) {
-  return r
-    .db(system_db)
-    .table('logs', { identifierFormat: 'uuid' })
-    .orderBy({ index: r.desc('id') })
-    .filter(r.row('server').eq(server))
+export const serverLogs = (limit: number, server: string) => admin.logs_id.orderBy({index: r.desc('id')})
+  .filter(r.row('server').eq(server))
+  .limit(limit)
+  .map((log) =>
+    log.merge({
+      server: server_conf.get(log('server'))('name'),
+      server_id: log('server'),
+    }),
+  );
+
+export const allLogChangesQuery = admin.logs_id.orderBy({ index: r.desc('id') }).changes();
+
+export const getAllLogsQuery = (limit: number): RQuery => admin.logs_id.orderBy({index: r.desc('id')})
     .limit(limit)
     .map((log) =>
       log.merge({
@@ -25,25 +29,3 @@ export function serverLogs(limit: number, server: string) {
         server_id: log('server'),
       }),
     );
-}
-
-export const allLogChangesQuery = r
-  .db(system_db)
-  .table('logs', { identifierFormat: 'uuid' })
-  .orderBy({ index: r.desc('id') })
-  .changes();
-
-export function getAllLogsQuery(limit: number): RQuery {
-  const server_conf = admin.server_config;
-  return r
-    .db(system_db)
-    .table('logs', { identifierFormat: 'uuid' })
-    .orderBy({ index: r.desc('id') })
-    .limit(limit)
-    .map((log) =>
-      log.merge({
-        server: server_conf.get(log('server'))('name'),
-        server_id: log('server'),
-      }),
-    );
-}

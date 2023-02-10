@@ -1,16 +1,13 @@
 import { RDatum, RSingleSelection, RValue } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
-import { admin, system_db } from '../rethinkdb';
+import { admin } from '../rethinkdb';
 
 const { table_config: tableConfig, table_status: tableStatus } = admin;
 
-export const serverConfigQuery = r
-  .db(system_db)
-  .table('server_config')
-  .coerceTo('ARRAY');
-const server_status = r.db(system_db).table('server_status').coerceTo('ARRAY');
-const table_status = r.db(system_db).table('table_status').coerceTo('ARRAY');
+export const serverConfigQuery = admin.server_config.coerceTo('ARRAY');
+const server_status = admin.server_status.coerceTo('ARRAY');
+const table_status = admin.table_status.coerceTo('ARRAY');
 
 export const getServerListQuery = serverConfigQuery.map(
   server_status,
@@ -107,8 +104,8 @@ export type ExpandedServer = {
 
 export const fetchServer = (id: string) =>
   r.do(
-    r.db(system_db).table('server_config').get(id),
-    r.db(system_db).table('server_status').get(id),
+    admin.server_config.get(id),
+    admin.server_status.get(id),
     (
       server_config: RSingleSelection,
       server_status: RSingleSelection,

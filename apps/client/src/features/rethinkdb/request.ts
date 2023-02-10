@@ -1,7 +1,7 @@
 import { RQuery } from 'rethinkdb-ts/lib/query-builder/query';
 import { TermJson } from 'rethinkdb-ts/lib/types';
 
-import { socket } from './socket';
+import { socket } from '../connection/socket';
 
 export function request<Req = unknown, Res = unknown>(
   eventName: string,
@@ -31,7 +31,7 @@ export async function requestChanges<T = unknown>(
 ): Promise<() => void> {
   const { term } = query;
   const [success, queryId] = await request<TermJson, [boolean, string]>(
-    'changes',
+    'sub',
     term,
   );
   if (!success) {

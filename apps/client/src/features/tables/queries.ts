@@ -1,15 +1,12 @@
 import { RDatum, RSingleSelection } from 'rethinkdb-ts';
 import { r } from 'rethinkdb-ts/lib/query-builder/r';
 
-import { system_db } from '../rethinkdb';
+import {admin} from '../rethinkdb';
 
-export const dbConfigQuery = r.db(system_db).table('db_config');
-export const tableStatusQuery = r.db(system_db).table('table_status');
-
-export const tableListQuery = dbConfigQuery.map((db) => ({
+export const tableListQuery = admin.db_config.map((db) => ({
   name: db('name'),
   id: db('id'),
-  tables: tableStatusQuery
+  tables: admin.table_status
     .orderBy((table) => table('name'))
     .filter((i: RDatum) => i('db').eq(db('name')))
     .merge((table) => ({
@@ -33,9 +30,9 @@ export const tableListQuery = dbConfigQuery.map((db) => ({
 
 export const guaranteedQuery = (tableId: string) =>
   r.do(
-    r.db(system_db).table('server_config').coerceTo('ARRAY'),
-    r.db(system_db).table('table_status').get(tableId),
-    r.db(system_db).table('table_config').get(tableId),
+    admin.server_config.coerceTo('ARRAY'),
+    admin.table_status.get(tableId),
+    admin.table_config.get(tableId),
     (
       server_config: RDatum,
       table_status: RSingleSelection,

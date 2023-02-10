@@ -20,7 +20,7 @@ import { SvgIconComponent } from '@mui/icons-material';
 import { NavLink } from '../../atoms/link';
 import { linkList, menuList } from './nav-lists';
 
-const drawerWidth = 280;
+export const drawerWidth = 280;
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
@@ -53,7 +53,7 @@ const DrawerContent = () => (
     <Divider />
     <List>
       {menuList.map(({ exact, title, icon, url }) => (
-        <NavItem exact={exact} title={title} icon={icon} url={url} />
+        <NavItem key={url} exact={exact} title={title} icon={icon} url={url} />
       ))}
     </List>
     <FlexGrowDiv />

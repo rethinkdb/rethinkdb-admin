@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { DataExplorerPage } from '../data-explorer/data-explorer-page';
+import { TableChartPage } from '../table-chart/table-chart-page';
 import { LogsPage } from '../logs';
 import { DashboardPage } from '../dashboard/dashboard-page';
 import { ServersPage } from '../servers/servers-page';
@@ -18,6 +19,7 @@ const AppRoutes = () => (
     <Route path="/servers/:id" element={<ServerPage />} />
     <Route path="/logs" element={<LogsPage />} />
     <Route path="/dataexplorer" element={<DataExplorerPage />} />
+    <Route path="/chart" element={<TableChartPage />} />
   </Routes>
 );
 
