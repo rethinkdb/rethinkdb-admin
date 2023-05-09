@@ -24,7 +24,7 @@
     "@nestjs/common": "^9.0.11",
     "@nestjs/core": "^9.0.11",
     "@nestjs/platform-express": "^9.0.11",
-    "@nestjs/platform-socket.io": "^9.0.11",
+    "@nestjs/platform-socket.io": "^9.4.0",
     "@nestjs/serve-static": "^3.0.0",
     "@nestjs/websockets": "^9.0.11",
     "compression": "^1.7.4",
@@ -33,7 +33,7 @@
     "reflect-metadata": "^0.1.13",
     "rethinkdb-ts": "^3.0.0-next.10",
     "rxjs": "^7.5.6",
-    "socket.io": "^4.5.2",
+    "socket.io": "^4.6.1",
     "undici": "^5.19.1"
   },
   "devDependencies": {
