@@ -46,7 +46,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.4",
-    "@nestjs/cli": "^9.1.2",
+    "@nestjs/cli": "^9.5.0",
     "@nestjs/schematics": "^9.0.3",
     "@nestjs/testing": "^10.3.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
