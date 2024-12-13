@@ -29,7 +29,7 @@
     "@nestjs/websockets": "^10.3.6",
     "compression": "^1.7.4",
     "date-fns": "^2.29.2",
-    "nanoid": "^3.3.4",
+    "nanoid": "^3.3.8",
     "reflect-metadata": "^0.1.13",
     "rethinkdb-ts": "^3.0.0-next.10",
     "rxjs": "^7.5.6",
