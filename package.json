@@ -89,7 +89,7 @@
     "react-dom": "^18.2.0",
     "react-fetch-hook": "^1.9.5",
     "react-refresh": "^0.14.0",
-    "react-router-dom": "^6.3.0",
+    "react-router-dom": "^6.30.3",
     "rimraf": "^3.0.2",
     "run-script-webpack-plugin": "^0.1.1",
     "socket.io-client": "^4.7.5",
