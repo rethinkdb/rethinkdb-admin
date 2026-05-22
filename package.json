@@ -92,7 +92,7 @@
     "react-router-dom": "^6.30.3",
     "rimraf": "^3.0.2",
     "run-script-webpack-plugin": "^0.1.1",
-    "socket.io-client": "^4.7.5",
+    "socket.io-client": "^4.8.3",
     "style-loader": "^3.3.1",
     "supertest": "^6.2.4",
     "ts-jest": "^29.0.0",
