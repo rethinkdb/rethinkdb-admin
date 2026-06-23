@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  admin:
+    image: rethinkdb/admin:main
+    ports:
+      - {PORT:-3000}:3000
+    environment:
+      RETHINKDB_URL: rethinkdb://rethinkdb:28015
+  rethinkdb:
+    image: rethinkdb
